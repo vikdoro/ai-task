@@ -23,8 +23,8 @@ full.
 
 Check that `feature-design/templates/TEMPLATE.md` exists. If not, tell the user to run
 `/setup` and stop. If the request is a roadmap ID such as `M3`, also
-check that `feature-design/roadmap.md` exists; if not, tell the user to run
-`/design` and stop.
+check that `feature-design/local-demo/roadmap.md` exists; if not, tell the user the
+roadmap has to be drafted and approved first, and stop.
 
 ## Gates
 
@@ -39,7 +39,11 @@ after the walkthrough. The reviewer's third FAIL also ends the turn.
    questions with defaults, possibly none if the design documents already
    answer everything.
 2. Put the questions to the user with AskUserQuestion. Send the answers back
-   to the same planner with SendMessage. It writes `feature-design/milestones/NN-title.md`.
+   to the same planner with SendMessage. It writes `feature-design/local-demo/milestones/NN-title.md`.
+   An answer may defer an option to post-MVP ("1 post-MVP, MVP should be
+   X"), with the MVP behaviour asked for if missing. The spec records X, and
+   the deferred option goes to the `product-designer` for the Later section
+   of `feature-design/product-spec.md`.
 3. End the turn with the spec path and the planner's Decisions, and ask the
    user to approve the spec or change it. Do not continue until they do.
 
@@ -79,12 +83,10 @@ Run these in one turn without asking, unless something below says stop.
 - Never commit or push.
 - Stage 4 always runs: the walkthrough is the user's only look at the
   decisions before the diff.
-- The documents in `feature-design/` belong to `/design`. If any stage
-  needs one changed, end the turn and tell the user to run
-  `/design revise <document> <change>`.
+- `feature-design/product-spec.md` and `feature-design/local-demo/roadmap.md` are
+  fixed. If any stage needs one changed, end the turn and ask the user.
 - When a milestone passes, ask the user whether to mark its spec path in
-  `feature-design/roadmap.md`; only the CTO edits that file, so the change
-  goes through `/design revise`.
+  `feature-design/local-demo/roadmap.md`, and edit it if they agree.
 - If a subagent reports a missing expected file, relay it and ask the user how
   to proceed. Do not create the file yourself.
 - Pass file paths between stages, never file contents.

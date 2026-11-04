@@ -21,3 +21,14 @@ pinned decisions.md and interventions.md in IDE
 setup commit at 13:30, first milestone done
 
 work out the /design skill
+
+started using /design
+
+realised a post-MVP section is quite useful in the feature design, but was left out
+
+dropped design skill, go for local MVP first
+
+** to check later **
+
+- data sources
+- email provider scam protection

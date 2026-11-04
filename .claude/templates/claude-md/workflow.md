@@ -1,12 +1,15 @@
 ## Way of working
 
-Adapted from the `flow` workflow: three design roles (product designer, engineering lead, CTO), four build subagents (planner, executor, reviewer, explainer), two orchestrating skills, everything in `feature-design/`: the design documents, the milestone specs in `milestones/` and the templates in `templates/`.
+Adapted from the `flow` workflow. Everything lives in `feature-design/`: the product spec and the templates in `templates/` at its root, and one subfolder per phase holding that phase's roadmap and milestone specs, starting with `local-demo/` (`roadmap.md`, `milestones/`). The current phase is a local demo (D-27): one user journey that tries real external data sources and email and Slack delivery, run locally and never deployed publicly.
 
-- **App level, once per app: `/design`.** The `product-designer`, `eng-lead` and `cto` agents write the design documents in `feature-design/` from `original-brief.md`, in five stages: frame, requirements, stack and sources, design, roadmap. Each document has one owner; the other two roles review it independently. The roadmap (`feature-design/roadmap.md`, ordered milestones M1, M2, ... with a traceability table) follows `feature-design/templates/ROADMAP-TEMPLATE.md`.
-- **Milestone level, per slice: `/build M3`.** The `planner` reads the design documents, treats them as fixed, and writes `feature-design/milestones/NN-title.md` (format: `feature-design/templates/TEMPLATE.md`). The `executor` implements it test-first, the `reviewer` checks the diff against the spec, the `explainer` walks the user through the result.
-- The user is the product manager: they answer tier-one questions, settle disagreements between roles and approve each stage.
-- Only a design document's owner edits it. Approved documents are locked; any other agent that needs one changed raises it as a tier one question, and the change goes through `/design revise <document> <change>`.
+- **Product spec, once: the `product-designer` agent.** It interviews the user from `original-brief.md` and writes `feature-design/product-spec.md`, a mostly non-technical spec of about two pages. No role reviews it; the user approves it.
+- **Roadmap: the user with Claude.** The main session drafts `feature-design/local-demo/roadmap.md` with the user from the approved spec (format: `feature-design/templates/ROADMAP-TEMPLATE.md`). Its milestones lead to the local demo.
+- **Milestone level, per slice: `/build M3`.** The `planner` reads the spec and the roadmap, treats them as fixed, and writes `feature-design/local-demo/milestones/NN-title.md` (format: `feature-design/templates/TEMPLATE.md`). The `executor` implements it test-first, the `reviewer` checks the diff against the spec, the `explainer` walks the user through the result.
+- The user is the product manager: they answer tier-one questions and approve the spec, the roadmap and each milestone.
+- The spec and the roadmap are locked once approved. A change goes to the user as a tier one question; the `product-designer` revises the spec, the main session revises the roadmap with the user.
+- Any answer can defer an option to post-MVP ("1 post-MVP, MVP should be X"). X is recorded, and the deferred option goes in the spec's Later section (D-20).
 - Only the first two roadmap milestones are detailed. Later ones are one line each and get specced when their turn comes.
+- The `cto` and `eng-lead` agents are not used in this phase.
 - The user reads the full diff and commits. Agents never commit or push.
 - Every agent checks for the files it expects before starting. If one is missing it stops and asks, and does not invent it.
 
@@ -14,7 +17,7 @@ Adapted from the `flow` workflow: three design roles (product designer, engineer
 
 The user stays in the loop at every stage. Subagents return tier one questions with recommended defaults, and the orchestrator puts every one to the user with AskUserQuestion; no default is taken without confirmation.
 
-- `/design` ends the turn for approval after every stage, with each reviewer's verdict and any disagreement between roles put to the user. One review round, a second only if a blocker remains, then the gate.
+- The product spec and the roadmap each end the turn for approval.
 - `/build` ends the turn after the spec, then after the walkthrough.
 - The reviewer's third FAIL ends the turn. Agents never commit or push.
 

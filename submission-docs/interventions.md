@@ -82,3 +82,89 @@ Rejections and course corrections, in order. Checks that passed are in [`checks.
 - **Caught by:** user.
 - **Why wrong:** "no need to keep it if we know we will start in this repo with the design, it just adds noise."
 - **Changed:** the `/brief` skill and `brief.md` are deleted. `/design` starts from `original-brief.md` alone. See D-17.
+
+### I-14 · CORRECT · [P-043](prompts/prompts.md#p-043)
+- **Claude did:** the product designer recommended threshold values (quakes M6.0/M5.0, markets 5%/3%, news by breaking feed and keyword), one optional keyword, region or asset filter per alert, a cap of 5 notifications per alert per hour with an overflow summary, and pause/resume with a pause link in every notification.
+- **Caught by:** user, answering the stage 1 questions.
+- **Why wrong:** thresholds: "Revisit this once we try the data source." The other three: not stated.
+- **Changed:** threshold values stay open until a source is tried; alerts take category and level only; no rate cap; "Only edit per alert", with no pause. See D-18.
+
+### I-15 · CORRECT · [P-044](prompts/prompts.md#p-044)
+- **Claude did:** the product designer recommended storing events below "Notable", marked and never sent, so real data could settle the open threshold values.
+- **Caught by:** user, answering the follow-up questions.
+- **Why wrong:** not stated.
+- **Changed:** events below "Notable" are dropped at fetch. Threshold values have to be settled from what the source returns when it is fetched. See D-19.
+
+### I-16 · CORRECT · [P-049](prompts/prompts.md#p-049)
+- **Claude did:** recommended:
+  - an allowlist for sign-in (the CTO's position)
+  - a 60-minute age window on top of the created/edited rule for which events are sent
+  - dedup keys for each category
+  - a sign-in route through the mail-catcher when there is no domain
+  - two system levels per category, chosen per alert, as agreed in D-18
+- **Caught by:** user, answering the review questions.
+- **Why wrong:** for the age window, the user gave a rule instead: "If event is older than alert creation / edit, don't send." For dedup: "get back to this once we inspect the sources". For magic links: "discuss later when selecting third-party service". For levels: "we shouldn't set up levels for the MVP, just an on-off". For sign-in: not stated.
+- **Changed:** open sign-up; the created/edited rule only, with no age window; dedup keys and magic-link delivery left open; the MVP becomes one on/off subscription, with categories, levels and filters moved to post-MVP. See D-21 to D-23.
+
+### I-17 · CORRECT · [P-051](prompts/prompts.md#p-051)
+- **Claude did:** the product designer recommended limits for open sign-up of 3 magic links per address and 10 per IP per hour.
+- **Caught by:** user.
+- **Why wrong:** the user asked whether these were easy to build and suggested "a max number of sign-ups + limit on magic link + send".
+- **Changed:** at most 10 accounts, 3 links per address per hour, 5 send tests per user per minute, and no per-IP limit. See D-24.
+
+### I-18 · CORRECT · [P-045](prompts/prompts.md#p-045) – [P-054](prompts/prompts.md#p-054)
+- **Claude did:** the product designer's stage 1 draft (v0.1) of `product-spec.md` and `assumptions.md`.
+- **Caught by:** the CTO, round 1 FAIL: F-01, magic-link sign-in open to anyone is a spam relay. The eng lead, round 1 FAIL: B-01, delete contradicts itself; B-02, no rule for which events are sent; B-03, the dedup rules contradict each other.
+- **Why wrong:** in the reviewers' words, "I could not write functional requirements without inventing a business rule" (eng lead).
+- **Changed:**
+  - v0.2: open sign-up capped at 10 accounts; hard delete; the created/edited eligibility rule; dedup keys left open as OQ-06; the MVP cut to one subscription (D-21 to D-24).
+  - v0.3: round 2 majors (D-25, D-26).
+  - Both reviewers passed round 2.
+
+### I-19 · REJECT · [P-057](prompts/prompts.md#p-057)
+- **Claude did:** built `/design` as a skill: three roles, five stages, cross-reviews and gates. Ran stage 1 through two review rounds. That produced a v0.3 product spec (62 decisions, 32 assumptions) and four review files.
+- **Caught by:** user, at the stage 1 gate.
+- **Why wrong:** "we are not ready for making this a skill … the resulting docs are too complicated."
+- **Changed:** the `/design` skill is deleted. The stage 1 documents and reviews moved to [`dropped-documents/dropped-from-initial-design-skill/`](dropped-documents/dropped-from-initial-design-skill/). The work restarts as a local-demo phase. See D-27.
+
+### I-20 · CORRECT · [P-058](prompts/prompts.md#p-058)
+- **Claude did:** suggested making three source limits the CTO found during the dropped review into roadmap questions for the demo: NewsAPI's and Alpha Vantage's free tiers, and Resend's quota and domain rule ([P-057](prompts/prompts.md#p-057)).
+- **Caught by:** user.
+- **Why wrong:** "we likely want different sources and service providers."
+- **Changed:** dropped. The roadmap starts with no source or provider assumptions.
+
+### I-21 · CORRECT · [P-059](prompts/prompts.md#p-059)
+- **Claude did:** the product designer recommended product-defined levels chosen by the user, two magnitude levels (5.0+ and 6.0+), and a cap of 5 alerts per day.
+- **Caught by:** user, in the interview.
+- **Why wrong:** not stated.
+- **Changed:** the product alone decides what is important, the bar is set once the source data has been seen, and there is no cap. See D-29.
+
+### I-22 · CORRECT · [P-060](prompts/prompts.md#p-060)
+- **Claude did:** the product designer recommended a pause link that pauses the whole alert, and no delete in this phase. Claude recommended bringing the draft spec back to the agreed outline of about two pages.
+- **Caught by:** user.
+- **Why wrong:** for the pause, "Drop the link for now, make it only editable through the site." For delete and the outline: not stated.
+- **Changed:** no pause anywhere, delete allowed, and the spec keeps its structure. See D-30.
+
+### I-23 · CORRECT · [P-061](prompts/prompts.md#p-061)
+- **Claude did:** read "a local-demo phase in the feature-design folder" ([P-057](prompts/prompts.md#p-057)) as the phase living directly in `feature-design/`, and created no subfolder.
+- **Caught by:** user, in check C-38.
+- **Why wrong:** the user expected a subfolder: "I can't see the suggested local-demo (or similar) subfolder".
+- **Changed:** the demo's roadmap and milestones move to `feature-design/local-demo/`. The product spec stays at the root of `feature-design/`. See D-31.
+
+### I-24 · CORRECT · [P-063](prompts/prompts.md#p-063)
+- **Claude did:** the product designer drafted every user-facing string in the product spec: the alert message, the in-app text, and the delete confirmation.
+- **Caught by:** user, in check C-40.
+- **Why wrong:** "drop wording suggestion, make it dependent on the data source for now."
+- **Changed:** the drafted wording is removed. The spec says what each message must carry and leaves the wording open until the data sources are known.
+
+### I-25 · CORRECT · [P-063](prompts/prompts.md#p-063)
+- **Claude did:** on the product designer's recommendation, which the user accepted in [P-059](prompts/prompts.md#p-059), the spec covered natural disasters (earthquakes) only, with news and markets under Post-MVP.
+- **Caught by:** user.
+- **Why wrong:** "this will give us a fuller picture about the data we can work with with less things to pivot on later."
+- **Changed:** the spec covers all three kinds of event from the brief: breaking news, market movements and natural disasters. See D-32.
+
+### I-26 · CORRECT · [P-067](prompts/prompts.md#p-067)
+- **Claude did:** recommended keeping the M1 and M2 code as test-first app modules.
+- **Caught by:** user, while the roadmap was being drafted.
+- **Why wrong:** not stated.
+- **Changed:** M1 and M2 are throwaway scripts. The real fetchers and senders are built in M3 and M5. See D-34.

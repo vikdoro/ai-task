@@ -2,9 +2,11 @@
 
 A spec-driven way of working for Claude Code, adapted for this repo from the
 `flow` plugin (v0.1.0). The agents are in `.claude/agents/`, the skills in
-`.claude/skills/` and the templates in `.claude/templates/`. It is a design
-team of three role agents, a build pipeline of four subagents, two
-orchestrating skills, and a few rules about who may decide what. It assumes you know Claude Code subagents,
+`.claude/skills/` and the templates in `.claude/templates/`. It is a
+product designer who interviews the user, a build pipeline of four
+subagents, one orchestrating skill, and a few rules about who may decide
+what. A three-role `/design` skill was tried and dropped; see
+[I-19](interventions.md) and [D-27](decisions.md). It assumes you know Claude Code subagents,
 and skills.
 
 ## The idea
@@ -12,36 +14,36 @@ and skills.
 Two levels, planned once and built slice by slice:
 
 ```
-original-brief.md ──/design──▶ feature-design/            (once per app, five stages)
-                                 frame ─▶ requirements ─▶ stack ─▶ design ─▶ roadmap
+original-brief.md ──product-designer──▶ feature-design/product-spec.md ──user + Claude──▶ feature-design/local-demo/roadmap.md
+                      (interview)                                          (toward the local demo)
 
-feature-design/roadmap.md ──/build M3──▶ feature-design/milestones/NN-title.md ─▶ code + tests ─▶ review ─▶ walkthrough
+feature-design/local-demo/roadmap.md ──/build M3──▶ feature-design/local-demo/milestones/NN-title.md ─▶ code + tests ─▶ review ─▶ walkthrough
                                               planner             executor        reviewer   explainer
 ```
 
-Planning the whole app up front, then building it in thin vertical slices,
-is the usual industry order. What agents change is that every session starts
-with no memory, so the app-level documents are the only thing that carries
-intent from one milestone to the next. Each is written by one owner,
-reviewed by the other two roles, approved by the user, and treated as fixed
-by everyone else.
+The current phase is a local demo: one user journey that tries real
+external data sources and email and Slack delivery, to learn about the data
+and the services before planning further. Every session starts with no
+memory, so the spec and the roadmap are what carry intent from one milestone
+to the next. The user approves both, and everyone else treats them as fixed.
 
 ## Roles
 
 | Agent | Runs in | Does | Tools | Must not |
 |---|---|---|---|---|
-| `product-designer` | `/design` | Owns the product spec, assumptions and wireframes; reviews the rest for whether it works as a product | Read, Grep, Glob, Write | Edit another role's document; decide tier one |
-| `eng-lead` | `/design` | Owns the requirements, event model, data model and API; reviews the rest for ambiguity, coverage and testability | Read, Grep, Glob, Write, WebSearch, WebFetch | Edit another role's document; decide tier one |
-| `cto` | `/design` | Owns the tech stack and sources, high-level design and roadmap; reviews the rest for cost, complexity, security, operations and deadline | Read, Grep, Glob, Write, WebSearch, WebFetch | Edit another role's document; decide tier one |
-| `planner` | `/build` stage 1 | Interviews the user, writes `feature-design/milestones/NN-title.md` from a roadmap milestone | Read, Grep, Glob, Write | Write code; edit the design documents |
+| `product-designer` | before the roadmap | Interviews the user and writes the short, mostly non-technical product spec | Read, Grep, Glob, Write | Name technologies; decide tier one |
+| `planner` | `/build` stage 1 | Interviews the user, writes `feature-design/local-demo/milestones/NN-title.md` from a roadmap milestone | Read, Grep, Glob, Write | Write code; edit the design documents |
 | `executor` | `/build` stage 2 | Implements one spec test-first; proves it with the spec's verification command | All | Touch files outside the spec; decide tier one questions; commit |
 | `reviewer` | `/build` stage 3 | Checks the diff against the spec: files, verification, criteria, scope | Read, Grep, Glob, Bash | Edit anything; see the executor's report before its own check |
 | `explainer` | `/build` stage 4 | Walks the user through the shape of the code and each judgment call, with quoted lines | Read, Grep, Glob, Bash | Defend the executor's choices |
 
-The user is the product manager of the design team: they answer tier-one
-questions, settle disagreements between roles and approve each stage.
+The `cto` and `eng-lead` agents from the dropped `/design` skill are still in
+`.claude/agents/`, unused in this phase.
 
-The two skills (`design`, `build`) are orchestrators. They hold no domain
+The user is the product manager: they answer tier-one questions and approve
+the spec, the roadmap and each milestone.
+
+The `build` skill is an orchestrator. They hold no domain
 logic: they spawn the agents in order, relay each report, run the user
 interview through AskUserQuestion, and decide where the turn ends.
 
@@ -66,23 +68,19 @@ place the pipeline stops for input, which is what keeps it fast.
 ## Approval gates
 
 The user stays in the loop at every stage. Every tier-one question is put to
-the user; no default is taken without confirmation. `/design` stops for
-approval after every stage; `/build` after the spec, after a passing review,
+the user; no default is taken without confirmation. The spec and the roadmap
+each stop for approval; `/build` after the spec, after a passing review,
 and after the walkthrough. The `flow` plugin also has `checkpoint` and `auto`
 modes that skip some of these; they are left out here (see
 [D-09](decisions.md#d-09--process--one-autonomy-level-the-user-approves-every-stage)).
 
 ## Rules that make it hold together
 
-- **One owner per design document, two independent reviewers.** Only its
-  owner edits a document. The reviewers see neither the author's report nor
-  each other's findings, and check against criteria that can fail it. One
-  review round, a second only if a blocker remains, then the user decides.
-  Reviews are kept in `feature-design/reviews/`.
-- **Locked, but living.** Approved documents are fixed. A planner or role
-  that finds one wrong stops and asks; the change goes through
-  `/design revise`, which bumps the version and re-reviews what depends on
-  it.
+- **Locked, but living.** The approved spec and roadmap are fixed. A
+  planner that finds one wrong stops and asks; the `product-designer`
+  revises the spec, and the main session revises the roadmap with the user.
+- **Post-MVP is an answer.** Any question can be answered "1 post-MVP, MVP
+  should be X"; the deferred option goes in the spec's Later section.
 - **Behaviour before code.** The planner writes acceptance criteria before it
   reads the repo, then reconciles paths and names. Reconciliation may not
   change a criterion; if it would, the question goes back to the user.
@@ -105,11 +103,9 @@ modes that skip some of these; they are left out here (see
 | File | Written by | Holds |
 |---|---|---|
 | `original-brief.md` | the assessor | The brief as given; kept out of git |
-| `feature-design/product-spec.md`, `assumptions.md`, `wireframes.md` | product-designer | Problem, users, scope, non-goals; each ambiguity and the reading chosen; low-fi screens |
-| `feature-design/functional-requirements.md`, `non-functional-requirements.md`, `event-model.md`, `data-model.md`, `api.md` | eng-lead | Numbered requirements with acceptance criteria; event sources, detection and dedup; entities; endpoints |
-| `feature-design/tech-stack.md`, `high-level-design.md`, `roadmap.md` | cto | Stack, auth and data sources; components and data flow; ordered milestones and a traceability table |
-| `feature-design/reviews/` | the reviewing roles | Each review's findings and verdict, per stage and round |
-| `feature-design/milestones/NN-title.md` | planner | One milestone: criteria, allowed files, verification |
+| `feature-design/product-spec.md` | product-designer | Problem, users, goals, journeys, the local demo, later, non-goals, open questions |
+| `feature-design/local-demo/roadmap.md` | the user with Claude | Ordered milestones toward the local demo, and a traceability table |
+| `feature-design/local-demo/milestones/NN-title.md` | planner | One milestone: criteria, allowed files, verification |
 | `feature-design/templates/TEMPLATE.md`, `feature-design/templates/ROADMAP-TEMPLATE.md` | `/setup` | Formats for the above; yours to edit per repo |
 
 How decisions, corrections and checks are recorded is in
@@ -119,7 +115,7 @@ How decisions, corrections and checks are recorded is in
 
 ```
 /setup                 once per repo
-/design                one stage per run; approve each, five in all
-/design revise <doc> <change>   change an approved document
+(ask Claude)           product-designer interview, then the spec; approve it
+(ask Claude)           draft the roadmap together; approve it
 /build M1              per milestone; approve the spec, then the walkthrough
 ```

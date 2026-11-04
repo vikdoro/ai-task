@@ -32,6 +32,8 @@ In `feature-design/`:
   delivery, as a Mermaid diagram plus prose.
 - `roadmap.md`: ordered milestones in the format of
   `feature-design/templates/ROADMAP-TEMPLATE.md`, traced to the functional requirements.
+  Each `PM-NN` in the Post-MVP section of `product-spec.md` becomes a
+  one-line milestone after the MVP, or a stated non-goal.
 
 The Node toolchain is fixed (decision D-05 in
 `submission-docs/decisions.md`). Do not reopen it.

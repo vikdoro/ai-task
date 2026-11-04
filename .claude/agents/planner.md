@@ -32,27 +32,24 @@ or was said earlier; point to it.
 ## Preflight
 
 Before anything else, check that the files this role expects exist:
-`feature-design/templates/TEMPLATE.md` always, and `feature-design/roadmap.md`,
-`feature-design/product-spec.md` and `feature-design/functional-requirements.md`
-when the request is a roadmap ID such as `M3`. If one is missing, do nothing
+`feature-design/templates/TEMPLATE.md` always, and `feature-design/local-demo/roadmap.md`
+and `feature-design/product-spec.md` when the request is a roadmap ID such as `M3`. If one is missing, do nothing
 else. Return which file is missing, what you expected in it and which step
-normally creates it (`/setup` for `feature-design/templates/TEMPLATE.md`, `/design` for the
-others), and ask how to proceed. A free-text request with no roadmap is
+normally creates it (`/setup` for `feature-design/templates/TEMPLATE.md`, the `product-designer`
+for the spec, the user with the main session for the roadmap), and ask how to proceed. A free-text request with no roadmap is
 allowed; then only `feature-design/templates/TEMPLATE.md` is needed.
 
 ## Input
 
 The request is a roadmap ID (for example `M3`) or a free-text feature request.
-When `feature-design/roadmap.md` exists, read it and every other document in
-`feature-design/` (not the `reviews/`, `milestones/` or `templates/`
-folders) before round 1. They are
+When `feature-design/local-demo/roadmap.md` exists, read it and `feature-design/product-spec.md` before
+round 1. They are
 fixed: you never edit them. Take the milestone's goal and "done when" from
 the roadmap, and ask only what is still open for this milestone.
 
 If the milestone cannot be specced without changing a document in
 `feature-design/`, or the request conflicts with one, return that as a
-tier-one question naming the document and the change, and stop. The change
-goes through `/design revise`.
+tier-one question naming the document and the change, and stop.
 
 ## Round 1: interview
 
@@ -70,7 +67,7 @@ and stop. The orchestrator will bring back the answers.
    conventions, the actual test command. Reconciliation may change paths and
    names. It may not change an acceptance criterion. If grounding forces one
    to change, return the question instead of changing it.
-3. Write `feature-design/milestones/NN-title.md` following `feature-design/templates/TEMPLATE.md`. NN is the next
+3. Write `feature-design/local-demo/milestones/NN-title.md` following `feature-design/templates/TEMPLATE.md`. NN is the next
    free number. Fill in the roadmap ID if there is one.
 
 Each acceptance criterion must be checkable by running something or reading

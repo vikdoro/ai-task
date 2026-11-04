@@ -37,3 +37,13 @@ Every check the user ran on Claude's output, in order. Claude lists checks at th
 | C-31 | `CLAUDE.md` describes the new design workflow correctly | [P-039](prompts/prompts.md#p-039) | [P-040](prompts/prompts.md#p-040) | OK |
 | C-32 | `feature-design/` holds only `templates/` with the two templates | [P-040](prompts/prompts.md#p-040) | [P-041](prompts/prompts.md#p-041) | OK |
 | C-33 | `CLAUDE.md` describes the single folder and no longer mentions `/brief` | [P-040](prompts/prompts.md#p-040) | [P-041](prompts/prompts.md#p-041) | OK |
+| C-34 | The post-MVP lines in `/design` and `/build` say what the user meant | [P-047](prompts/prompts.md#p-047) | [P-050](prompts/prompts.md#p-050) | OK |
+| C-35 | Resend and Postmark send only to the account address without a verified domain; Gmail SMTP with an app password reaches anyone, at a few hundred a day | [P-054](prompts/prompts.md#p-054) | [P-055](prompts/prompts.md#p-055) | OK |
+| C-36 | `submission-docs/dropped-documents/` holds the spec, assumptions, README and four reviews | [P-057](prompts/prompts.md#p-057) | [P-058](prompts/prompts.md#p-058) | OK |
+| C-37 | I-19 and D-27 quote the user's reasons as meant | [P-057](prompts/prompts.md#p-057) | [P-058](prompts/prompts.md#p-058) | OK |
+| C-38 | The new "Way of working" and "Approval gates" in `CLAUDE.md` describe the intended process | [P-058](prompts/prompts.md#p-058) | [P-061](prompts/prompts.md#p-061) | Finding: "I can't see the suggested local-demo (or similar) subfolder" → I-23 |
+| C-39 | The `product-designer` agent's spec outline is the shape of spec the user wants | [P-058](prompts/prompts.md#p-058) | [P-063](prompts/prompts.md#p-063) | OK |
+| C-40 | The drafted "Wording users see" in the product spec is approved | [P-062](prompts/prompts.md#p-062) | [P-063](prompts/prompts.md#p-063) | Finding: "drop wording suggestion, make it dependent on the data source for now" → I-24 |
+| C-41 | The `local-demo/` roadmap and milestone paths read correctly in `CLAUDE.md`, `/build` and the planner | [P-062](prompts/prompts.md#p-062) | [P-063](prompts/prompts.md#p-063) | OK |
+| C-42 | What the product spec leaves open (OQ-01 bars and coverage, OQ-07 wording) and defers (PM-12 to PM-15) matches what the demo should teach | [P-065](prompts/prompts.md#p-065) | [P-066](prompts/prompts.md#p-066) | OK |
+| C-43 | The M1 and M2 "Done when" lines in the local-demo roadmap describe an acceptable finish | [P-067](prompts/prompts.md#p-067) | [P-068](prompts/prompts.md#p-068) | OK |

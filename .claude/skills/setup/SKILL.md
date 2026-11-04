@@ -25,5 +25,6 @@ Ask the user nothing; this skill has no options.
 
 ## Step 2: report
 
-List every file created, changed or skipped. The next step is `/design`,
-which needs `original-brief.md` at the repo root.
+List every file created, changed or skipped. The next step is the
+product spec: the `product-designer` interviews the user from
+`original-brief.md` at the repo root.
