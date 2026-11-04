@@ -2,3 +2,9 @@ node_modules/
 .DS_Store
 __pycache__/
 original-brief.md
+
+# Local secrets
+.env
+
+# Spike samples (raw source responses, never committed)
+spikes/samples/

@@ -16,6 +16,19 @@ Adapted from the `flow` workflow. Everything lives in `feature-design/`: the pro
 - The user reads the full diff and commits. Agents never commit or push.
 - Every agent checks for the files it expects before starting. If one is missing it stops and asks, and does not invent it.
 
+## Secrets
+
+- API keys live in `.env` at the repo root, which is gitignored. Its key names, without values, are in `.env.example`.
+- Claude's permission check blocks writing `.env`. No agent creates, edits or reads it, and none retries a blocked write. When a key is needed, ask the user to add it, giving a `!` command such as `! printf 'NAME=\n' >> .env`.
+- Scripts read keys with `node --env-file-if-exists=.env`, and skip a source whose key is missing.
+
+## Live data calls
+
+- Until the user says otherwise (D-49), no agent calls an external data source live: not GDACS, Twelve Data or Event Registry. All development and verification run against the samples saved in `spikes/samples/` by M1.
+- Event Registry's free allowance is 2,000 tokens that never renew, at 5 per search.
+- `spikes/samples/` is gitignored, so it exists only on the user's machine. No agent deletes, moves or overwrites it.
+- A step that seems to need a live call stops and asks the user.
+
 ## Approval gates
 
 The user stays in the loop at every stage. Subagents return tier one questions with recommended defaults, and the orchestrator puts every one to the user with AskUserQuestion; no default is taken without confirmation.

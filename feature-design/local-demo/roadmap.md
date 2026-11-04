@@ -16,7 +16,8 @@ The first two milestones are about learning, not features: what the sources and 
 - Depends on: none
 - Why here: OQ-01 (coverage and bar per kind), OQ-07 (wording) and DEC-26 (one source per kind) all wait on seeing real data. It is the biggest unknown.
 - Done when: one command fetches from the chosen source for each kind and saves the samples, and a findings note proposes coverage and a bar for each kind, for the user to settle OQ-01.
-- Spec: not yet written
+- Spec: `feature-design/local-demo/milestones/01-try-the-data-sources.md`
+- Status: done (P-100). Findings: `feature-design/local-demo/findings/data-sources.md`. Reviewer PASS in round 2; walkthrough skipped by the user (D-50).
 
 ### M2: Try email and Slack delivery
 
@@ -62,3 +63,4 @@ Every in-scope item of the local demo in `product-spec.md` maps to at least one 
 ## Change log
 
 - v1 (2026-11-04): first draft, approved by the user (P-069).
+- v1 (2026-11-04): M1 marked done with its spec path (P-100).
