@@ -1,0 +1,11 @@
+{
+  "SPY": {
+    "symbol": "SPY",
+    "name": "Old",
+    "exchange": "NYSE",
+    "datetime": "2026-11-01",
+    "last_quote_at": 1793817300,
+    "percent_change": "0.1",
+    "close": "1"
+  }
+}

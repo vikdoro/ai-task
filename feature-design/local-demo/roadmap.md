@@ -32,6 +32,9 @@ The first two milestones are about learning, not features: what the sources and 
 
 Poll the three chosen sources, store events, apply each kind's bar from OQ-01, and show them in the read-only admin view (FR-07, FR-10).
 
+- Spec: `feature-design/local-demo/milestones/03-events-in-and-the-admin-view.md`
+- Status: done (P-172). Live run: `feature-design/local-demo/findings/data-sources.md#m3-live-run`. Reviewer PASS; the 60-minute schedule run moved to M5's live run (D-71); walkthrough not run.
+
 ### M4: Set up the alert
 
 The demo user's screen: set up the alert, change channels, delete it (FR-01 to FR-03, FR-11).

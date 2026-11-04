@@ -211,3 +211,42 @@ A proposal only. `feature-design/product-spec.md` is unchanged; any change goes 
 - **PM-15 (merging separate items about one story, deferred):** **the evidence supports proposing to bring a simple form into scope for news**, such as treating events with the same English title, or an id that replaces another, as one. A high bar (N1) keeps the problem small but does not remove it: 2 of the 4 events at 1,000+ articles were one story.
 
 If the user takes this up, the revision would be proposed before M3 through `/design revise product-spec`.
+
+## M3 live run
+
+Run by the user on 2026-11-04 at about 23:03 UTC, the time of the three `last checked` lines below. The run follows the spec's shortened steps (P-168).
+
+**Commands**
+
+1. `SOURCE_MODE=live npm run poll:once`
+2. `SOURCE_MODE=live npm start`, left running briefly, then `http://127.0.0.1:3000/admin` opened. All three sources had just been checked, so the startup poll skipped them and made no further live call.
+
+**`poll:once` output**
+
+```
+gdacs ok 83 items, 1 made the cut
+twelvedata ok 6 items, 2 made the cut
+eventregistry ok 50 items, 5 made the cut
+```
+
+**Source status lines on `/admin`**
+
+```
+GDACS: last checked 2026-11-04 23:03:35 UTC
+Twelve Data: last checked 2026-11-04 23:03:36 UTC
+Event Registry: last checked 2026-11-04 23:03:37 UTC
+```
+
+**Events per kind.** The main session read these from `data/app.db` (read-only) after the run. They match the `poll:once` lines.
+
+| Kind | Rows | Made the cut |
+|---|---|---|
+| Disaster | 83 | 1 |
+| Market | 6 | 2 |
+| News | 50 | 5 |
+
+Event Registry `ratelimit_remaining` after the run: 1975.
+
+**Failures.** None. All three sources returned `ok`.
+
+**Not covered here.** The 60-minute run of the scheduled polls is deferred to M5's live run (P-168). During the build, the scheduled tasks were seen to fire on samples.

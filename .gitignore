@@ -8,3 +8,8 @@ original-brief.md
 
 # Spike samples (raw source responses, never committed)
 spikes/samples/
+
+# Nuxt build output and local databases
+.nuxt/
+.output/
+data/

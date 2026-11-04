@@ -1,0 +1,105 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0,
+          0
+        ]
+      },
+      "properties": {
+        "eventtype": "TC",
+        "eventid": 1001,
+        "name": "Tropical Cyclone A",
+        "country": "India",
+        "fromdate": "2026-11-01T00:00:00",
+        "alertlevel": "Red",
+        "episodealertlevel": "Red",
+        "iscurrent": "true",
+        "severitydata": {
+          "severity": 1,
+          "severitytext": "Hurricane/Typhoon > 74 mph",
+          "severityunit": ""
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0,
+          0
+        ]
+      },
+      "properties": {
+        "eventtype": "EQ",
+        "eventid": 2002,
+        "name": "Earthquake B",
+        "country": "Chile",
+        "fromdate": "2026-10-20T06:30:00",
+        "alertlevel": "Orange",
+        "episodealertlevel": "Orange",
+        "iscurrent": "false",
+        "severitydata": {
+          "severity": 1,
+          "severitytext": "Magnitude 6.5M",
+          "severityunit": ""
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0,
+          0
+        ]
+      },
+      "properties": {
+        "eventtype": "FL",
+        "eventid": 3003,
+        "name": "Flood C",
+        "country": "Brazil",
+        "fromdate": "2026-10-30T00:00:00",
+        "alertlevel": "Orange",
+        "episodealertlevel": "Orange",
+        "iscurrent": "true",
+        "severitydata": {
+          "severity": 1,
+          "severitytext": "",
+          "severityunit": ""
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0,
+          0
+        ]
+      },
+      "properties": {
+        "eventtype": "EQ",
+        "eventid": 4004,
+        "name": "Earthquake D",
+        "country": "Japan",
+        "fromdate": "2026-11-01T12:00:00",
+        "alertlevel": "Orange",
+        "episodealertlevel": "Orange",
+        "iscurrent": "true",
+        "severitydata": {
+          "severity": 1,
+          "severitytext": "Magnitude 7.1M",
+          "severityunit": ""
+        }
+      }
+    }
+  ]
+}

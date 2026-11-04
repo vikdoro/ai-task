@@ -1,5 +1,5 @@
 Status: approved
-Version: 5
+Version: 6
 Updated: 2026-11-04
 
 # Product spec: world event alerts
@@ -26,7 +26,7 @@ The demo journey (J-01):
 | Role | Who | Their job | What they never see |
 |---|---|---|---|
 | Demo user | One pre-set person with a known email address and Slack account | Set up their alert, pick channels, change or delete it | Other users, delivery internals, events that did not clear the bar |
-| Admin | One pre-set operator | Watch what came in, what fired, and what was delivered, for each kind of event | Nothing to change: the admin view is read-only |
+| Admin | One pre-set operator | Watch what came in, what fired, and what was delivered, for each kind of event | The user's email address, Slack webhook URL and message content (DEC-31). Nothing to change: the admin view is read-only |
 
 The two roles have separate screens. No user screen shows admin information, and the admin view has no user settings.
 
@@ -48,9 +48,9 @@ The two roles have separate screens. No user screen shows admin information, and
 
 ### Admin
 
-- **FR-07 Events in.** The admin sees each event received from the sources, newest first, with its kind and whether it cleared that kind's bar. Separate items that report the same story stay visible as separate rows, so duplicates can be seen and counted (DEC-26).
-- **FR-08 Alerts fired.** For each event that cleared its bar, the admin sees whether an alert was sent, or why not (for example, no alert was set up at the time).
-- **FR-09 Deliveries.** For each alert sent, the admin sees each channel's outcome, delivered or failed, with the reason for any failure. Failed deliveries are not retried (DEC-20).
+- **FR-07 Events in.** The admin sees every event received, for all three kinds, newest first, with its kind and whether it made the cut for that kind's bar (DEC-14). For disasters, the admin also sees whether the source marks the item as current (DEC-30). A market event is one instrument's trading day (DEC-29). Separate items that report the same story stay visible as separate rows, so duplicates can be seen and counted (DEC-26).
+- **FR-08 Alerts fired.** For each event that made the cut, the admin sees whether an alert was sent, or why not (for example, no alert was set up at the time). The admin never sees the user's email address, the Slack webhook URL or the message content (DEC-31).
+- **FR-09 Deliveries.** For each alert sent, the admin sees each channel's outcome, delivered or failed, with the reason for any failure. Failed deliveries are not retried (DEC-20). The admin sees only outcomes and failure reasons, never the user's email address, the Slack webhook URL or the message content (DEC-31).
 - **FR-10 Admin states.** Before any data has arrived, the view says it is waiting for the first event and when each kind's source was last checked. If a source cannot be reached, the view says which one and when it last succeeded.
 
 ## Non-goals for this phase
@@ -60,7 +60,7 @@ Public deployment, sign-up and login, more than one user, kinds of event beyond 
 ## Glossary
 
 - **Kind of event:** one of breaking news, market movements or natural disasters.
-- **Event:** one item from a kind's single data source, such as a news story, a market move or a disaster, including its later updates (DEC-26). Separate items about the same story are separate events for now (PM-15).
+- **Event:** one item from a kind's single data source, including its later updates (DEC-26). For news, one news story. For markets, one instrument's trading day (DEC-29). For disasters, every item the source lists, whether or not it is marked current (DEC-30). Separate items about the same story are separate events for now (PM-15).
 - **Importance bar:** the product-defined test an event must pass to be alerted on. There is one bar per kind of event, the same for every user (DEC-05, DEC-22). It is internal and is not shown in messages (DEC-28).
 - **Alert:** the user's standing instruction: "tell me about important events on these channels". Each user has one at most, and it covers all three kinds.
 - **Message:** what one alert sends about one event on one channel: what happened, and where and when if available and appropriate (FR-06).
@@ -83,6 +83,7 @@ None is drafted yet. All wording users see depends on the data source and is ope
 - **OQ-08 What each kind covers.** Merged into OQ-01 (DEC-25).
 - **OQ-09 When two reports are the same event.** Closed: one source per kind, and the same source item, including its updates, is one event (DEC-26). Merging separate items about one story is PM-15, and the admin view shows duplicates (FR-07).
 - **OQ-10 Source gaps found in M1 (for M3).** The M1 findings found a gap M3 must handle: the news source's free allowance is finite, so how often it is checked is limited. Details are in the [findings](local-demo/findings/data-sources.md#recommended-source-per-kind-for-the-user-to-confirm).
+- **OQ-11 Disasters marked as current (known risk, not resolved).** A disaster makes the cut only if the source marks it as current (DEC-30). In M1's sample only 1 of 83 listed disaster events was marked current, so very few disasters may alert. What "current" means at the source is not documented in the findings.
 
 ## Post-MVP
 
@@ -94,7 +95,7 @@ PM-01 to PM-03 were removed in v3, because all three kinds of event are now in t
 | PM-05 | Location filter | Events anywhere in the world | [DEC-06](#decisions) |
 | PM-06 | Daily cap or digest | Instant, once per event, no cap | [DEC-07](#decisions) |
 | PM-07 | Admin manages users and alerts | Admin view is read-only | [DEC-08](#decisions) |
-| PM-08 | Admin tunes the importance bars | Bars set by the team from the data | [DEC-05](#decisions), [DEC-08](#decisions) |
+| PM-08 | Admin tunes the importance bars. Agreed design: each kind shows its own measure, with no common significance score; each market instrument's threshold is edited separately; a changed bar applies only to events checked after the change; and each change is recorded with its time and its old and new values | Bars set by the team from the data | [DEC-05](#decisions), [DEC-08](#decisions), [DEC-32](#decisions) |
 | PM-09 | Sign-up, login, many users | One pre-set user and one pre-set admin | [DEC-09](#decisions) |
 | PM-10 | Teams and shared Slack channels | The user's own email and Slack | [DEC-01](#decisions) |
 | PM-11 | More channels (for example SMS or push) | Email and Slack. The brief asks that channels can be added later | [DEC-12](#decisions) |
@@ -102,6 +103,7 @@ PM-01 to PM-03 were removed in v3, because all three kinds of event are now in t
 | PM-13 | Retrying failed deliveries | No retry, and the failure is shown to the admin | [DEC-20](#decisions) |
 | PM-14 | User chooses which kinds of event to follow | The alert covers all three kinds | [DEC-22](#decisions) |
 | PM-15 | Merging separate items, or items from several sources, that report one story | One source per kind. Each source item, with its updates, is one event, and the admin view shows the duplicates | [DEC-26](#decisions) |
+| PM-16 | The admin sees one aggregated count per day of deliveries delivered and failed, in place of the per-delivery view | Alerts fired and each delivery's outcome, as in FR-08 and FR-09 | [DEC-33](#decisions) |
 
 ## Decisions
 
@@ -133,8 +135,13 @@ PM-01 to PM-03 were removed in v3, because all three kinds of event are now in t
 | DEC-24 | ~~"How strong it was" (DEC-10) is read as each kind's own measure of significance, such as magnitude for a quake or the size of a market move~~. Superseded by DEC-28: messages no longer carry significance | claude | Superseded |
 | DEC-25 | Each kind's coverage is decided together with its bar, from what its source offers. Settled in DEC-27: each kind covers what its source reports, filtered by its bar | user (P-064), as recommended. Settled by P-096 | Fits the aim of seeing the fullest picture of the data |
 | DEC-26 | One source per kind. The same source item, including its updates, is one event. Merging separate items about one story is deferred (PM-15), and the admin view shows duplicates (FR-07) | user (P-064), as recommended | Learn how often duplicates actually arrive before designing the merge |
-| DEC-27 | The importance bar per kind, closing OQ-01. **Natural disasters:** the disaster reaches the top (Red) alert level of the UN/EU disaster alert service (GDACS), or the second (Orange) level for an earthquake or tropical cyclone. **Market movements:** one of six instruments moves in a day, against the previous close, by more than its threshold: S&P 500 ETF ±3%, Nasdaq-100 ETF ±3%, EUR/USD ±1.2%, Bitcoin ±8%, gold ETF ±3%, oil ETF ±6%. **Breaking news:** one news event is covered by 1,000 or more articles within the current and previous day, as counted by a news-event service (Event Registry). Each kind covers what its source reports, filtered by these bars. Together they aim at "a few alerts a day", roughly 1.5–2.5. The estimates are rough and the bars are expected to be tuned. Details: [findings, "Candidate bars per kind"](local-demo/findings/data-sources.md#candidate-bars-per-kind) | user (P-096) | Chosen from the M1 findings to keep the total near "a few a day" |
+| DEC-27 | The importance bar per kind, closing OQ-01. **Natural disasters:** the UN/EU disaster alert service (GDACS) marks the disaster as current (DEC-30), and it reaches the top (Red) alert level, or the second (Orange) level for an earthquake or tropical cyclone. **Market movements:** one of six instruments moves in a day, against the previous close, by more than its threshold: S&P 500 ETF ±3%, Nasdaq-100 ETF ±3%, EUR/USD ±1.2%, Bitcoin ±8%, gold ETF ±3%, oil ETF ±6%. **Breaking news:** one news event is covered by 1,000 or more articles within the current and previous day, as counted by a news-event service (Event Registry). Each kind covers what its source reports, filtered by these bars. Together they aim at "a few alerts a day", roughly 1.5–2.5. The estimates are rough and the bars are expected to be tuned. Details: [findings, "Candidate bars per kind"](local-demo/findings/data-sources.md#candidate-bars-per-kind) | user (P-096). Amended by P-154 | Chosen from the M1 findings to keep the total near "a few a day" |
 | DEC-28 | Messages carry only what happened, and where and when if available and appropriate. Significance, why it was sent and the source link are dropped. Exception: disaster messages carry a short credit naming the disaster source, such as "Source: GDACS". Supersedes DEC-24 and part of DEC-10 | user (P-098) | User's words: "significance is an internal value and source link is not available across all channels." The credit is kept because the disaster source's licence (CC BY 4.0) requires it |
+| DEC-29 | A market event is one instrument's trading day, identified by the instrument plus the trading day. Every one is shown to the admin, marked with whether it cleared its bar. One instrument alerts at most once per trading day | user (P-154), reversing the user's own P-150 override of my recommendation | Keeps DEC-14 true for markets, so market bars can be judged from the admin view |
+| DEC-30 | The admin sees every disaster item the source lists, marked with whether the source marks it as current. A disaster makes the cut only if it is marked current and reaches the alert level in DEC-27. Known risk, not resolved: see OQ-11 | user (P-154), as recommended, reversing the user's own P-150 override | Keeps DEC-14 true for disasters, while only current disasters alert |
+| DEC-31 | In FR-08 and FR-09 the admin never sees the user's email address, the Slack webhook URL or the message content, only outcomes and failure reasons | user (P-154), as recommended | The admin needs outcomes, not the user's contact details or what they were sent |
+| DEC-32 | Agreed design for PM-08, after the local demo: each kind shows its own measure, with no common significance score; each market instrument's threshold is edited separately; a changed bar applies only to events checked after the change; each change is recorded with its time and old and new values. The admin view stays read-only in the local demo (DEC-08) | user (P-154), as recommended | Each kind's measure means something on its own, and recorded changes keep past results explainable |
+| DEC-33 | After the local demo, the admin sees one aggregated count per day of deliveries delivered and failed, in place of the per-delivery view (PM-16). The demo keeps FR-08 and FR-09 as they are | user (P-154), user's own proposal | Not stated |
 
 ## Change log
 
@@ -144,3 +151,4 @@ PM-01 to PM-03 were removed in v3, because all three kinds of event are now in t
 - v3 (2026-11-04, amended): applied the user's answers in P-064. Merged OQ-08 into OQ-01 (DEC-25). Closed OQ-09 (DEC-26). Added PM-15, and pointed OQ-09 and the glossary to it. FR-07 now makes duplicates visible.
 - v4 (2026-11-04): applied the user's decision in P-096 from the M1 findings. Closed OQ-01 with the bar per kind (DEC-27), and pointed DEC-05 and DEC-25 to it. Added OQ-10 for the source gaps M3 must handle.
 - v5 (2026-11-04): applied the user's decision in P-098 to simplify messages (DEC-28). FR-06 now carries only what happened, and where and when if available and appropriate, plus a source credit on disaster messages. Marked the removed parts of DEC-10, and all of DEC-24, as superseded. Removed the source-link gap from OQ-10, and updated OQ-07 and the glossary (importance bar, message) to match.
+- v6 (2026-11-04): applied the user's decisions in P-154, made while M3 was specced. A market event is one instrument's trading day, alerting at most once per day (DEC-29). Disasters alert only if marked current and at the DEC-27 alert level, while the admin sees every listed item with its current mark (DEC-30, amending DEC-27). FR-07 shows every event for all three kinds. FR-08 and FR-09 hide the user's contact details and message content from the admin (DEC-31), and the admin's row in Users and roles says so; FR-08 now says "made the cut", matching FR-07. Added the agreed PM-08 design (DEC-32), PM-16 for a daily delivery count (DEC-33), and OQ-11 for the risk that few disasters alert. Updated the glossary's Event entry. Approved by the user (P-156).

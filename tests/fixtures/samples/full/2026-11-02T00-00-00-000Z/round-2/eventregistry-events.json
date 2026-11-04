@@ -1,0 +1,35 @@
+{
+  "events": {
+    "results": [
+      {
+        "uri": "eng-1",
+        "title": {
+          "eng": "Big story"
+        },
+        "eventDate": "2026-11-02",
+        "totalArticleCount": 900,
+        "location": {
+          "type": "place",
+          "label": {
+            "eng": "Tenerife"
+          },
+          "country": {
+            "type": "country",
+            "label": {
+              "eng": "Spain"
+            }
+          }
+        }
+      },
+      {
+        "uri": "eng-2",
+        "title": {
+          "deu": "Nur Deutsch"
+        },
+        "eventDate": "2026-11-01",
+        "totalArticleCount": 1000,
+        "location": null
+      }
+    ]
+  }
+}

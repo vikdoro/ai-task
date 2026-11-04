@@ -1,0 +1,30 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0,
+          0
+        ]
+      },
+      "properties": {
+        "eventtype": "EQ",
+        "eventid": 9,
+        "name": "Old quake",
+        "country": "Nowhere",
+        "fromdate": "2026-10-01T00:00:00",
+        "alertlevel": "Red",
+        "episodealertlevel": "Red",
+        "iscurrent": "true",
+        "severitydata": {
+          "severity": 1,
+          "severitytext": "Magnitude 6M",
+          "severityunit": ""
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0,
+          0
+        ]
+      },
+      "properties": {
+        "eventtype": "TC",
+        "eventid": 1001,
+        "name": "Tropical Cyclone A",
+        "country": "India",
+        "fromdate": "2026-11-01T00:00:00",
+        "alertlevel": "Orange",
+        "episodealertlevel": "Orange",
+        "iscurrent": "false",
+        "severitydata": {
+          "severity": 1,
+          "severitytext": "Tropical storm",
+          "severityunit": ""
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0,
+          0
+        ]
+      },
+      "properties": {
+        "eventtype": "FL",
+        "eventid": 3003,
+        "name": "Flood C",
+        "country": "Brazil",
+        "fromdate": "2026-10-30T00:00:00",
+        "alertlevel": "Red",
+        "episodealertlevel": "Red",
+        "iscurrent": "true",
+        "severitydata": {
+          "severity": 1,
+          "severitytext": "",
+          "severityunit": ""
+        }
+      }
+    }
+  ]
+}
