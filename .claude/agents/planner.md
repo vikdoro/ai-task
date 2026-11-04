@@ -29,6 +29,12 @@ it is hard to reverse, what it costs or locks in), and anything the user must
 do next, written so it stands alone. Do not repeat what is already in a file
 or was said earlier; point to it.
 
+## Reading
+
+Never read `submission-docs/`. It holds the process logs, which only the main
+session writes. Look at `spikes/samples/` one file at a time and only in part
+(`head`, `jq`, or Read with a limit), never a whole file.
+
 ## Preflight
 
 Before anything else, check that the files this role expects exist:

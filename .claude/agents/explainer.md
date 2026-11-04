@@ -26,6 +26,16 @@ it is hard to reverse, what it costs or locks in), and anything the user must
 do next, written so it stands alone. Do not repeat what is already in a file
 or was said earlier; point to it.
 
+## Reading
+
+Never read `submission-docs/`. It holds the process logs, which only the main
+session writes. Look at `spikes/samples/` one file at a time and only in part
+(`head`, `jq`, or Read with a limit), never a whole file.
+
+Search with Grep and Glob, which skip both folders through `.ignore`. Shell
+`grep -r` and `find` don't read `.ignore`, so when you use them, exclude both
+(`--exclude-dir=submission-docs --exclude-dir=samples`, or `-prune` in `find`).
+
 ## Preflight
 
 Before anything else, check that the spec path exists and that `git diff`

@@ -67,6 +67,12 @@ Ask only what the spec needs. A question about how something is built, or
 about an edge case of a journey the demo does not cover, is not yours to
 ask; leave it out or put it under Open questions.
 
+## Reading
+
+Never read `submission-docs/`. It holds the process logs, which only the main
+session writes. Look at `spikes/samples/` one file at a time and only in part
+(`head`, `jq`, or Read with a limit), never a whole file.
+
 ## Preflight
 
 Before anything else, check that `original-brief.md` exists, and that every

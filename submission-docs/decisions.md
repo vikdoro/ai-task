@@ -383,3 +383,13 @@ Tier-one decisions and decisions about the process or tooling, newest last. Tier
 - **Decided by:** user · [P-129](prompts/prompts.md#p-129)
 - **What:** after a PASS, `/build` ends the turn and offers the stage 4 walkthrough in one line; it runs only when the user asks. Changed in `.claude/skills/build/SKILL.md`, `CLAUDE.md` (way of working, approval gates) and the reviewer's description. Tier-one answers are now logged in stage 1.
 - **Why:** not stated.
+
+### D-60 · process · Cut what subagents load and search
+- **Decided by:** user · [P-135](prompts/prompts.md#p-135), choosing items 1 to 4 of Claude's suggestions in [P-134](prompts/prompts.md#p-134)
+- **What:** the process-log and checks rules move from the root `CLAUDE.md` to [`submission-docs/CLAUDE.md`](CLAUDE.md), which the main session reads and subagents don't. A new `.ignore` keeps `submission-docs/` and `spikes/samples/` out of Grep and Glob. The root `CLAUDE.md` says D-numbers don't need to be looked up. The five agents in use get a Reading section: never read `submission-docs/`, and look at samples only in part.
+- **Why:** subagents use a lot of tokens. Each one loaded about 4 KB of rules only the main session follows, and broad searches could reach the 800 KB prompt log.
+
+### D-61 · process · Shell searches exclude the ignored folders too
+- **Decided by:** user, wording by Claude · [P-140](prompts/prompts.md#p-140), after [P-139](prompts/prompts.md#p-139) showed shell `grep` ignores `.ignore`
+- **What:** the executor, explainer and reviewer, which have Bash, are told to search with Grep and Glob, or to exclude `submission-docs/` and `spikes/samples/` from shell `grep -r` and `find`. The root `CLAUDE.md` says the same for the main session, which opens the logs by path only. The planner and product-designer have no Bash, so `.ignore` already covers them. Claude chose an instruction over a blocking hook.
+- **Why:** "just reduce token cost. And there's no need to read in submission-docs."

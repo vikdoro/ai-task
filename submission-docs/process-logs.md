@@ -1,6 +1,6 @@
 # Process logs
 
-The assessment weighs how the AI was directed and how its output was checked, not only what was built. Four logs record that as the work happens, so nothing is reconstructed afterwards and the user never tags a prompt by hand. The rules for writing them are in [`CLAUDE.md`](../CLAUDE.md#process-logs); this page explains what each one holds and how to read them together.
+The assessment weighs how the AI was directed and how its output was checked, not only what was built. Four logs record that as the work happens, so nothing is reconstructed afterwards and the user never tags a prompt by hand. The rules for writing them are in [`CLAUDE.md`](CLAUDE.md#process-logs); this page explains what each one holds and how to read them together.
 
 | Log | IDs | Holds | Written by |
 |---|---|---|---|

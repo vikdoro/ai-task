@@ -5543,3 +5543,247 @@ Before committing, decide whether `submission-docs/scratchpad.md` belongs in thi
 Start M3 in a fresh session with `/build M3`.
 
 ---
+
+## P-134
+
+**User** · 2026-11-04 20:37 UTC
+
+>  Subagents use a lot of tokens. Any idea on how to safely reduce that? Should we name folders they don't need to read? Like submission-docs? Any other suggestions?
+
+**Mode:** Auto
+
+### Claude Code
+
+Naming folders helps a little. Two other leaks probably cost more: every subagent loads all of `CLAUDE.md`, and the searches and D-number references in it pull agents into large files. I haven't changed anything; these are suggestions.
+
+**Where the tokens likely go**
+
+| Source | Size | Why it hits subagents |
+|---|---|---|
+| `CLAUDE.md` | 10 KB | Every subagent loads it at startup. About half is process-log rules (Process logs, Checks for the user, Replies), which say "only the main session writes these logs". |
+| `submission-docs/prompts/` | about 800 KB | It's tracked in git, so a broad `Grep` over the repo searches the prompt log too. |
+| `submission-docs/decisions.md` | 40 KB | `CLAUDE.md` cites D-20, D-27 and D-49, so an agent that wants to know what they mean opens this file. |
+| `spikes/samples/` | 12 MB | It's gitignored, so `Grep` probably skips it already, but an agent can still `Read` or `cat` a whole raw response. |
+| Milestone specs | about 19 KB each | Each of the four roles reads the spec, and the planner may read earlier specs as examples. |
+
+**Suggestions, safest first**
+
+1. **Move the process-log rules out of the root `CLAUDE.md`** into `submission-docs/CLAUDE.md`. A nested `CLAUDE.md` loads only when Claude works on files in that folder, which the main session does when it writes logs and subagents never do. Every agent gets cheaper and no rule is lost. Replies and Checks for the user only apply to the orchestrator, so they could move too, or go into the `build` skill.
+2. **Add a `.ignore` file** listing `submission-docs/` and `spikes/samples/`. The search tools use ripgrep, which respects `.ignore`, so broad searches skip those folders while a direct `Read` still works. This hides them from the main session's searches too, but the main session writes those files by path anyway.
+3. **Explain the D-numbers inline in `CLAUDE.md`**, for example "local demo only (D-27)". Then nobody has to look them up in `decisions.md`.
+4. **One "don't read" line in each agent file**: never read `submission-docs/`, and read `spikes/samples/` only through `head` or `jq` on a single file. This is your naming idea. It's worth doing, but it's the weakest guard on its own.
+5. **Limit what each agent reads and outputs.**
+   - The reviewer and explainer only need the spec and `git diff`, not the product spec or roadmap.
+   - The executor should run tests with a quiet reporter and look at only the failing output.
+   - Cap each agent's final report, say 300 words. The orchestrator re-reads those reports.
+6. **Run cheaper models where judgment matters less.** Add `model: sonnet` to the explainer, and maybe the reviewer. This lowers cost, not tokens. It's a process decision, so it's your call. I'd keep the planner and executor on Opus.
+
+Things already done well: `/build` passes file paths rather than contents, reuses the same agent through SendMessage on fix rounds, and starts a fresh session per milestone.
+
+**My recommendation:** do 1 to 4 now. They're cheap, easy to undo and don't change how things behave. Hold 5 and 6 until you've seen a `/build` run's token counts. Say which ones you want and I'll make the edits and log the decision as a process entry in `decisions.md`.
+
+**Checks for you:**
+1. That a nested `submission-docs/CLAUDE.md` loads only when that folder is touched, and never for subagents. That's my understanding of Claude Code, not something I tested. Check it in the Claude Code memory docs, or after the move run `/memory` in a session that hasn't opened `submission-docs/`.
+2. That Claude Code's `Grep` and `Glob` respect `.ignore`. ripgrep does by default, but I haven't checked that Claude Code doesn't pass `--no-ignore`. After adding the file, grep for a word that only appears in `prompts.md` and confirm there are no hits.
+
+---
+
+## P-135
+
+**User** · 2026-11-04 20:42 UTC
+
+> Do 1 to 4 I skip those checks for now
+
+**Mode:** Auto
+
+### Claude Code
+
+I've made all four changes. Nothing is committed, and none of it has been tested in a live run.
+
+1. **Process-log rules moved out of the root `CLAUDE.md`.** The Process logs and Checks for the user sections are now in `submission-docs/CLAUDE.md`, word for word. The root file shrinks from 10.4 KB to 7.0 KB, so every subagent loads about a third less at startup. In their place is a short pointer telling the main session to read the new file once per session, before its first reply or log entry. I also fixed the two links that pointed at the old sections, in `process-logs.md` and `checks.md`.
+2. **New `.ignore` file** at the repo root. It keeps `submission-docs/` and `spikes/samples/` out of Grep and Glob, but files there can still be read by path.
+3. **D-numbers:** the root `CLAUDE.md` now says the rules as written are complete, so no agent needs to look a D-number up in `decisions.md`.
+4. **New Reading section** in `planner`, `executor`, `reviewer`, `explainer` and `product-designer`, placed before Preflight. It says never to read `submission-docs/`, and to look at samples one file at a time and only in part.
+
+**Choices I made that you might veto:**
+- **Main session reads the rules itself.** The new `submission-docs/CLAUDE.md` would probably load on its own whenever the main session touches that folder. I added the read-once instruction anyway, so the reply rules aren't missed on a turn that never touches it. It costs about 4 KB once per session.
+- **`cto` and `eng-lead` unchanged.** Neither is used in this phase, so they don't get the Reading section.
+- **`.ignore` affects your editor too.** VS Code search respects `.ignore` by default, so your own searches in `submission-docs/` will skip it. To undo that, delete the `submission-docs/` line.
+
+**Logged:** D-60 · process · Cut what subagents load and search
+
+Next, read the diff and commit when you're happy with it. The diff also contains this session's prompt-log updates from the hook.
+
+**Checks for you** (you're skipping these for now, so they stay open and aren't logged):
+1. That the nested `submission-docs/CLAUDE.md` never loads for subagents. To check, run `/memory` in a session that hasn't opened that folder.
+2. That Claude's Grep and Glob respect `.ignore`. To check, have Claude grep for a word that only appears in `prompts.md` and confirm there are no hits.
+
+---
+
+## P-136
+
+**User** · 2026-11-04 20:46 UTC
+
+> can you read the first decision item in `/submission-docs/decisions.md`?
+
+**Mode:** Auto
+
+### Claude Code
+
+The first entry in `submission-docs/decisions.md` is **D-01**:
+
+**D-01 · process · Log every prompt and reply with Claude Code hooks**
+- **Decided by:** you, in P-001 and P-002
+- **What:** a `UserPromptSubmit` hook and a `Stop` hook add each prompt and reply to `prompts/raw/prompts.jsonl` and rebuild `prompts/prompts.md` from it. Nothing is logged by hand.
+- **Why:** the scratchpad doesn't give a reason. The brief requires "all prompts used during the process".
+- **Source:** `scratchpad.md` ("Log all prompts with hooks.")
+
+---
+
+## P-137
+
+**User** · 2026-11-04 20:47 UTC
+
+> now that you opened that folder, did you read the CLAUDE.md file in the submission-docs folder? I can't see it listen when I run `/memory`
+
+**Mode:** Auto
+
+### Claude Code
+
+Yes, I read it, but not in the way `/memory` tracks, which is why it isn't listed there.
+
+The root `CLAUDE.md` says to read `submission-docs/CLAUDE.md` once per session, before the first reply. So in my first answer I printed it with `cat`, in the same shell command that printed the top of `decisions.md`. Its full text is now in my context, and I'm following its rules.
+
+`/memory` only lists the memory files Claude Code loads on its own. That's the global and project `CLAUDE.md` files at startup, plus a `CLAUDE.md` in a subfolder when the Read tool opens a file there. A `cat` through the shell doesn't count as a file read, so `submission-docs/CLAUDE.md` was never registered. I'm fairly sure of this, but haven't checked it against the docs. If I open a file in `submission-docs/` with the Read tool, it may appear in `/memory` afterwards.
+
+Either way, the result is the same: the rules are loaded because the root `CLAUDE.md` tells me to read the file, not because of automatic loading.
+
+---
+
+## P-138
+
+**User** · 2026-11-04 20:50 UTC
+
+> grep for this: `spikes/sources/twelvedata.mjs:11` as text I'd like to test something
+
+**Mode:** Auto
+
+### Claude Code
+
+The text appears in two places besides this prompt's own log entries:
+
+- `submission-docs/prompts/prompts.md:4210`, in an earlier reply's security review: "The Twelve Data key travels in the URL (`spikes/sources/twelvedata.mjs:11`)…"
+- `submission-docs/prompts/raw/prompts.jsonl:206`, the raw `Stop` record of that same reply.
+
+The other two hits are the hook logging this prompt (P-138): `prompts.md:5667` and `prompts.jsonl:277`.
+
+---
+
+## P-139
+
+**User** · 2026-11-04 20:51 UTC
+
+> so your grep tool doesn't respect .ignore, is that right?
+
+**Mode:** Auto
+
+### Claude Code
+
+Not quite. I didn't use a Grep tool. I ran plain `grep -rnF` through the shell. GNU/BSD `grep` has no idea `.ignore` exists. That file is a ripgrep convention, and my command skipped only `node_modules` and `.git` because I excluded them by hand. That's why it found matches inside `submission-docs/`, which your `.ignore` lists.
+
+Claude Code's dedicated Grep and Glob tools run on ripgrep, so they do respect `.ignore`, the same way they respect `.gitignore`. Those tools aren't available in this session, though: I only have shell access, and `rg` isn't installed in the shell (`which rg` printed nothing). So I couldn't test the tool behaviour here.
+
+What this means for D-60: `.ignore` keeps `submission-docs/` and `spikes/samples/` out of the Grep and Glob tools. Any agent that searches with `grep` or `find` through Bash goes straight past it. If that gap matters to you, there are two ways to close it:
+- tell agents to search only with the Grep and Glob tools, or
+- add a hook that blocks shell `grep -r` and `find` on those paths.
+
+---
+
+## P-140
+
+**User** · 2026-11-04 20:52 UTC
+
+> I'd want to just reduce token cost. And there's no need to read in submission-docs.
+
+**Mode:** Auto
+
+### Claude Code
+
+I've added a rule that keeps shell searches out of `submission-docs/` and `spikes/samples/`. That closes the gap your test exposed.
+
+- **Agents:** in the executor, explainer and reviewer, the only three with shell access, the Reading section now says:
+  - search with the Grep and Glob tools, which honour `.ignore`;
+  - if `grep -r` or `find` is used anyway, exclude both folders.
+
+  The planner and product-designer only have Grep and Glob, so `.ignore` already covers them.
+- **Root `CLAUDE.md` (line 74):** the same rule for the main session, which also opens the log files by path only. It still writes the logs, so it can't skip the folder entirely. It just won't search it.
+
+**My choice:** an instruction rather than a hook that blocks the commands. An instruction costs nothing to run and is easy to undo. The catch is that it only works if agents follow it. My own `grep` earlier would have gone through the folder, because I didn't have the rule then.
+
+**Logged:** D-61 · process · Shell searches exclude the ignored folders too
+
+**Checks for you:**
+1. Read the new paragraph in `.claude/agents/reviewer.md`, under Reading. It's the same text in `executor.md` and `explainer.md`.
+2. `--exclude-dir=samples` skips every folder named `samples`, not just `spikes/samples/`. That's harmless today, but check that no other `samples` folder is planned.
+3. Read D-61 at the end of `submission-docs/decisions.md`.
+
+---
+
+## P-141
+
+**User** · 2026-11-04 20:53 UTC
+
+> all checks fine
+
+**Mode:** Auto
+
+### Claude Code
+
+I've recorded all three checks as OK in `submission-docs/checks.md`, as C-60 to C-62.
+
+The change to how agents search is ready for you to read in the diff and commit. Most of the uncommitted changes predate this session, including the move of the log rules into `submission-docs/CLAUDE.md`. What changed this session is:
+- the new search paragraph in `.claude/agents/executor.md`, `explainer.md` and `reviewer.md`;
+- the search rule in the root `CLAUDE.md` (line 74);
+- D-61 in `decisions.md`.
+
+---
+
+## P-142
+
+**User** · 2026-11-04 20:54 UTC
+
+> check 1: correct, it doesn't load in memory
+> check 2: another process now fixed that
+
+**Mode:** Auto
+
+### Claude Code
+
+I've logged both checks.
+
+- **Check 1:** logged as C-63, OK. The nested `submission-docs/CLAUDE.md` doesn't load into a session that hasn't opened that folder.
+- **Check 2:** logged as C-64, a finding, with intervention I-39. P-139 showed that shell `grep` and `find` don't read `.ignore`, so the agents that have Bash could still search into both folders. The other session fixed this in D-61: those agents and the main session now exclude both folders from shell searches. I-39 points to D-61.
+
+**Logged:** I-39 · CORRECT · `.ignore` didn't cover shell searches
+
+No checks are open. The working tree now holds D-60, D-61 and these log entries, all uncommitted, for you to read and commit.
+
+---
+
+## P-143
+
+**User** · 2026-11-04 20:55 UTC
+
+> suggested commit message
+
+**Mode:** Auto
+
+### Claude Code
+
+```
+Cut what subagents load and search
+```
+
+That's 35 characters. I left out a body because the reasons are already in D-60 and D-61, so the subject alone is enough under this repo's commit rules.
+
+---

@@ -240,3 +240,9 @@ Rejections and course corrections, in order. Checks that passed are in [`checks.
 - **Caught by:** user, who also stopped the running explainer.
 - **Why wrong:** not stated: "don't call explainer automatically, keep that optional".
 - **Changed:** `/build` offers the walkthrough after a PASS and runs it only on request. See D-59.
+
+### I-39 · CORRECT · [P-142](prompts/prompts.md#p-142)
+- **Claude did:** added `.ignore` (D-60) to keep `submission-docs/` and `spikes/samples/` out of agent searches, without covering shell searches; listed it as check C-64.
+- **Caught by:** user, through C-64; [P-139](prompts/prompts.md#p-139) showed shell `grep` ignores `.ignore`.
+- **Why wrong:** agents with Bash could still `grep -r` or `find` into both folders.
+- **Changed:** in another session, the agents with Bash and the main session were told to exclude both folders from shell searches. See D-61.
