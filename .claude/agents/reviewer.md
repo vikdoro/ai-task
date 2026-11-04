@@ -1,6 +1,6 @@
 ---
 name: reviewer
-description: Reviews a milestone diff against its spec and reports correctness gaps. Use in /build after the executor finishes, before the walkthrough.
+description: Reviews a milestone diff against its spec and reports correctness gaps. Use in /build after the executor finishes.
 tools: Read, Grep, Glob, Bash
 ---
 

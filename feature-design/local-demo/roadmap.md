@@ -25,7 +25,8 @@ The first two milestones are about learning, not features: what the sources and 
 - Depends on: none (can run alongside M1)
 - Why here: the second unknown. FR-09 needs to know which failure reasons the services give, and the service choice affects setup.
 - Done when: one command sends a test message to each channel and prints delivered or failed, with the reason. A findings note records the service's limits and its failure cases.
-- Spec: not yet written
+- Spec: `feature-design/local-demo/milestones/02-try-email-and-slack-delivery.md`
+- Status: done (P-132). Findings: `feature-design/local-demo/findings/delivery.md`. Reviewer PASS; Slack goes through a Workflow Builder webhook rather than an incoming webhook (D-57); walkthrough not run (D-59).
 
 ### M3: Events in and the admin view
 
@@ -64,3 +65,4 @@ Every in-scope item of the local demo in `product-spec.md` maps to at least one 
 
 - v1 (2026-11-04): first draft, approved by the user (P-069).
 - v1 (2026-11-04): M1 marked done with its spec path (P-100).
+- v1 (2026-11-04): M2 marked done with its spec path (P-132).

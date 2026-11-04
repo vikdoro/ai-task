@@ -28,6 +28,8 @@ realised a post-MVP section is quite useful in the feature design, but was left 
 
 dropped design skill, go for local MVP first
 
+want to use real data source as that defines the data structure well
+
 ** to check later **
 
 - data sources

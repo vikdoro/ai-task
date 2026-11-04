@@ -44,3 +44,35 @@ Then the details:
 - at the end, the number of Event Registry requests made.
 
 Raw responses go to `spikes/samples/<run timestamp>/round-N/` (gitignored). Each call also gets a `.meta.json` with the redacted request URL and headers, the status and the response headers. The Event Registry request body is saved as `eventregistry-request.json`. `run.json` in the run folder holds the round times. Both key values are replaced with `<NAME>` in everything saved or printed.
+
+# Spikes: try email and Slack delivery (M2)
+
+Throwaway script for spec `feature-design/local-demo/milestones/02-try-email-and-slack-delivery.md`. No dependencies: Node's built-in `fetch` and `node:` modules only. Findings are in `feature-design/local-demo/findings/delivery.md`.
+
+## Keys
+
+In the same `.env` (gitignored); names only in `.env.example`.
+
+| Name | Used for | Without it |
+|---|---|---|
+| `RESEND_API_KEY` | Resend send; a "Sending access" key is enough | `email` is skipped |
+| `DEMO_USER_EMAIL` | Recipient; must be the address the Resend account was signed up with, since the test sender `onboarding@resend.dev` delivers only there | `email` is skipped |
+| `SLACK_WEBHOOK_URL` | Slack Workflow Builder webhook (`hooks.slack.com/triggers/...`) whose workflow has a `text` variable and posts it to the demo channel; a classic incoming webhook (`hooks.slack.com/services/...`) also works. It is a secret, like a key | `slack` is skipped |
+
+## Run
+
+```sh
+node --env-file-if-exists=.env spikes/send-test.mjs                   # both channels
+node --env-file-if-exists=.env spikes/send-test.mjs --channel=email   # or --channel=slack
+node --env-file-if-exists=.env spikes/send-test.mjs --dry-run         # print the requests, send nothing
+```
+
+A run makes at most one send per channel and nothing else; there is no email status lookup (P-121). Every request times out after 10 seconds and nothing is retried. Agents only run it offline, with `node --import ./spikes/no-network.mjs spikes/send-test.mjs ...`, which makes every `fetch` throw.
+
+Exit code: 0 if every channel was `delivered` or `skipped`, 1 if any `failed`, 2 on bad usage.
+
+## Output and samples
+
+One line per channel: `email` or `slack`, then `delivered`, `failed` or `skipped`, then the detail. Email `delivered` means Resend accepted the send (a 2xx with an id), and the line shows the id; whether it reached the inbox is checked by hand. Slack `delivered` means HTTP 200 with the body `ok` (classic webhook) or JSON `"ok": true` (workflow webhook); JSON `"ok": false` reads `failed` with its `error`, such as `workflow_not_published`.
+
+Except in a dry run, each request's raw response and a `.meta.json` (redacted request, time sent, status and response headers, or the error) go to `spikes/samples/delivery-<run timestamp>/` (gitignored). The three key values are replaced with `<NAME>` in everything printed or saved, so the output can be pasted as is.

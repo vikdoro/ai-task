@@ -1,11 +1,11 @@
 ---
 name: build
-description: Run one milestone through planner, executor, reviewer and explainer. Invoke as /build <roadmap ID or request>.
+description: Run one milestone through planner, executor and reviewer, with an optional explainer walkthrough. Invoke as /build <roadmap ID or request>.
 ---
 
 You orchestrate. You do not write the spec, the code or the review yourself.
 Each role runs in its own subagent: `planner`, `executor`,
-`reviewer`, `explainer`.
+`reviewer`, and `explainer` when the user asks for it.
 
 The user sees only your own final message each turn, so it must carry what
 they need and nothing more. Summarise the subagents' results; do not paste
@@ -16,7 +16,7 @@ user that they might veto (Claude's tier-two choices), with the reason and, if i
 costs or locks in. End with what they must do next, written so it stands
 alone: the context needed to act, why it matters, and for a choice the options
 with your recommendation. Do not repeat what is already in a file or was said
-earlier; point to it. The stage 4 walkthrough is the exception: relay it in
+earlier; point to it. A stage 4 walkthrough is the exception: relay it in
 full.
 
 ## Preflight
@@ -30,7 +30,7 @@ roadmap has to be drafted and approved first, and stop.
 
 Put every tier-one question to the user with AskUserQuestion; never take a
 default without confirmation. End the turn after the spec, after a PASS, and
-after the walkthrough. The reviewer's third FAIL also ends the turn.
+after a walkthrough. The reviewer's third FAIL also ends the turn.
 
 ## Stage 1: spec
 
@@ -43,7 +43,8 @@ after the walkthrough. The reviewer's third FAIL also ends the turn.
    An answer may defer an option to post-MVP ("1 post-MVP, MVP should be
    X"), with the MVP behaviour asked for if missing. The spec records X, and
    the deferred option goes to the `product-designer` for the Later section
-   of `feature-design/product-spec.md`.
+   of `feature-design/product-spec.md`. Each tier-one answer goes in
+   `submission-docs/decisions.md` as one line that links to the spec.
 3. End the turn with the spec path and the planner's Decisions, and ask the
    user to approve the spec or change it. Do not continue until they do.
 
@@ -62,9 +63,13 @@ Run these in one turn without asking, unless something below says stop.
    `submission-docs/interventions.md`, caught by the reviewer, naming the
    findings and what the fix round changed.
 4. On PASS, end the turn with: the executor's report, the reviewer's verdict
-   and verification output, and both agents' sections.
+   and verification output, and both agents' sections. Offer the stage 4
+   walkthrough in one line; do not start it unless the user asks. Without
+   it, remind the user that they read the full diff and commit themselves.
 
-## Stage 4: walkthrough
+## Stage 4: walkthrough (optional)
+
+Run only when the user asks for it.
 
 1. Spawn `explainer` with the spec path and the executor's Decisions.
 2. Relay its walkthrough. Take the user's accept, reject and questions and
@@ -73,16 +78,14 @@ Run these in one turn without asking, unless something below says stop.
    stage 2 reruns for that change. A rejected approach goes back to stage 1.
    Log each rejection as a `CORRECT` entry in `submission-docs/interventions.md`
    (a rejected approach is a `REJECT`), with the user's reason in their words.
-   A tier-one answer from stage 1 goes in `submission-docs/decisions.md` as one
-   line that links to the spec.
 4. When every item is accepted, end the turn with the explainer's sections
    and remind the user that they read the full diff and commit themselves.
 
 ## Always
 
 - Never commit or push.
-- Stage 4 always runs: the walkthrough is the user's only look at the
-  decisions before the diff.
+- Stage 4 runs only on request. Without it, the PASS message's list of
+  tier-two choices is the user's look at the decisions before the diff.
 - `feature-design/product-spec.md` and `feature-design/local-demo/roadmap.md` are
   fixed. If any stage needs one changed, end the turn and ask the user.
 - When a milestone passes, ask the user whether to mark its spec path in

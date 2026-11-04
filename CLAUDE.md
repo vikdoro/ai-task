@@ -7,7 +7,7 @@ Adapted from the `flow` workflow. Everything lives in `feature-design/`: the pro
 
 - **Product spec, once: the `product-designer` agent.** It interviews the user from `original-brief.md` and writes `feature-design/product-spec.md`, a mostly non-technical spec of about two pages. No role reviews it; the user approves it.
 - **Roadmap: the user with Claude.** The main session drafts `feature-design/local-demo/roadmap.md` with the user from the approved spec (format: `feature-design/templates/ROADMAP-TEMPLATE.md`). Its milestones lead to the local demo.
-- **Milestone level, per slice: `/build M3`.** The `planner` reads the spec and the roadmap, treats them as fixed, and writes `feature-design/local-demo/milestones/NN-title.md` (format: `feature-design/templates/TEMPLATE.md`). The `executor` implements it test-first, the `reviewer` checks the diff against the spec, the `explainer` walks the user through the result.
+- **Milestone level, per slice: `/build M3`.** The `planner` reads the spec and the roadmap, treats them as fixed, and writes `feature-design/local-demo/milestones/NN-title.md` (format: `feature-design/templates/TEMPLATE.md`). The `executor` implements it test-first, the `reviewer` checks the diff against the spec, and, only when the user asks, the `explainer` walks the user through the result.
 - The user is the product manager: they answer tier-one questions and approve the spec, the roadmap and each milestone.
 - The spec and the roadmap are locked once approved. A change goes to the user as a tier one question; the `product-designer` revises the spec, the main session revises the roadmap with the user.
 - Any answer can defer an option to post-MVP ("1 post-MVP, MVP should be X"). X is recorded, and the deferred option goes in the spec's Later section (D-20).
@@ -34,7 +34,7 @@ Adapted from the `flow` workflow. Everything lives in `feature-design/`: the pro
 The user stays in the loop at every stage. Subagents return tier one questions with recommended defaults, and the orchestrator puts every one to the user with AskUserQuestion; no default is taken without confirmation.
 
 - The product spec and the roadmap each end the turn for approval.
-- `/build` ends the turn after the spec, then after the walkthrough.
+- `/build` ends the turn after the spec, then after the reviewer's PASS, and after a walkthrough if the user asks for one.
 - The reviewer's third FAIL ends the turn. Agents never commit or push.
 
 ## Replies

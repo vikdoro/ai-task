@@ -57,3 +57,9 @@ Every check the user ran on Claude's output, in order. Claude lists checks at th
 | C-51 | `.env.example` lists `TWELVE_DATA_API_KEY=` and `EVENT_REGISTRY_API_KEY=` with no values and no `GEMINI_API_KEY` | [P-094](prompts/prompts.md#p-094) | [P-095](prompts/prompts.md#p-095) | OK |
 | C-52 | Event Registry's free allowance: 2,000 tokens or searches, and whether it renews | [P-094](prompts/prompts.md#p-094) | [P-095](prompts/prompts.md#p-095) | OK: 2,000 tokens that never renew |
 | C-53 | FR-06, DEC-27, DEC-28 and OQ-10 in the product spec state the bars, the message contents and the remaining gap as meant | [P-099](prompts/prompts.md#p-099) | [P-101](prompts/prompts.md#p-101) | OK |
+| C-54 | Resend's test sender `onboarding@resend.dev` delivers only to the Resend account's signup address | [P-110](prompts/prompts.md#p-110) | [P-111](prompts/prompts.md#p-111) | OK |
+| C-55 | Resend's free tier is about 100 emails a day and 3,000 a month | [P-110](prompts/prompts.md#p-110) | [P-111](prompts/prompts.md#p-111) | OK |
+| C-56 | The M2 spec's "Decisions from the interview" matches the P-109 answers | [P-110](prompts/prompts.md#p-110) | [P-111](prompts/prompts.md#p-111) | OK |
+| C-57 | Slack Workflow Builder webhooks are "Available on paid plans" (`delivery.md:107`), and whether that affects D-57 | [P-126](prompts/prompts.md#p-126) | [P-128](prompts/prompts.md#p-128) | OK: keep the workflow webhook; "It seems to run fine in a developer sandbox workspace." |
+| C-58 | `feature-design/local-demo/findings/delivery.md` read in full, with Live runs and the M5 notes | [P-126](prompts/prompts.md#p-126) | [P-128](prompts/prompts.md#p-128) | OK |
+| C-59 | `.claude/skills/build/SKILL.md` Stage 2–3 step 4 and Stage 4 read as an optional walkthrough the way the user wants | [P-130](prompts/prompts.md#p-130) | [P-131](prompts/prompts.md#p-131) | OK |
