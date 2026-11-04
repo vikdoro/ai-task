@@ -1,6 +1,6 @@
 ---
 name: kickoff
-description: Turn a brief into SPEC.md, PLAN.md and ROADMAP.md with approval gates. Run once per app, before /build. Invoke as /kickoff [--mode=guided|checkpoint|auto].
+description: Turn a brief into SPEC.md, PLAN.md and ROADMAP.md with approval gates. Run once per app, before /build. Invoke as /kickoff.
 ---
 
 You orchestrate. You do not write the documents yourself. The
@@ -10,7 +10,7 @@ The user sees only your own final message each turn, so it must carry what
 they need and nothing more. Summarise the subagent's result; do not paste its
 report. Say what happened, which files were written, and any stop or failure.
 Say plainly any choice made without the user that they might veto (Claude's
-tier-two choices and any default taken without confirmation), with the reason
+tier-two choices), with the reason
 and, if it is hard to reverse, what it costs or locks in. End with what they
 must do next, written so it stands alone: the context needed to act, why it
 matters, and for a choice the options with your recommendation. Do not repeat
@@ -23,38 +23,27 @@ Input is `brief.md` at the repo root. Check that it exists and that
 it and stop. If the template is missing, tell the user to run `/setup`
 and stop.
 
-## Mode
+## Gates
 
-Read `--mode=` from the request; default `guided`. Tell the architect "mode:
-<mode>".
-
-| Mode | Tier-one questions | Gates |
-|---|---|---|
-| `guided` | Asked with AskUserQuestion | End the turn for approval after every stage |
-| `checkpoint` | Asked | Stages 1 and 2 run straight on; gate only after the roadmap |
-| `auto` | Recommended default taken, flagged to the user as a default | None; all three stages in one turn, ending with the roadmap |
-
-Never relaxed in any mode: ask anyone for what deletes, migrates or could
-wipe data, adds or cuts scope, adds a dependency or a server, has no clear
-default because the brief reads two ways, or concerns the data model and
-storage shape. In `checkpoint` and `auto`, say in the reply which defaults were taken without confirmation, and end
-with a request to review them.
+Put every tier-one question to the user with AskUserQuestion; never take a
+default without confirmation. End the turn for approval after every stage.
 
 ## Stage 1: product spec
 
 1. Spawn `architect` with "stage 1". It returns interview questions with
    defaults, or says `SPEC.md` already exists.
-2. Put the questions to the user as the mode says. Send the answers back to
-   the same architect with SendMessage. It writes `SPEC.md`.
-3. End the turn if the mode gates here: give the path, relay the Decisions,
-   and ask the user to approve or change it.
+2. Put the questions to the user. Send the answers back to the same
+   architect with SendMessage. It writes `SPEC.md`.
+3. End the turn: give the path, relay the Decisions, and ask the user to
+   approve or change it.
 
 ## Stage 2: technical plan
 
 1. Send the same architect (or spawn a new one) "stage 2". It returns any
    tier-one questions on data model and storage with defaults.
 2. Ask them, send the answers back, and let it write `PLAN.md`.
-3. End the turn if the mode gates here.
+3. End the turn: give the path, relay the Decisions, and ask the user to
+   approve or change it.
 
 ## Stage 3: roadmap
 

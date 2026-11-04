@@ -21,3 +21,10 @@ Every check the user ran on Claude's output, in order. Claude lists checks at th
 | C-15 | The **Logged:** rule in `CLAUDE.md` and D-06 say what the user meant | [P-019](prompts/prompts.md#p-019) | [P-023](prompts/prompts.md#p-023) | OK |
 | C-16 | `process-logs.md` describes the logs the way the user would explain them to the assessor | [P-024](prompts/prompts.md#p-024) | [P-025](prompts/prompts.md#p-025) | OK |
 | C-17 | Logging the separate-file choice as a `CORRECT` entry (I-08) fits | [P-024](prompts/prompts.md#p-024) | [P-025](prompts/prompts.md#p-025) | OK; reason added to I-08 and D-08 |
+| C-18 | The repo as published on GitHub (the user's own check, not from a list) | — | [P-028](prompts/prompts.md#p-028) | Finding: "take out autonomy modes" → I-09; "create a simple README.md" → I-10 |
+| C-19 | The "Approval gates" section in `CLAUDE.md` says what the user meant by keeping only `guided` | [P-028](prompts/prompts.md#p-028) | [P-029](prompts/prompts.md#p-029) | OK |
+| C-20 | `/build` keeps the stop after a passing review, before the walkthrough | [P-028](prompts/prompts.md#p-028) | [P-029](prompts/prompts.md#p-029) | OK |
+| C-21 | `README.md` is short enough and describes the repo right | [P-028](prompts/prompts.md#p-028) | [P-029](prompts/prompts.md#p-029) | OK |
+| C-22 | Claude's line after the user's quote in I-09 is a fair reading | [P-028](prompts/prompts.md#p-028) | [P-029](prompts/prompts.md#p-029) | OK |
+| C-23 | `phases.md` Setup ranges are right, and `/brief` belongs in Kickoff | [P-029](prompts/prompts.md#p-029) | [P-030](prompts/prompts.md#p-030) | OK |
+| C-24 | The `CLAUDE.md` rule for closing a phase says what the user wants | [P-029](prompts/prompts.md#p-029) | [P-030](prompts/prompts.md#p-030) | OK |

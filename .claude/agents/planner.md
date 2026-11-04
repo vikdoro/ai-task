@@ -50,11 +50,6 @@ If the milestone cannot be specced without changing `SPEC.md`, `PLAN.md` or
 `ROADMAP.md`, or the request conflicts with them, return that as a tier-one
 question and stop. The user reruns `/kickoff` for the change.
 
-The orchestrator may tell you "mode: auto" or "mode: checkpoint". It changes
-nothing about what you do: still return every tier-one question with a
-recommended default, and make each default one you would stand behind,
-because in `auto` it is taken without review.
-
 ## Round 1: interview
 
 Do not read the codebase yet. From the request and the app-level documents

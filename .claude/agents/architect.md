@@ -39,11 +39,6 @@ Return which file is missing, what you expected in it and which step normally
 creates it (`/setup` for templates, you for `SPEC.md` and `PLAN.md`), and
 ask how to proceed.
 
-The orchestrator may tell you "mode: auto" or "mode: checkpoint". It changes
-nothing about what you do: still return every tier-one question with a
-recommended default, and make each default one you would stand behind,
-because in `auto` it is taken without review.
-
 ## Stage 1: product spec (`SPEC.md`)
 
 What the tool does and why, in the owner's terms: who uses it, what is

@@ -772,6 +772,195 @@ When you say "commit", I'll run `git add .` and commit with "Set up agent workfl
 
 ### Claude Code
 
-_Reply pending_
+I've made the first commit, `360a398`, on `main`: "Set up agent workflow, prompt logging and process logs". It adds 37 files and leaves the working tree clean. The gitleaks pre-commit hook ran and didn't block it. Nothing was pushed.
+
+The prompt hook writes each reply after it's sent, so this reply and the last one will show up as changes to `submission-docs/prompts/` in your next commit.
+
+Next comes `/brief`. It interviews you about the product, tech stack included, and fills in `brief.md`. `/kickoff` then turns that into the plan of deliverables.
+
+---
+
+## P-028
+
+**User** · 2026-11-04 12:46 UTC
+
+> Log to checks.md that I had a look at the remote repo on Github. Some findings (to be logged to inverentions): take out autonomy modes, only keep the most conversative one (guided), the reason is because that mode makes sense for the human-in-the-loop type mode that we use in this repo (reword 'why' if necessary). Also create a simple README.md, reason: standard for any repo. Keep it short for now.
+
+**Mode:** Auto
+
+### Claude Code
+
+I logged your GitHub review as check C-18 (its two findings are I-09 and I-10), took out the autonomy modes, and added a short `README.md`.
+
+**Autonomy modes removed.** `/kickoff` and `/build` no longer take `--mode`, and they always run the old `guided` behaviour:
+- Every tier-one question is put to you; no default is taken without your confirmation.
+- `/kickoff` stops for your approval after every stage.
+- `/build` stops after the spec, after a passing review, and after the walkthrough.
+
+Files changed:
+- `CLAUDE.md` and its copy in `.claude/templates/claude-md/workflow.md`: the "Autonomy modes" section is now a short "Approval gates" section.
+- The `kickoff` and `build` skills, and the `architect` and `planner` agents.
+- `submission-docs/workflow.md`, which still mentions the flow plugin's other two modes in one line, with a link to D-09.
+- With no defaults taken without you, `default-unreviewed` is gone from `Decided by` in `CLAUDE.md`, `process-logs.md` and `decisions.md`. "Took a default the user did not confirm" is also gone from the reasons a reply ends with checks.
+
+**README.md:** three lines on what the repo is, links to `workflow.md` and `process-logs.md`, and setup (Node version from `.nvmrc`, `npm install`). I left gitleaks out because you said in C-10 there was "no need for README notes".
+
+For the reason in I-09 I kept your quote and added one line of my own: you approve each stage in this repo, so the other two modes were never used.
+
+**Logged:** I-09 · CORRECT · autonomy modes removed; I-10 · CORRECT · README added; D-09 · process · One autonomy level: the user approves every stage
+
+**Checks for you:**
+1. `CLAUDE.md:16-22`: the new "Approval gates" section says what you meant by keeping only `guided`.
+2. `.claude/skills/build/SKILL.md:30-34` and `:56-57`: `/build` now also stops after a passing review, before the walkthrough, as `guided` did. Confirm you want that stop kept.
+3. `README.md`: short enough, and the one-line description of the repo is right.
+4. `submission-docs/interventions.md` I-09: my line after your quote is a fair reading of what you said.
+
+---
+
+## P-029
+
+**User** · 2026-11-04 12:53 UTC
+
+> Check 1, 2, 3, 4 done. Also, we're about to start the feature design. So repo setup milestone is done. Maybe at a later stage we want to group the prompts, checks etc. per milestone. For now, maybe enough to log the IDs somewhere, so I-1 to I-10 in interventions are for repo setup milestone etc. Mark these in a separate md file in the submission docs. Double check me / suggest better names if you have for: 'repo-setup'. also on how to document the milestones. milestones.md?
+
+**Mode:** Auto
+
+### Claude Code
+
+I logged checks 1–4 as C-19 to C-22, all OK, and closed the setup phase in a new file, `submission-docs/phases.md`.
+
+**Names.** I went with `phases.md` instead of `milestones.md`, and "Setup" instead of "repo-setup". "Milestone" will already mean something specific soon: `/kickoff` writes `ROADMAP.md` with milestones `M1`, `M2`, and so on. Calling the setup a milestone would give it a name the architect doesn't own and no `M` ID. With "phase", the setup and the kickoff are phases, and each roadmap milestone becomes a phase under its `M` ID, so the two words don't collide. "Repo-setup" is fine, but the setup was mostly workflow and logging, not repo plumbing, so plain "Setup" fits better. Renaming is cheap if you prefer your names.
+
+**What the file says.** One table row per phase, with the ID range for each log:
+- **Setup:** P-001 – P-029, plus `prompts-elsewhere/`, D-01 – D-10, I-01 – I-10, C-01 – C-22.
+- **Kickoff:** opened with "from P-030 / D-11 / I-11 / C-23". I counted `/brief` as part of the kickoff, since it's the first step of feature design.
+
+**Also changed:**
+- `CLAUDE.md`: a new rule that when you say a phase is done, I close its row and open the next one, so you don't have to ask.
+- `process-logs.md`: one line pointing to `phases.md`.
+
+Grouping the entries themselves by phase, as you mentioned for later, would just mean reading these ranges, so nothing needs restructuring now.
+
+**Logged:** D-10 · process · Group the log IDs by phase in `phases.md`
+
+**Checks for you:**
+1. `submission-docs/phases.md`: the Setup ranges are right, and `/brief` belongs in Kickoff rather than Setup.
+2. `CLAUDE.md:60`: the new rule for closing a phase says what you want.
+
+---
+
+## P-030
+
+**User** · 2026-11-04 12:55 UTC
+
+> Check 1, 2 done.
+
+**Mode:** Auto
+
+### Claude Code
+
+I logged checks 1 and 2 as C-23 and C-24, both OK.
+
+Both checks were about setup work, so I counted this prompt and those two rows in the Setup phase rather than Kickoff. In `phases.md`, Setup now runs to P-030 and C-24, and Kickoff starts at P-031 and C-25.
+
+Setup is now closed. Next is `/brief`. `brief.md` is still the empty stub, so `/brief` will interview you about the product and tech stack and fill it in. After that, run `/kickoff`.
+
+---
+
+## P-031
+
+**User** · 2026-11-04 12:56 UTC
+
+> Suggest a commit message. (for now and later, use industry standard commit messages, clear and descriptive. If you need to push back on the one line rule that I have globally, feel free.)
+
+**Mode:** Auto
+
+### Claude Code
+
+Suggested message:
+
+```
+Drop autonomy modes, add README and phase log
+```
+
+It's 45 characters, in the imperative ("Drop", "add"), with no prefix and no trailing period. That follows the usual git convention: a subject of 50 characters or less, a body (if any) wrapped at 72. I left out a Conventional Commits prefix like `chore:` or `docs:`. That style is common but not universal, and it mostly pays off when tooling reads the prefixes, for changelogs or version bumps, which this repo doesn't have. I can switch to it if you'd like.
+
+**On the one-line rule:** I'd mostly keep it. In this repo the reason behind a change lives in `decisions.md` and `interventions.md`, so a body would usually just repeat them. The one exception I'd make: allow a short body when the reason isn't recorded anywhere else. Small fixes during a milestone build that never reach the logs are the likely case, and that's when `git blame` readers need the reason. This commit doesn't need one; the reasons are in D-09 and D-10.
+
+To adopt that, change the line in your global `~/.claude/CLAUDE.md` to:
+
+```
+- Imperative subject, 50 characters or less, no trailing period. Add a short body (wrapped at 72) only when the reason isn't recorded elsewhere
+```
+
+I haven't edited your global `CLAUDE.md`, since it covers all your projects. Tell me whether to make that change there, put it in this repo's `CLAUDE.md` only, or leave the rule as it is. I'll log the outcome as a decision once you've chosen.
+
+---
+
+## P-032
+
+**User** · 2026-11-04 12:58 UTC
+
+> This repo only is fine.
+
+**Mode:** Auto
+
+### Claude Code
+
+I added a "Commit messages" section to this repo's `CLAUDE.md`, just after the flow block. In this repo it replaces your global one-line rule: an imperative subject of 50 characters or less with no trailing period, and a short body only when the reason isn't already in the logs or a spec. Your other global git rules still apply (no trailers, no mention of Claude Code, commit only when you ask). Your global `CLAUDE.md` is unchanged.
+
+The suggested message still fits the new rule, since D-09 and D-10 hold the reasons:
+
+```
+Drop autonomy modes, add README and phase log
+```
+
+When you commit, the diff will include this turn's `CLAUDE.md` change and D-11 along with everything from the last few prompts.
+
+**Logged:** D-11 · process · Commit message format for this repo
+
+**Checks for you:**
+1. Read the new "Commit messages" section in `CLAUDE.md`, just after `<!-- flow:end -->`. It should say what you want, including that the other global git rules still apply.
+
+---
+
+## Unrecorded prompt
+
+**User** · 2026-11-04 12:59 UTC
+
+_Prompt not recorded_
+
+**Mode:** Auto
+
+### Claude Code
+
+Everything is staged. When you commit, the suggested message is `Drop autonomy modes, add README and phase log`.
+
+---
+
+## Unrecorded prompt
+
+**User** · 2026-11-04 12:59 UTC
+
+_Prompt not recorded_
+
+**Mode:** Auto
+
+### Claude Code
+
+The commit left out half the changes. Your `ga .` ran while the session's shell was in `submission-docs/`, where my last command had moved it, so it only staged that folder. These are still uncommitted:
+
+- `CLAUDE.md` (the approval gates, the phase rule and the commit-message section)
+- `README.md`
+- the `kickoff` and `build` skills, and the `architect` and `planner` agents
+- `.claude/templates/claude-md/workflow.md`
+
+As it stands, `f28fb44` logs D-09, D-10 and D-11 without the changes they describe. If you haven't pushed it yet, amending fixes that and keeps the message:
+
+```
+! cd /Users/viktordorozsmai/dev/ai-task && git add . && git commit --amend --no-edit
+```
+
+From now on I'll use absolute paths so the shell doesn't end up in a subfolder.
 
 ---

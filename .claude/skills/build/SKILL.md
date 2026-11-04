@@ -1,6 +1,6 @@
 ---
 name: build
-description: Run one milestone through planner, executor, reviewer and explainer. Invoke as /build <roadmap ID or request> [--mode=guided|checkpoint|auto].
+description: Run one milestone through planner, executor, reviewer and explainer. Invoke as /build <roadmap ID or request>.
 ---
 
 You orchestrate. You do not write the spec, the code or the review yourself.
@@ -12,8 +12,7 @@ they need and nothing more. Summarise the subagents' results; do not paste
 their reports. Say what happened, which files were written, and any stop or
 failure; after a build, give the reviewer's verdict and the verification as one
 line (the command, then its result). Say plainly any choice made without the
-user that they might veto (Claude's tier-two choices and any default taken
-without confirmation), with the reason and, if it is hard to reverse, what it
+user that they might veto (Claude's tier-two choices), with the reason and, if it is hard to reverse, what it
 costs or locks in. End with what they must do next, written so it stands
 alone: the context needed to act, why it matters, and for a choice the options
 with your recommendation. Do not repeat what is already in a file or was said
@@ -27,21 +26,11 @@ Check that `specs/TEMPLATE.md` exists. If not, tell the user to run
 check that `SPEC.md`, `PLAN.md` and `ROADMAP.md` exist; if not, tell the user
 to run `/kickoff` and stop.
 
-## Mode
+## Gates
 
-Read `--mode=` from the request; default `guided`. Strip it before passing
-the request on, and tell each subagent "mode: <mode>".
-
-| Mode | Tier-one questions | Gates |
-|---|---|---|
-| `guided` | Asked with AskUserQuestion | After the spec, then the walkthrough |
-| `checkpoint` | Asked | Only the walkthrough |
-| `auto` | Recommended default taken, flagged to the user as a default | Only the walkthrough |
-
-Never relaxed in any mode: ask the user for anything that deletes, migrates
-or could wipe data, adds or cuts scope, adds a dependency or a server, or has
-no clear default because the brief reads two ways. The reviewer's third FAIL
-still ends the turn.
+Put every tier-one question to the user with AskUserQuestion; never take a
+default without confirmation. End the turn after the spec, after a PASS, and
+after the walkthrough. The reviewer's third FAIL also ends the turn.
 
 ## Stage 1: spec
 
@@ -49,19 +38,10 @@ still ends the turn.
    pass the ID and the paths `ROADMAP.md`, `SPEC.md` and `PLAN.md`. It
    returns interview questions with defaults, possibly none if the app-level
    documents already answer everything.
-2. Answer the questions by mode:
-   - `guided`, `checkpoint`: put them to the user with AskUserQuestion.
-   - `auto`: take each recommended default and record it as "default,
-     unreviewed". Any question touching data loss, scope, a new dependency,
-     or a genuinely two-way brief is still put to the user.
-   Send the answers back to the same planner with SendMessage. It writes
-   `specs/NN-title.md`.
-3. By mode:
-   - `guided`: end the turn with the spec path and the planner's Decisions,
-     and ask the user to approve the spec or change it. Do not continue
-     until they do.
-   - `checkpoint`, `auto`: continue straight to stage 2 and 3 in the same
-     turn. The spec path and Decisions go into the final message.
+2. Put the questions to the user with AskUserQuestion. Send the answers back
+   to the same planner with SendMessage. It writes `specs/NN-title.md`.
+3. End the turn with the spec path and the planner's Decisions, and ask the
+   user to approve the spec or change it. Do not continue until they do.
 
 ## Stage 2 and 3: build and review
 
@@ -77,9 +57,8 @@ Run these in one turn without asking, unless something below says stop.
    not the code, is probably wrong. Log each FAIL as a `REJECT` entry in
    `submission-docs/interventions.md`, caught by the reviewer, naming the
    findings and what the fix round changed.
-4. On PASS in `guided`, end the turn with: the executor's report, the
-   reviewer's verdict and verification output, and both agents' sections. In
-   `checkpoint` and `auto`, go on to stage 4 in the same turn.
+4. On PASS, end the turn with: the executor's report, the reviewer's verdict
+   and verification output, and both agents' sections.
 
 ## Stage 4: walkthrough
 
@@ -98,10 +77,8 @@ Run these in one turn without asking, unless something below says stop.
 ## Always
 
 - Never commit or push.
-- Stage 4 runs in every mode: the walkthrough is the user's only look at the
+- Stage 4 always runs: the walkthrough is the user's only look at the
   decisions before the diff.
-- In `checkpoint` and `auto`, say in the reply which defaults were taken without confirmation,
-  the spec's included, and end with a request to review them.
 - `SPEC.md`, `PLAN.md` and `ROADMAP.md` belong to `/kickoff`. If any
   stage needs one changed, end the turn and tell the user to rerun
   `/kickoff`.

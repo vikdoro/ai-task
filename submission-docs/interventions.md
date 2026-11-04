@@ -52,3 +52,15 @@ Rejections and course corrections, in order. Checks that passed are in [`checks.
 - **Caught by:** user.
 - **Why wrong:** "to keep them separate from the agentic workflow description" (given in [P-025](prompts/prompts.md#p-025)).
 - **Changed:** the logs are described in their own file, [`process-logs.md`](process-logs.md). See D-08.
+
+### I-09 · CORRECT · [P-028](prompts/prompts.md#p-028)
+- **Claude did:** kept the `flow` plugin's three autonomy modes (`guided`, `checkpoint`, `auto`) in `CLAUDE.md`, the skills, the agents and `workflow.md`.
+- **Caught by:** user, in check C-18, reading the repo on GitHub.
+- **Why wrong:** "that mode makes sense for the human-in-the-loop type mode that we use in this repo". This repo is worked with the user approving each stage, so only `guided` is used and the other two were dead weight.
+- **Changed:** the `--mode` flag and the `checkpoint` and `auto` modes are gone. `/kickoff` and `/build` always run what was `guided`. See D-09.
+
+### I-10 · CORRECT · [P-028](prompts/prompts.md#p-028)
+- **Claude did:** left the repo without a `README.md`.
+- **Caught by:** user, in check C-18.
+- **Why wrong:** "standard for any repo".
+- **Changed:** a short `README.md` at the root saying what the repo is and pointing to the workflow and process logs.

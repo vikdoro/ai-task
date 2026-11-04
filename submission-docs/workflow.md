@@ -58,20 +58,14 @@ knowledge only the user has.
 The user reviews the log of tier two, not each moment. Tier one is the only
 place the pipeline stops for input, which is what keeps it fast.
 
-## Autonomy modes
+## Approval gates
 
-`--mode=guided|checkpoint|auto` on `/kickoff` and `/build`.
-
-| Mode | Tier-one questions | Gates |
-|---|---|---|
-| `guided` (default) | Asked | `kickoff`: after every stage. `build`: after the spec, then the walkthrough |
-| `checkpoint` | Asked | `kickoff`: only after the roadmap. `build`: only the walkthrough |
-| `auto` | Recommended default taken, flagged to the user as a default | None, except the walkthrough |
-
-Never relaxed: data loss or migration, scope, new dependencies, genuinely
-two-way briefs, the data model in `kickoff`, the reviewer's third FAIL, and
-the ban on committing. In `checkpoint` and `auto`, every default taken
-without confirmation is called out in the reply, with a request to review it.
+The user stays in the loop at every stage. Every tier-one question is put to
+the user; no default is taken without confirmation. `/kickoff` stops for
+approval after every stage; `/build` after the spec, after a passing review,
+and after the walkthrough. The `flow` plugin also has `checkpoint` and `auto`
+modes that skip some of these; they are left out here (see
+[D-09](decisions.md#d-09--process--one-autonomy-level-the-user-approves-every-stage)).
 
 ## Rules that make it hold together
 
@@ -115,5 +109,5 @@ How decisions, corrections and checks are recorded is in
 /setup                 once per repo
 /brief                 interview about the product and tech stack, writes brief.md
 /kickoff               then approve SPEC.md, PLAN.md, ROADMAP.md
-/build M1              per milestone; add --mode=checkpoint or --mode=auto when rules are settled
+/build M1              per milestone; approve the spec, then the walkthrough
 ```

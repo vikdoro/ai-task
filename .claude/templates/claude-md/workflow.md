@@ -10,26 +10,20 @@ Built with the `flow` workflow: five subagents (architect, planner, executor, re
 - The user reads the full diff and commits. Agents never commit or push.
 - Every agent checks for the files it expects before starting. If one is missing it stops and asks, and does not invent it.
 
-## Autonomy modes
+## Approval gates
 
-`/kickoff` and `/build` take `--mode=guided|checkpoint|auto`. Default is `guided`. The orchestrator skills apply the mode; subagents only receive it as context ("mode: auto") and always return tier one questions with recommended defaults.
+The user stays in the loop at every stage. Subagents return tier one questions with recommended defaults, and the orchestrator puts every one to the user with AskUserQuestion; no default is taken without confirmation.
 
-| Mode | Tier one questions | Approval gates |
-|---|---|---|
-| `guided` | Asked with AskUserQuestion | `/kickoff`: after every stage. `/build`: after the spec, then the walkthrough |
-| `checkpoint` | Asked | `/kickoff`: only after the roadmap. `/build`: only the walkthrough |
-| `auto` | Recommended default taken, flagged to the user as a default | None, except the walkthrough in `/build` |
-
-Never relaxed, in any mode: stop and ask for anything that deletes, migrates or could wipe data, adds or cuts scope, adds a dependency or a server, or has no clear default because the brief reads two ways. The data model and storage shape are always asked. The reviewer's third FAIL still ends the turn. Agents never commit or push.
-
-In `auto` and `checkpoint`, every default taken without confirmation is called out in the reply. Rejecting one goes back through the normal rejection path.
+- `/kickoff` ends the turn for approval after every stage.
+- `/build` ends the turn after the spec, then after the walkthrough.
+- The reviewer's third FAIL ends the turn. Agents never commit or push.
 
 ## Replies
 
 The user sees only the orchestrator's final message each turn, so it carries what they need and nothing more:
 
 - What happened and which files were written, with any stop or failure. Summarise subagent reports; do not paste them.
-- Any choice made without the user that they might veto (Claude's tier-two choices, and any default taken without confirmation in `checkpoint` or `auto`), with the reason and, if it is hard to reverse, what it costs or locks in.
+- Any choice made without the user that they might veto (Claude's tier-two choices), with the reason and, if it is hard to reverse, what it costs or locks in.
 - Last, what the user must do next, written so it stands alone: the context needed to act, why it matters, and for a choice the options with a recommendation.
 - Do not repeat what is already in a file or was said earlier; point to it.
 

@@ -2,7 +2,7 @@
 
 Tier-one decisions and decisions about the process or tooling, newest last. Tier-two choices stay in the Decisions section of the artifact they shaped and are linked from here. Tiers and rules are in [`CLAUDE.md`](../CLAUDE.md#process-logs). Prompt IDs link to [`prompts/prompts.md`](prompts/prompts.md).
 
-`Decided by`: `user`, `claude`, or `default-unreviewed` (a recommended default taken without confirmation).
+`Decided by`: `user` or `claude`.
 
 ### D-01 · process · Log every prompt and reply with Claude Code hooks
 - **Decided by:** user · [P-001](prompts/prompts.md#p-001), [P-002](prompts/prompts.md#p-002)
@@ -46,3 +46,18 @@ Tier-one decisions and decisions about the process or tooling, newest last. Tier
 - **Decided by:** user, over Claude's recommendation of a section in `workflow.md` · [P-024](prompts/prompts.md#p-024)
 - **What:** [`process-logs.md`](process-logs.md) explains the four logs, what writes each one and how to read them. It points to the rules in `CLAUDE.md` rather than copying them. `workflow.md` links to it.
 - **Why:** "to keep them separate from the agentic workflow description" ([P-025](prompts/prompts.md#p-025)).
+
+### D-09 · process · One autonomy level: the user approves every stage
+- **Decided by:** user · [P-028](prompts/prompts.md#p-028)
+- **What:** `/kickoff` and `/build` take no `--mode`. Tier-one questions are always asked; `/kickoff` stops after every stage, `/build` after the spec and after the walkthrough. `default-unreviewed` is dropped from `Decided by`, since no default is taken without the user.
+- **Why:** "that mode makes sense for the human-in-the-loop type mode that we use in this repo". See I-09.
+
+### D-10 · process · Group the log IDs by phase in `phases.md`
+- **Decided by:** user; names by Claude · [P-029](prompts/prompts.md#p-029)
+- **What:** [`phases.md`](phases.md) lists, per phase of the work, the range of prompt, decision, intervention and check IDs. The first phase is "Setup". The user proposed `milestones.md` and "repo-setup"; Claude suggested "phases", since "milestone" already means a roadmap entry (`M1`, `M2`, ...) in `ROADMAP.md`.
+- **Why:** the repo setup is done and feature design starts next; "at a later stage we want to group the prompts, checks etc. per milestone", and for now "enough to log the IDs somewhere".
+
+### D-11 · process · Commit message format for this repo
+- **Decided by:** user, on Claude's recommendation · asked in [P-031](prompts/prompts.md#p-031), settled in [P-032](prompts/prompts.md#p-032)
+- **What:** imperative subject of 50 characters or less, no trailing period. A short body only when the reason isn't recorded in the logs or a spec. Set in this repo's `CLAUDE.md`; the global one-line rule is unchanged.
+- **Why:** "use industry standard commit messages, clear and descriptive". Claude kept the body optional because the logs here already hold the reasons. Scope: "This repo only is fine."
