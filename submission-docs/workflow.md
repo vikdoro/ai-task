@@ -6,7 +6,7 @@ A spec-driven way of working for Claude Code, adapted for this repo from the
 product designer who interviews the user, a build pipeline of four
 subagents, one orchestrating skill, and a few rules about who may decide
 what. A three-role `/design` skill was tried and dropped; see
-[I-19](interventions.md) and [D-27](decisions.md). It assumes you know Claude Code subagents,
+[I-19](03-local-demo/00-spec-and-roadmap/interventions.md) and [D-27](03-local-demo/00-spec-and-roadmap/decisions.md). It assumes you know Claude Code subagents,
 and skills.
 
 ## The idea
@@ -72,7 +72,7 @@ the user; no default is taken without confirmation. The spec and the roadmap
 each stop for approval; `/build` after the spec, after a passing review,
 and after the walkthrough. The `flow` plugin also has `checkpoint` and `auto`
 modes that skip some of these; they are left out here (see
-[D-09](decisions.md#d-09--process--one-autonomy-level-the-user-approves-every-stage)).
+[D-09](01-setup/decisions.md#d-09--process--one-autonomy-level-the-user-approves-every-stage)).
 
 ## Rules that make it hold together
 

@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""Claude Code hook: log prompts and replies to submission-docs/prompts/.
+"""Claude Code hook: log prompts and replies to submission-docs/.
 
 Registered for UserPromptSubmit and Stop. Appends one line per event to
 submission-docs/prompts/raw/prompts.jsonl (source of truth), then regenerates
-submission-docs/prompts/prompts.md from that file alone. Never blocks the session.
+each phase's <folder>/prompts/prompts.md from that file alone, splitting by the
+first prompt ID of each row in submission-docs/phases.md. The last row is the
+open phase. Never blocks the session.
 
 On UserPromptSubmit it also gives Claude the prompt's ID (P-001, P-002, ...)
 and a reminder to log checks, corrections and decisions, plus any tool call
@@ -14,14 +16,17 @@ Run with --render to only regenerate the Markdown.
 """
 import json
 import os
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(os.environ.get("CLAUDE_PROJECT_DIR") or Path(__file__).resolve().parents[2])
-DOCS = ROOT / "submission-docs" / "prompts"
-RAW = DOCS / "raw" / "prompts.jsonl"
-MD = DOCS / "prompts.md"
+DOCS = ROOT / "submission-docs"
+RAW = DOCS / "prompts" / "raw" / "prompts.jsonl"
+PHASES = DOCS / "phases.md"
+# a phases.md row: its Folder cell links to the folder, its Prompts cell starts with the first ID
+PHASE_ROW = re.compile(r"^\|[^|]*\|\s*\[[^]]*\]\(([\w./-]+?)/?\)\s*\|.*?P-(\d{3})")
 
 MODES = {
     "plan": "Plan mode",
@@ -38,13 +43,33 @@ INTERRUPTED = "[Request interrupted by user"
 REASON = "the user said:\n"
 
 REMINDER = (
-    "This prompt is {pid} (submission-docs/prompts/prompts.md#{anchor}). "
+    "This prompt is {pid} ({logs}/prompts/prompts.md#{anchor}). "
+    "The open phase's logs are in {logs}/. "
     "If it corrects, rejects or redirects earlier output, add an entry to "
-    "submission-docs/interventions.md before acting on it. If it answers checks, "
-    "log each in submission-docs/checks.md (a finding also gets an interventions.md entry). "
-    "A tier-one or process decision made in this turn goes in submission-docs/decisions.md. "
+    "its interventions.md before acting on it. If it answers checks, "
+    "log each in its checks.md (a finding also gets an interventions.md entry). "
+    "A tier-one or process decision made in this turn goes in its decisions.md. "
     "Cite {pid} in the entry."
 )
+
+
+def phases():
+    """(folder, first prompt number) for each row of phases.md, in order."""
+    rows = []
+    if PHASES.exists():
+        for line in PHASES.read_text(encoding="utf-8").splitlines():
+            m = PHASE_ROW.match(line)
+            if m:
+                rows.append((m.group(1), int(m.group(2))))
+    return rows or [("prompts", 1)]
+
+
+def phase_of(pid, rows):
+    folder = rows[0][0]
+    for f, first in rows:
+        if int(pid[2:]) >= first:
+            folder = f
+    return folder
 
 
 def last_reply_from_transcript(path):
@@ -154,7 +179,8 @@ def last_prompt_time(session_id):
 
 def context_for(pid, signals):
     """Text the UserPromptSubmit hook hands Claude for this turn."""
-    text = REMINDER.format(pid=pid, anchor=pid.lower())
+    logs = f"submission-docs/{phases()[-1][0]}"
+    text = REMINDER.format(pid=pid, anchor=pid.lower(), logs=logs)
     if signals:
         text += (
             " In the previous turn: " + "; ".join(describe(s) for s in signals) + "."
@@ -234,9 +260,13 @@ def fmt_date(iso):
 
 
 def render():
-    out = ["# Claude Code Prompt Log", ""]
+    rows = phases()
     turns = load_turns()
+    files, folder = {}, rows[0][0]
     for t in turns:
+        if t["id"]:
+            folder = phase_of(t["id"], rows)
+        out = files.setdefault(folder, ["# Claude Code Prompt Log", "", f"Prompts of `{folder}/`.", ""])
         # the heading is the bare ID so GitHub's anchor is #p-042
         out += [f"## {t['id'] or 'Unrecorded prompt'}", "", f"**User** · {fmt_date(t['at'])}", ""]
         if t["prompt"] is None:
@@ -255,10 +285,12 @@ def render():
         if t["signals"]:
             out += [""] + [f"- **Signal:** {describe(s)}" for s in t["signals"]]
         out += ["", "---", ""]
-    MD.parent.mkdir(parents=True, exist_ok=True)
-    tmp = MD.with_suffix(".md.tmp")
-    tmp.write_text("\n".join(out), encoding="utf-8")
-    tmp.replace(MD)
+    for folder, out in files.items():
+        md = DOCS / folder / "prompts" / "prompts.md"
+        md.parent.mkdir(parents=True, exist_ok=True)
+        tmp = md.with_suffix(".md.tmp")
+        tmp.write_text("\n".join(out), encoding="utf-8")
+        tmp.replace(md)
 
 
 def main():

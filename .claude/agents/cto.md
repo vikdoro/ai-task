@@ -36,7 +36,7 @@ In `feature-design/`:
   one-line milestone after the MVP, or a stated non-goal.
 
 The Node toolchain is fixed (decision D-05 in
-`submission-docs/decisions.md`). Do not reopen it.
+`submission-docs/01-setup/decisions.md`). Do not reopen it.
 
 ## You review
 

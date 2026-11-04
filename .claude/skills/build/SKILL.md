@@ -44,7 +44,7 @@ after a walkthrough. The reviewer's third FAIL also ends the turn.
    X"), with the MVP behaviour asked for if missing. The spec records X, and
    the deferred option goes to the `product-designer` for the Later section
    of `feature-design/product-spec.md`. Each tier-one answer goes in
-   `submission-docs/decisions.md` as one line that links to the spec.
+   the open phase's `decisions.md` as one line that links to the spec.
 3. End the turn with the spec path and the planner's Decisions, and ask the
    user to approve the spec or change it. Do not continue until they do.
 
@@ -60,7 +60,7 @@ Run these in one turn without asking, unless something below says stop.
    SendMessage, then ask the same reviewer to re-review. At most two rounds.
    A third FAIL ends the turn with both reports and a note that the spec,
    not the code, is probably wrong. Log each FAIL as a `REJECT` entry in
-   `submission-docs/interventions.md`, caught by the reviewer, naming the
+   the open phase's `interventions.md`, caught by the reviewer, naming the
    findings and what the fix round changed.
 4. On PASS, end the turn with: the executor's report, the reviewer's verdict
    and verification output, and both agents' sections. Offer the stage 4
@@ -76,7 +76,7 @@ Run only when the user asks for it.
    pass them to the same explainer with SendMessage.
 3. A rejected decision goes into the spec as a new line under Decisions, and
    stage 2 reruns for that change. A rejected approach goes back to stage 1.
-   Log each rejection as a `CORRECT` entry in `submission-docs/interventions.md`
+   Log each rejection as a `CORRECT` entry in the open phase's `interventions.md`
    (a rejected approach is a `REJECT`), with the user's reason in their words.
 4. When every item is accepted, end the turn with the explainer's sections
    and remind the user that they read the full diff and commit themselves.

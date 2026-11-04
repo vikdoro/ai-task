@@ -4,12 +4,12 @@ The assessment weighs how the AI was directed and how its output was checked, no
 
 | Log | IDs | Holds | Written by |
 |---|---|---|---|
-| [`prompts/prompts.md`](prompts/prompts.md) | `P-NNN` | Every prompt and Claude's reply, with date and permission mode | The prompt hook, automatically |
-| [`decisions.md`](decisions.md) | `D-NN` | Tier-one decisions, and decisions about the process or tooling | Claude, in the main session |
-| [`interventions.md`](interventions.md) | `I-NN` | `REJECT`: output thrown away. `CORRECT`: output kept but changed in direction or substance | Claude, in the main session |
-| [`checks.md`](checks.md) | `C-NN` | Every check the user answered, passed or not | Claude, in the main session |
+| `prompts/prompts.md` | `P-NNN` | Every prompt and Claude's reply, with date and permission mode | The prompt hook, automatically |
+| `decisions.md` | `D-NN` | Tier-one decisions, and decisions about the process or tooling | Claude, in the main session |
+| `interventions.md` | `I-NN` | `REJECT`: output thrown away. `CORRECT`: output kept but changed in direction or substance | Claude, in the main session |
+| `checks.md` | `C-NN` | Every check the user answered, passed or not | Claude, in the main session |
 
-[`phases.md`](phases.md) groups the four by phase of the work (setup, feature design, then each roadmap milestone), giving the ID range each phase covers.
+Each phase of the work (setup, feature design, then the local demo's spec and roadmap and each roadmap milestone) has its own folder holding the four logs. [`phases.md`](phases.md) lists the folders and the ID range each covers. IDs run on across phases, so an ID is unique repo-wide. The raw prompt log stays one file, [`prompts/raw/prompts.jsonl`](prompts/raw/prompts.jsonl); the hook renders it into each folder's `prompts/prompts.md`.
 
 ## How they are written
 

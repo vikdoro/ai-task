@@ -1,6 +1,6 @@
 # Dropped: stage 1 of the `/design` skill
 
-These are the outputs of the first and only stage of the `/design` skill, before the user dropped it in [P-057](../../prompts/prompts.md#p-057). See [I-19](../../interventions.md) and [D-27](../../decisions.md).
+These are the outputs of the first and only stage of the `/design` skill, before the user dropped it in [P-057](../../../03-local-demo/00-spec-and-roadmap/prompts/prompts.md#p-057). See [I-19](../../../03-local-demo/00-spec-and-roadmap/interventions.md) and [D-27](../../../03-local-demo/00-spec-and-roadmap/decisions.md).
 
 - `product-spec.md` and `assumptions.md`: v0.3 by the `product-designer` agent, never approved.
 - `reviews/`: two rounds of independent review by the `cto` and `eng-lead` agents.
