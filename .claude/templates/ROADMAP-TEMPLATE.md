@@ -1,6 +1,6 @@
 # Roadmap
 
-Implements `SPEC.md` using `PLAN.md`. Written by the architect. Each milestone is specced just in time by the planner into `specs/NN-title.md`.
+Implements the requirements in `feature-design/`. Written by the CTO in `/design`, at `feature-design/roadmap.md`. Each milestone is specced just in time by the planner into `feature-design/milestones/NN-title.md`.
 
 ## Milestones
 
@@ -10,7 +10,7 @@ Implements `SPEC.md` using `PLAN.md`. Written by the architect. Each milestone i
 - Depends on: none
 - Why here: One line on why this comes first (dependency, risk, or what it proves).
 - Done when: A checkable condition, by running something or reading one place.
-- Spec: `specs/NN-title.md` (filled in when the planner writes it)
+- Spec: `feature-design/milestones/NN-title.md` (filled in when the planner writes it)
 
 ### M2: Title
 
@@ -30,11 +30,11 @@ One line.
 
 ## Traceability
 
-Every requirement in `SPEC.md` maps to at least one milestone.
+Every requirement in `functional-requirements.md` and `non-functional-requirements.md` maps to at least one milestone.
 
-| SPEC requirement | Milestone |
+| Requirement | Milestone |
 |---|---|
-| Requirement | M1 |
+| FR-01 | M1 |
 
 ## Decisions
 

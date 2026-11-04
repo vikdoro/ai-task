@@ -61,3 +61,34 @@ Tier-one decisions and decisions about the process or tooling, newest last. Tier
 - **Decided by:** user, on Claude's recommendation · asked in [P-031](prompts/prompts.md#p-031), settled in [P-032](prompts/prompts.md#p-032)
 - **What:** imperative subject of 50 characters or less, no trailing period. A short body only when the reason isn't recorded in the logs or a spec. Set in this repo's `CLAUDE.md`; the global one-line rule is unchanged.
 - **Why:** "use industry standard commit messages, clear and descriptive". Claude kept the body optional because the logs here already hold the reasons. Scope: "This repo only is fine."
+
+### D-12 · process · Feature design deliverables, kept in `feature-design/`
+- **Decided by:** user, on Claude's proposal · list proposed in [P-035](prompts/prompts.md#p-035), approved in [P-036](prompts/prompts.md#p-036); folder proposed by the user in [P-036](prompts/prompts.md#p-036)
+- **What:** eleven deliverables: product spec, assumptions and open questions, functional requirements, non-functional requirements, event model (kept separate), core entities and data model, high-level design, API design, tech stack, auth and data-source choices, low-fi wireframes (three screens), roadmap. All live in `feature-design/` as living documents: locked once approved, reopened only by an explicit decision logged here.
+- **Why:** the user's starting list, plus Claude's additions: an assumptions log because the brief is "vague on purpose", and the event model as its own document because "what counts as important" is the core ambiguity. The user's response: "I agree with the list."
+
+### D-13 · process · A three-role design team, with the user as product manager
+- **Decided by:** user, on Claude's recommendation of single owners and independent reviews · proposed in [P-036](prompts/prompts.md#p-036), approved in [P-037](prompts/prompts.md#p-037)
+- **What:** agents `cto`, `eng-lead` and `product-designer` in `.claude/agents/`. Each document in `feature-design/` has one owner who writes it; the other two review it on their own, against checks that can fail it. The user settles conflicts and approves. For the feature design phase the roles take over the architect's job; how that changes `/kickoff` is still open.
+- **Ownership:** product designer: product spec, assumptions, wireframes. Engineering lead: functional and non-functional requirements, event model, data model, API. CTO: tech stack, auth and data sources, high-level design, roadmap.
+- **Why:** the user wanted roles "with slightly different priorities but working towards a shared goal, as a real team would". Claude's condition: one writer per document and independent reviews, so the roles disagree instead of converging politely.
+
+### D-14 · process · `/design` replaces `/kickoff`
+- **Decided by:** user, over Claude's recommendation to keep `/kickoff` alongside · [P-038](prompts/prompts.md#p-038)
+- **What:** the feature design phase runs as `/design`, orchestrating the three roles from D-13. `/kickoff` and the `architect` agent go once `/design` is written; git history keeps them. See I-12.
+- **Why:** not stated beyond the name: "I like the term better."
+
+### D-15 · process · How `/design` runs: five stages, bounded reviews, a gate per stage
+- **Decided by:** user, on Claude's proposal · proposed in [P-038](prompts/prompts.md#p-038), approved in [P-039](prompts/prompts.md#p-039)
+- **What:** stages in dependency order: frame, requirements, stack and sources, design (five documents written in parallel and cross-reviewed), roadmap. In each stage the author's tier-one questions go to the user first, then the author writes, the two other roles review independently, and the author revises once. A second review round runs only if a blocker remains; after that it goes to the user. Every stage ends at a gate where the user approves. Defined in [`.claude/skills/design/SKILL.md`](../.claude/skills/design/SKILL.md).
+- **Why:** dependency order, plus enough review to surface real disagreement without using up the 24 hours (about 15–20 agent runs). The user's response: "All approved."
+
+### D-16 · process · `/build` reads `feature-design/`; the architect is removed
+- **Decided by:** user, on Claude's recommendation · [P-039](prompts/prompts.md#p-039)
+- **What:** the planner and `/build` read the documents in `feature-design/` and the roadmap at `feature-design/roadmap.md`, instead of `SPEC.md`, `PLAN.md` and `ROADMAP.md`. A change to a design document goes through `/design revise`. The `architect` agent and the `/kickoff` skill are deleted.
+- **Why:** one set of design documents, rather than stage 5 also rewriting them into the old three files. The user's words: "Pointe the planner at `feature-design`."
+
+### D-17 · process · One folder for design and milestone docs; `/brief` dropped
+- **Decided by:** user · [P-040](prompts/prompts.md#p-040); subfolder names by Claude
+- **What:** `specs/` is gone. The templates moved to `feature-design/templates/`, and the planner writes milestone specs to `feature-design/milestones/NN-title.md`. The `/brief` skill and the `brief.md` stub are deleted, and `/setup` no longer creates the stub. See I-13.
+- **Why:** `/brief` "just adds noise" when the repo starts with the design, and the documents belong in the `feature-design` folder the user planned.

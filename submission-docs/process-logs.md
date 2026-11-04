@@ -9,13 +9,13 @@ The assessment weighs how the AI was directed and how its output was checked, no
 | [`interventions.md`](interventions.md) | `I-NN` | `REJECT`: output thrown away. `CORRECT`: output kept but changed in direction or substance | Claude, in the main session |
 | [`checks.md`](checks.md) | `C-NN` | Every check the user answered, passed or not | Claude, in the main session |
 
-[`phases.md`](phases.md) groups the four by phase of the work (setup, kickoff, then each roadmap milestone), giving the ID range each phase covers.
+[`phases.md`](phases.md) groups the four by phase of the work (setup, feature design, then each roadmap milestone), giving the ID range each phase covers.
 
 ## How they are written
 
 - **Prompts.** `UserPromptSubmit` and `Stop` hooks run [`.claude/hooks/prompt_log.py`](../.claude/hooks/prompt_log.py). Details are in [`prompts/README.md`](prompts/README.md). On every prompt the hook hands Claude the prompt's ID and a reminder to log, and reports any tool call the user rejected or interrupt in the previous turn. The other three logs cite prompts by that ID, so every entry links to the exchange it came from.
-- **Decisions, interventions, checks.** Only the main session writes them. Subagents return their findings, and the `/kickoff` and `/build` skills log reviewer FAILs, walkthrough rejections and tier-one answers. A correction is logged before Claude acts on it.
-- **What is not logged here.** Tier-two choices stay in the Decisions section of the document they shaped (`SPEC.md`, `PLAN.md`, `ROADMAP.md`, `specs/NN-*.md`). Tier three is left to the diff. Tiers are defined in [`CLAUDE.md`](../CLAUDE.md#reviewing-decisions-tier-by-reversibility).
+- **Decisions, interventions, checks.** Only the main session writes them. Subagents return their findings, and the `/design` and `/build` skills log reviewer FAILs, walkthrough rejections and tier-one answers. A correction is logged before Claude acts on it.
+- **What is not logged here.** Tier-two choices stay in the Decisions section of the document they shaped (a document in `feature-design/`, or `feature-design/milestones/NN-*.md`). Tier three is left to the diff. Tiers are defined in [`CLAUDE.md`](../CLAUDE.md#reviewing-decisions-tier-by-reversibility).
 
 ## How replies feed them
 

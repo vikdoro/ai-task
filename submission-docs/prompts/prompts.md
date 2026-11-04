@@ -964,3 +964,319 @@ As it stands, `f28fb44` logs D-09, D-10 and D-11 without the changes they descri
 From now on I'll use absolute paths so the shell doesn't end up in a subfolder.
 
 ---
+
+## P-033
+
+**User** · 2026-11-04 13:01 UTC
+
+> Mark this as something needing manual intervention, I have sorted out the commit manually in the terminal, double check.
+
+**Mode:** Auto
+
+### Claude Code
+
+I checked your fix, and it's right. Commit `1429176` replaces `f28fb44` and has all 15 files, including `CLAUDE.md`, `README.md`, the skills, the agents and the template. It hasn't been pushed: `origin/main` is still at `360a398`, so amending it was safe.
+
+The only uncommitted changes are `prompts.md` and `prompts.jsonl`. The prompt hook added this turn's entries to them, which is expected.
+
+I logged the partial commit as I-11, recording that you fixed it by hand in your terminal. While writing that entry I made the same mistake again: I used `cd` into `submission-docs/`. I've moved the shell back to the repo root, so a `git add .` from it now stages everything.
+
+**Logged:** I-11 · CORRECT · the shell left in a subfolder made the commit partial; the user amended it by hand
+
+**Checks for you:**
+1. Read the new "Commit messages" section in `CLAUDE.md`, just after `<!-- flow:end -->`. It should say what you want, including that the other global git rules still apply.
+2. `submission-docs/interventions.md`, I-11 at the end: it describes what happened and how you fixed it.
+
+---
+
+## P-034
+
+**User** · 2026-11-04 13:04 UTC
+
+> checks done.
+
+**Mode:** Auto
+
+### Claude Code
+
+I logged both checks as C-25 and C-26, both OK.
+
+I also moved the end of the Setup phase in `phases.md`. The commit-format decision (D-11), the partial-commit fix (I-11) and these checks were all setup work, so Setup now runs to P-034, D-11, I-11 and C-26. Kickoff starts at P-035, D-12, I-12 and C-27.
+
+These log updates aren't committed yet, along with the prompt log. Next is `/brief`: `brief.md` is still the empty stub, so it will interview you about the product and tech stack and fill it in.
+
+---
+
+## Unrecorded prompt
+
+**User** · 2026-11-04 13:05 UTC
+
+_Prompt not recorded_
+
+**Mode:** Auto
+
+### Claude Code
+
+You have two commits on `main`, and the latest is "Drop autonomy modes, add README and phase log". Uncommitted changes are sitting in the process logs under `submission-docs/` (checks, interventions, phases and prompts). Tell me what you'd like to do next.
+
+---
+
+## P-035
+
+**User** · 2026-11-04 13:22 UTC
+
+> Read original-brief.md. We are now ready to start the feature design phase. I know we have existing skills and agents dealing with that in the folder, but I want to fine-tune them first. Two things to discuss: we should agree on the deliverables and how we get there. First let's discuss the deliverables (for the feature design phase). The original brief is vaue on purpose. I'm thinking to work out a fuller spec, functional requirements, non-functional requirements list, system design chart including core entities, API design, High-level design, potentially wireframes. We should discuss data source, auth, general tech stack too and treat everything as a living document (somewhat locked though but if needed, we go back to the plans). How does that sound? Eventually we will match the outcome format to the one the current agents in the repo expect, this is just high level first steps. Focus on the list of deliverables, be short.
+
+**Mode:** Auto
+
+### Claude Code
+
+Your list covers it. I'd tighten it in four places:
+
+1. **Make "what counts as important" its own deliverable.** It's the heart of the brief: event sources, how events are detected, and how alerts are matched and deduplicated. Splitting it across the functional requirements and the design would bury it.
+2. **Add an assumptions and open-questions log.** The brief is vague on purpose, so every reading we pick should be written down, and the evaluators will look for it.
+3. **Put scope and non-goals in the spec.** For example: "no real-time trading feeds" or "no SMS at first".
+4. **Keep the wireframes low-fi and limited to three screens:** create an alert, the alert list, and the admin view. More than that is polish the brief doesn't reward.
+
+**Proposed deliverables for feature design:**
+
+1. **Product spec:** problem, users and roles (user, admin), scope, non-goals, glossary.
+2. **Assumptions and open questions:** each ambiguity in the brief, the reading we chose, and why.
+3. **Functional requirements:** numbered (FR-01 and so on), each with acceptance criteria, so they can be traced to milestones and tests.
+4. **Non-functional requirements:** latency from event to notification, delivery guarantees, retries, rate limits, security, observability, and how easy it is to add a channel.
+5. **Event model:** data sources, detection or ingestion, the "important" rules, deduplication.
+6. **Core entities and data model:** User, Alert or Subscription, Event, Source, Channel, Delivery, AuditLog. Shown as an ER diagram.
+7. **High-level design:** a component diagram covering ingest, match, dispatch, the channel adapters and the admin view.
+8. **API design:** endpoints, payloads, auth for each route.
+9. **Tech stack, auth and data source choices:** a short record for each: options, choice, reason.
+10. **Wireframes:** the three low-fi screens above.
+11. **Roadmap:** ordered milestones traced back to the functional requirements. This is the hand-off to `/build`.
+
+**Living documents:** each one has a version or date line and a change log. The documents are locked once approved, and any change goes through an explicit reopen that we log in `decisions.md`. That gives us "somewhat locked" without freezing anything.
+
+Once we agree on the list, I'll log it as a process decision, since the brief says the deliverables are themselves evaluated. Then we can move on to how we get there.
+
+**Next for you:** tell me what to add, cut or merge. In particular, should the event model stay separate (my recommendation) or fold into the high-level design?
+
+---
+
+## P-036
+
+**User** · 2026-11-04 13:49 UTC
+
+> Event model fine as separate. No pushback for now, I agree with the list. I suggest we create a `feature-design` folder for all these artifacts, agree? Also, I'd like to have multiple agents (with slightly different priorities but working towards a shared goal, as a real team would) contributing to the plan with me as a human-in-the-loop checkpoint. Do you think that's a sensible workflow here? If yes, maybe we should pin down the agents so we can consult them again. If this is an overkill or you have any pushback, let me know. I'm thinking: a CTO (assessing tech stack, cost, complexity, security etc. also taking care of the dev ops tasks and trying to keep deadline), a fullstack engineering lead (making sure functional and non-functional requirements can be covered with the chosen tech and that there is no ambiguity in the requirements, supports unit and e2e tests), product designer (making sure the UX is nice, it's working as a product).
+
+**Mode:** Auto
+
+### Claude Code
+
+Yes, `feature-design/` works. I've logged the deliverables and the folder as D-12, and I'll create the folder when we write the first document.
+
+**The team: sensible, with three conditions.** A design review from several viewpoints is a real strength here, and the brief rewards visible disagreement and course-correction. But three roles played by the same model tend to agree politely unless the setup forces them not to:
+
+1. **Each document has one owner who writes it, and the others review it.** If all three edit the same documents they'll go round in circles. A first split:
+   - **Product designer:** product spec, assumptions, wireframes.
+   - **Engineering lead:** functional and non-functional requirements, event model, data model, API.
+   - **CTO:** tech stack, auth and data-source choices, high-level design, roadmap.
+2. **Reviewers read the work on their own first and must give reasons when they disagree.** They don't see each other's reviews before writing their own. Each one checks against criteria that can fail it, not general impressions. For the CTO, for example: "a dependency nobody justified" or "doesn't fit the 24h". Conflicts between roles come to you as a decision with the options laid out. They don't get settled quietly.
+3. **The roles replace the architect, and the workflow stays the same.** The current rule says only the architect edits `SPEC.md`, `PLAN.md` and `ROADMAP.md`. The three roles would take over that job during feature design, so `/kickoff` changes. `/build` stays as it is.
+
+**Gaps and pushback:**
+- **Nobody plays product manager.** I'd suggest you do: you hold scope and settle conflicts, which is the human-in-the-loop checkpoint anyway.
+- **Testing:** the engineering lead covering unit and end-to-end tests is enough. A separate QA role would be overkill.
+- **Cost:** each round means three agent runs plus your review. With 24 hours, I'd do one write pass and one review pass per document group, not open-ended debate.
+
+**Pinning them down:** I'd write three agent files in `.claude/agents/`, named `cto.md`, `eng-lead.md` and `product-designer.md`. Each would hold the role's priorities, the documents it owns, its review checklist and the shared decision tiers, so you can consult any of them again later.
+
+**Logged:** D-12 · process · Feature design deliverables, kept in `feature-design/`
+
+**Next for you:**
+- Do you agree with the ownership split and with the roles replacing the architect during feature design?
+- Should I draft the three agent files? I'd recommend drafting them now and bringing the "how we get there" part (order, review rounds, gates) with them.
+
+---
+
+## P-037
+
+**User** · 2026-11-04 13:52 UTC
+
+> yep I agree with the ownership split, the roles and me being the PM. Go ahead tiwh the agent files.
+
+**Mode:** Auto
+
+### Claude Code
+
+I've written the three agent files and logged the team setup as D-13.
+
+- `.claude/agents/cto.md`
+- `.claude/agents/eng-lead.md`
+- `.claude/agents/product-designer.md`
+
+Each file starts with the role's priorities, the documents it owns in `feature-design/` and its review checks, each of which can fail a document. The second half is the same in all three: the decision tiers, a preflight check, rules for writing as author and reviewing independently, and the report format. Reviews end in PASS or FAIL, and FAIL needs at least one blocker.
+
+**Choices I made that you might veto:**
+- **File names:** `product-spec.md`, `assumptions.md`, `wireframes.md`, `functional-requirements.md`, `non-functional-requirements.md`, `event-model.md`, `data-model.md`, `api.md`, `tech-stack.md`, `high-level-design.md` and `roadmap.md`.
+- **Web access:** only the CTO and the engineering lead can search and fetch web pages. Claims about data-source and channel APIs are where a plausible-looking design is most likely to be wrong, so those two must cite the docs or mark a claim unverified.
+- **Formats:** diagrams in Mermaid and wireframes as ASCII, so both render on GitHub and show up readably in diffs.
+- **Document headers:** each document starts with status, version and date, and ends with Decisions and a Change log. That's how "living but locked" works in practice.
+- **Shared rules are copied** into all three files, because agent files can't include another file. If we change them later, all three need the same edit.
+
+**Still open, for the "how we get there" step:**
+- `CLAUDE.md` still says only the architect edits `SPEC.md`, `PLAN.md` and `ROADMAP.md`.
+- `/kickoff` still runs the architect.
+- We haven't fixed the order, the review rounds or the gates yet.
+
+**Logged:** D-13 · process · A three-role design team, with the user as product manager
+
+**Checks for you:**
+1. Read the role-specific top part of each agent: `.claude/agents/cto.md:1-57`, `.claude/agents/eng-lead.md:1-57` and `.claude/agents/product-designer.md:1-48`. Make sure the priorities and review checks match what you meant for each role.
+2. Read the shared rules once, at `.claude/agents/cto.md:59-114`. In particular, check whether a FAIL that requires a blocker is the bar you want.
+
+**Next for you:** answer the checks, then we can agree on the workflow: the order of the documents, how many review rounds, where you approve, and whether this replaces `/kickoff` or becomes a new skill. I'd recommend a new `/design` skill that leaves `/kickoff` untouched, so the old path is still there as a record.
+
+---
+
+## P-038
+
+**User** · 2026-11-04 13:58 UTC
+
+> Check 1, 2 done. Replace kickoff (but use 'design' I like the term better). The oreder of the docs, how many review rounds, where I approve: what is your suggestion?
+
+**Mode:** Auto
+
+### Claude Code
+
+I've logged both checks as passed and recorded the switch to `/design` (D-14). Because you overrode my recommendation to keep `/kickoff` alongside it, there's also a correction entry (I-12).
+
+**Order: five stages, in dependency order.** Each stage ends at a gate where you approve:
+
+| # | Stage | Author → documents | Reviewers | Why it sits here |
+|---|---|---|---|---|
+| 1 | Frame | Designer → product spec, assumptions | Engineering lead, CTO | Everything else depends on scope and on what "important" means |
+| 2 | Requirements | Engineering lead → functional and non-functional requirements | Designer, CTO | The stack has to meet the non-functional requirements, so they come before it |
+| 3 | Stack and sources | CTO → tech stack, auth, data sources | Engineering lead, designer | The data sources shape the event model |
+| 4 | Design | Engineering lead → event model, data model, API. CTO → high-level design. Designer → wireframes | Every role reviews the other roles' documents | These depend on each other, so they're written in parallel and reviewed together. That review is also the check for contradictions between documents |
+| 5 | Roadmap | CTO → roadmap | Engineering lead, designer | Needs everything above; the traceability table is the final coverage check |
+
+**Inside each stage:**
+1. The author returns tier-one questions with defaults, and I put them all to you in one batch.
+2. The author writes the documents.
+3. The two other roles review in parallel, without seeing each other's findings.
+4. The author revises once, addressing every blocker and major finding.
+5. Gate: you get each verdict, the findings and any open disagreements between roles as choices with a recommendation. You approve, and the documents lock.
+
+**Review rounds:** one by default. A second round runs only if a blocker is still there after the revision. If it still fails after that, it comes to you rather than going round again. Minor findings never trigger another round; they're listed for you at the gate.
+
+**Cost:** about 15–20 agent runs and five approvals. That's enough to show real disagreement without using up the 24 hours.
+
+**Choices I made that you might veto:**
+- Stage 4 writes five documents at once. That's one heavy gate instead of three lighter ones, traded for catching contradictions while everything can still change.
+- I recorded that the `architect` agent goes along with `/kickoff`, since `/design` replaces it. Git history keeps both.
+
+**Logged:**
+- D-14 · process · `/design` replaces `/kickoff`
+- I-12 · CORRECT · `/design` replaces `/kickoff` instead of sitting alongside it
+
+**Next for you:**
+- Approve the stages, the rounds and the gates, or change them.
+- Confirm that the `architect` agent is removed too.
+
+After that I'll write `.claude/skills/design/SKILL.md` and update `CLAUDE.md`, `workflow.md` and `README.md`. I'll also flag the one remaining question: `/build`'s planner reads `SPEC.md`, `PLAN.md` and `ROADMAP.md`, so either it reads `feature-design/` instead or stage 5 produces those files. I'd recommend pointing the planner at `feature-design/`.
+
+---
+
+## P-039
+
+**User** · 2026-11-04 14:03 UTC
+
+> All approved, architect can be removed. Pointe the planner at `feature-design`.
+
+**Mode:** Auto
+
+### Claude Code
+
+`/design` replaces `/kickoff`, the planner now reads `feature-design/`, and the `architect` agent and `/kickoff` skill are deleted. I left the deletions unstaged, so your usual `git add .` picks them up.
+
+**Written:**
+- `.claude/skills/design/SKILL.md`: the five stages, one review round with a second only if a blocker remains, a gate after every stage, and `/design revise <doc> <change>` for changing an approved document.
+- **Role agents:** before writing, an author now returns its tier-one questions and nothing else. Each reviewer writes its findings to a file the orchestrator names.
+- **Planner and `/build`:** they read `feature-design/` and `feature-design/roadmap.md`, and changes to those documents go through `/design revise`. `/brief` and `/setup` now point to `/design`.
+- **Updated to match:** `CLAUDE.md` and its template copy, both roadmap templates, `workflow.md`, `process-logs.md`, `phases.md` and `README.md`. I searched again for `kickoff`, `architect`, `SPEC.md`, `PLAN.md` and `ROADMAP.md`, and the only matches left are the new paths.
+
+**Choices I made that you might veto:**
+- **Reviews are kept as files** in `feature-design/reviews/`, one per stage, role and round (for example `S2-cto-r1.md`). They're evidence of the disagreements the brief asks to see.
+- **`/brief` is now optional.** Stage 1 of `/design` covers its questions and `brief.md` is still a stub, so `/design` reads the original brief and uses `brief.md` only if it has content.
+- **The orchestrator may set `Status: approved`** in a role's document after you approve. It's the one edit it makes to a role's document; anything else would mean an extra agent run just to change a status line.
+- **Assumptions the other roles raise** are added to `assumptions.md` by a short product-designer run before each gate, with no review round. You see them at the gate.
+- **I renamed the "Kickoff" phase** in `phases.md` to "Feature design".
+- **Reviewer FAILs and gate changes go into `interventions.md` as CORRECT entries.** That's how the design phase gets a record of what was corrected and who caught it.
+
+**Logged:**
+- D-15 · process · How `/design` runs: five stages, bounded reviews, a gate per stage
+- D-16 · process · `/build` reads `feature-design/`; the architect is removed
+
+**Checks for you:**
+1. Read `.claude/skills/design/SKILL.md:37-73` and check that the stage loop does what we agreed, especially the stop after a second round.
+2. Read `.claude/skills/design/SKILL.md:89-103` and check that logging every reviewer FAIL as a CORRECT entry is the record you want. Otherwise each FAIL is visible only in its review file.
+3. Read `CLAUDE.md:6-23` and check that it describes the new workflow correctly.
+
+**Next for you:** answer the checks, and veto any of the choices above if you want. You can commit after that. Then run `/design` to start stage 1 (Frame), where the product designer writes `product-spec.md` and `assumptions.md` and its questions come to you first.
+
+---
+
+## P-040
+
+**User** · 2026-11-04 14:12 UTC
+
+> Check 1, 2, 3 done. Drop: "/brief" no need to keep it if we know we will start in this repo with the design, it just adds noise. All the docs in `/specs` should be moved to `/feature-design` (we are planning to have that folder, right?)
+
+**Mode:** Auto
+
+### Claude Code
+
+I've dropped `/brief` and moved everything that was in `specs/` into `feature-design/`, which is the folder we planned. I've also logged checks 1–3 as passed.
+
+**What changed:**
+- **`/brief` is gone.** I deleted the `/brief` skill and the `brief.md` stub, and `/setup` no longer creates the stub. Everything that pointed to them now starts from `original-brief.md`: `/design`, `CLAUDE.md` and its template copy, `workflow.md` and `/setup`.
+- **`specs/` is gone.**
+  - The two templates are now in `feature-design/templates/`.
+  - Milestone specs will be written to `feature-design/milestones/NN-title.md`.
+  - When it plans a milestone, the planner reads the design documents in `feature-design/` and skips the `reviews/`, `milestones/` and `templates/` folders.
+- **Paths are updated** in the planner, `/build`, `/design`, `/setup`, the CTO agent, the roadmap templates, `CLAUDE.md`, `workflow.md` and `process-logs.md`. A second search for `specs/`, `brief.md` and `/brief` finds nothing left.
+- **Deletions and moves are unstaged**, as before, so your `git add .` picks them up. `submission-docs/scratchpad.md` also shows as changed; I didn't touch it, so I assume that's your edit.
+
+**Choice you might veto:** the subfolder names, `milestones/` for the build specs and `templates/` for the formats.
+
+**Logged:**
+- I-13 · CORRECT · `/brief` kept as optional when it was only noise
+- D-17 · process · One folder for design and milestone docs; `/brief` dropped
+
+**Checks for you:**
+1. Run `ls -R feature-design` and confirm the layout. It should contain only `templates/` with `TEMPLATE.md` and `ROADMAP-TEMPLATE.md`.
+2. Read `CLAUDE.md:6-14` and check it describes the single folder and no longer mentions `/brief`.
+
+**Next for you:** answer the checks and commit if you're happy. Then run `/design` to start stage 1 (Frame). The product designer's tier-one questions will come to you first.
+
+---
+
+## P-041
+
+**User** · 2026-11-04 14:14 UTC
+
+> All checks fine. Suggested commit message?
+
+**Mode:** Auto
+
+### Claude Code
+
+I've logged both checks as passed. Suggested commit message:
+
+```
+Replace kickoff with a three-role /design workflow
+```
+
+That's 50 characters. I'd leave out a body: the reasons are already recorded in D-12 to D-17 and I-12 to I-13.
+
+**Next for you:** run `git add .` and commit with that message, then run `/design` to start stage 1.
+
+---

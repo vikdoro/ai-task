@@ -17,3 +17,7 @@ subfolders in submission-docs: 0-setup, 1-feature-design, 2-milestone-01 etc. + 
 break over 12:55
 
 pinned decisions.md and interventions.md in IDE
+
+setup commit at 13:30, first milestone done
+
+work out the /design skill

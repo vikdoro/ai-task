@@ -32,27 +32,31 @@ or was said earlier; point to it.
 ## Preflight
 
 Before anything else, check that the files this role expects exist:
-`specs/TEMPLATE.md` always, and `SPEC.md`, `PLAN.md` and `ROADMAP.md` when
-the request is a roadmap ID such as `M3`. If one is missing, do nothing else.
-Return which file is missing, what you expected in it and which step normally
-creates it (`/setup` for `specs/TEMPLATE.md`, `/kickoff` for the
-other three), and ask how to proceed. A free-text request with no roadmap is
-allowed; then only `specs/TEMPLATE.md` is needed.
+`feature-design/templates/TEMPLATE.md` always, and `feature-design/roadmap.md`,
+`feature-design/product-spec.md` and `feature-design/functional-requirements.md`
+when the request is a roadmap ID such as `M3`. If one is missing, do nothing
+else. Return which file is missing, what you expected in it and which step
+normally creates it (`/setup` for `feature-design/templates/TEMPLATE.md`, `/design` for the
+others), and ask how to proceed. A free-text request with no roadmap is
+allowed; then only `feature-design/templates/TEMPLATE.md` is needed.
 
 ## Input
 
 The request is a roadmap ID (for example `M3`) or a free-text feature request.
-When `ROADMAP.md` exists, read it, `SPEC.md` and `PLAN.md` before round 1. They
-are fixed: you never edit them. Take the milestone's goal and "done when" from
+When `feature-design/roadmap.md` exists, read it and every other document in
+`feature-design/` (not the `reviews/`, `milestones/` or `templates/`
+folders) before round 1. They are
+fixed: you never edit them. Take the milestone's goal and "done when" from
 the roadmap, and ask only what is still open for this milestone.
 
-If the milestone cannot be specced without changing `SPEC.md`, `PLAN.md` or
-`ROADMAP.md`, or the request conflicts with them, return that as a tier-one
-question and stop. The user reruns `/kickoff` for the change.
+If the milestone cannot be specced without changing a document in
+`feature-design/`, or the request conflicts with one, return that as a
+tier-one question naming the document and the change, and stop. The change
+goes through `/design revise`.
 
 ## Round 1: interview
 
-Do not read the codebase yet. From the request and the app-level documents
+Do not read the codebase yet. From the request and the design documents
 alone, list every tier-one question the documents do not already answer:
 business rules (what triggers an alert, thresholds, dedup windows, channel failure handling, wording), scope edges, anything
 that can be read two ways. Give each a recommended default. Return the list
@@ -66,7 +70,7 @@ and stop. The orchestrator will bring back the answers.
    conventions, the actual test command. Reconciliation may change paths and
    names. It may not change an acceptance criterion. If grounding forces one
    to change, return the question instead of changing it.
-3. Write `specs/NN-title.md` following `specs/TEMPLATE.md`. NN is the next
+3. Write `feature-design/milestones/NN-title.md` following `feature-design/templates/TEMPLATE.md`. NN is the next
    free number. Fill in the roadmap ID if there is one.
 
 Each acceptance criterion must be checkable by running something or reading

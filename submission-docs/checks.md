@@ -28,3 +28,12 @@ Every check the user ran on Claude's output, in order. Claude lists checks at th
 | C-22 | Claude's line after the user's quote in I-09 is a fair reading | [P-028](prompts/prompts.md#p-028) | [P-029](prompts/prompts.md#p-029) | OK |
 | C-23 | `phases.md` Setup ranges are right, and `/brief` belongs in Kickoff | [P-029](prompts/prompts.md#p-029) | [P-030](prompts/prompts.md#p-030) | OK |
 | C-24 | The `CLAUDE.md` rule for closing a phase says what the user wants | [P-029](prompts/prompts.md#p-029) | [P-030](prompts/prompts.md#p-030) | OK |
+| C-25 | The "Commit messages" section in `CLAUDE.md` says what the user wants, other global git rules still apply | [P-032](prompts/prompts.md#p-032) | [P-034](prompts/prompts.md#p-034) | OK |
+| C-26 | I-11 describes the partial commit and the user's manual fix | [P-033](prompts/prompts.md#p-033) | [P-034](prompts/prompts.md#p-034) | OK |
+| C-27 | Role priorities and review checks in the three agent files match what the user meant | [P-037](prompts/prompts.md#p-037) | [P-038](prompts/prompts.md#p-038) | OK |
+| C-28 | The shared agent rules, including FAIL needing a blocker, set the bar the user wants | [P-037](prompts/prompts.md#p-037) | [P-038](prompts/prompts.md#p-038) | OK |
+| C-29 | The `/design` stage loop does what was agreed, including the stop after a second round | [P-039](prompts/prompts.md#p-039) | [P-040](prompts/prompts.md#p-040) | OK |
+| C-30 | Logging every reviewer FAIL in `/design` as a `CORRECT` entry is the record the user wants | [P-039](prompts/prompts.md#p-039) | [P-040](prompts/prompts.md#p-040) | OK |
+| C-31 | `CLAUDE.md` describes the new design workflow correctly | [P-039](prompts/prompts.md#p-039) | [P-040](prompts/prompts.md#p-040) | OK |
+| C-32 | `feature-design/` holds only `templates/` with the two templates | [P-040](prompts/prompts.md#p-040) | [P-041](prompts/prompts.md#p-041) | OK |
+| C-33 | `CLAUDE.md` describes the single folder and no longer mentions `/brief` | [P-040](prompts/prompts.md#p-040) | [P-041](prompts/prompts.md#p-041) | OK |

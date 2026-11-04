@@ -3,12 +3,12 @@
 <!-- flow:begin -->
 ## Way of working
 
-Built with the `flow` workflow: five subagents (architect, planner, executor, reviewer, explainer), two orchestrating skills, specs in `specs/`.
+Adapted from the `flow` workflow: three design roles (product designer, engineering lead, CTO), four build subagents (planner, executor, reviewer, explainer), two orchestrating skills, everything in `feature-design/`: the design documents, the milestone specs in `milestones/` and the templates in `templates/`.
 
-- **Before kickoff, once per app: `/brief`.** A first interview about the product as a whole, tech stack included, that writes `brief.md`. You can write `brief.md` by hand instead.
-- **App level, once per app: `/kickoff`.** The `architect` agent writes `SPEC.md` (what and why), `PLAN.md` (how) and `ROADMAP.md` (ordered milestones M1, M2, ... with a traceability table) from `brief.md`, one stage per turn. The roadmap format is `specs/ROADMAP-TEMPLATE.md`.
-- **Milestone level, per slice: `/build M3`.** The `planner` reads the three app-level documents, treats them as fixed, and writes `specs/NN-title.md` (format: `specs/TEMPLATE.md`). The `executor` implements it test-first, the `reviewer` checks the diff against the spec, the `explainer` walks the user through the result.
-- Only the architect edits `SPEC.md`, `PLAN.md` and `ROADMAP.md`. Any other agent that needs one changed raises it as a tier one question, and the user reruns `/kickoff`.
+- **App level, once per app: `/design`.** The `product-designer`, `eng-lead` and `cto` agents write the design documents in `feature-design/` from `original-brief.md`, in five stages: frame, requirements, stack and sources, design, roadmap. Each document has one owner; the other two roles review it independently. The roadmap (`feature-design/roadmap.md`, ordered milestones M1, M2, ... with a traceability table) follows `feature-design/templates/ROADMAP-TEMPLATE.md`.
+- **Milestone level, per slice: `/build M3`.** The `planner` reads the design documents, treats them as fixed, and writes `feature-design/milestones/NN-title.md` (format: `feature-design/templates/TEMPLATE.md`). The `executor` implements it test-first, the `reviewer` checks the diff against the spec, the `explainer` walks the user through the result.
+- The user is the product manager: they answer tier-one questions, settle disagreements between roles and approve each stage.
+- Only a design document's owner edits it. Approved documents are locked; any other agent that needs one changed raises it as a tier one question, and the change goes through `/design revise <document> <change>`.
 - Only the first two roadmap milestones are detailed. Later ones are one line each and get specced when their turn comes.
 - The user reads the full diff and commits. Agents never commit or push.
 - Every agent checks for the files it expects before starting. If one is missing it stops and asks, and does not invent it.
@@ -17,7 +17,7 @@ Built with the `flow` workflow: five subagents (architect, planner, executor, re
 
 The user stays in the loop at every stage. Subagents return tier one questions with recommended defaults, and the orchestrator puts every one to the user with AskUserQuestion; no default is taken without confirmation.
 
-- `/kickoff` ends the turn for approval after every stage.
+- `/design` ends the turn for approval after every stage, with each reviewer's verdict and any disagreement between roles put to the user. One review round, a second only if a blocker remains, then the gate.
 - `/build` ends the turn after the spec, then after the walkthrough.
 - The reviewer's third FAIL ends the turn. Agents never commit or push.
 
@@ -58,7 +58,7 @@ This overrides the global one-line rule for this repo; the other global git rule
 The brief evaluates how the AI was directed, not only what it built. Four logs in `submission-docs/` record that. They are written as the work happens, so the user never has to tag a prompt.
 
 - **`prompts/prompts.md`** is written by the hook. Each prompt has an ID (`P-042`), and the hook gives Claude that ID at the start of every turn. It also reports any tool call the user rejected or any interrupt in the previous turn.
-- **`decisions.md`** (`D-NN`) holds every tier-one decision and every decision about the process or tooling, whoever made it. A tier-two decision stays in the Decisions section of its artifact (`SPEC.md`, `PLAN.md`, `ROADMAP.md`, `specs/NN-*.md`). `decisions.md` links to that section and does not copy it. Tier three is not logged.
+- **`decisions.md`** (`D-NN`) holds every tier-one decision and every decision about the process or tooling, whoever made it. A tier-two decision stays in the Decisions section of its artifact (a document in `feature-design/`, or `feature-design/milestones/NN-*.md`). `decisions.md` links to that section and does not copy it. Tier three is not logged.
 - **`interventions.md`** (`I-NN`, chronological) holds two kinds of entry. `REJECT`: output thrown away. `CORRECT`: output kept but changed in direction or substance.
 - **`checks.md`** (`C-NN`, one table row each) holds every check the user answered, whether it passed or found something. See [Checks for the user](#checks-for-the-user).
 

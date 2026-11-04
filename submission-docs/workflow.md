@@ -2,8 +2,9 @@
 
 A spec-driven way of working for Claude Code, adapted for this repo from the
 `flow` plugin (v0.1.0). The agents are in `.claude/agents/`, the skills in
-`.claude/skills/` and the templates in `.claude/templates/`. It is a pipeline of five subagents, two orchestrating skills, and a few
-rules about who may decide what. It assumes you know Claude Code subagents,
+`.claude/skills/` and the templates in `.claude/templates/`. It is a design
+team of three role agents, a build pipeline of four subagents, two
+orchestrating skills, and a few rules about who may decide what. It assumes you know Claude Code subagents,
 and skills.
 
 ## The idea
@@ -11,34 +12,38 @@ and skills.
 Two levels, planned once and built slice by slice:
 
 ```
-brief.md ──/kickoff──▶ SPEC.md ─▶ PLAN.md ─▶ ROADMAP.md      (once per app)
-                              what       how        M1, M2, M3 ...
+original-brief.md ──/design──▶ feature-design/            (once per app, five stages)
+                                 frame ─▶ requirements ─▶ stack ─▶ design ─▶ roadmap
 
-ROADMAP.md ──/build M3──▶ specs/NN-title.md ─▶ code + tests ─▶ review ─▶ walkthrough
-                               planner              executor        reviewer   explainer
+feature-design/roadmap.md ──/build M3──▶ feature-design/milestones/NN-title.md ─▶ code + tests ─▶ review ─▶ walkthrough
+                                              planner             executor        reviewer   explainer
 ```
 
 Planning the whole app up front, then building it in thin vertical slices,
 is the usual industry order. What agents change is that every session starts
 with no memory, so the app-level documents are the only thing that carries
-intent from one milestone to the next. They are therefore written once, by
-one agent, and treated as fixed by everyone else.
+intent from one milestone to the next. Each is written by one owner,
+reviewed by the other two roles, approved by the user, and treated as fixed
+by everyone else.
 
 ## Roles
 
 | Agent | Runs in | Does | Tools | Must not |
 |---|---|---|---|---|
-| `architect` | `/kickoff` | Writes `SPEC.md`, `PLAN.md`, `ROADMAP.md`, one stage per turn | Read, Grep, Glob, Write | Write code or milestone specs; edit an earlier stage's document |
-| `planner` | `/build` stage 1 | Interviews the user, writes `specs/NN-title.md` from a roadmap milestone | Read, Grep, Glob, Write | Write code; edit the three app-level documents |
+| `product-designer` | `/design` | Owns the product spec, assumptions and wireframes; reviews the rest for whether it works as a product | Read, Grep, Glob, Write | Edit another role's document; decide tier one |
+| `eng-lead` | `/design` | Owns the requirements, event model, data model and API; reviews the rest for ambiguity, coverage and testability | Read, Grep, Glob, Write, WebSearch, WebFetch | Edit another role's document; decide tier one |
+| `cto` | `/design` | Owns the tech stack and sources, high-level design and roadmap; reviews the rest for cost, complexity, security, operations and deadline | Read, Grep, Glob, Write, WebSearch, WebFetch | Edit another role's document; decide tier one |
+| `planner` | `/build` stage 1 | Interviews the user, writes `feature-design/milestones/NN-title.md` from a roadmap milestone | Read, Grep, Glob, Write | Write code; edit the design documents |
 | `executor` | `/build` stage 2 | Implements one spec test-first; proves it with the spec's verification command | All | Touch files outside the spec; decide tier one questions; commit |
 | `reviewer` | `/build` stage 3 | Checks the diff against the spec: files, verification, criteria, scope | Read, Grep, Glob, Bash | Edit anything; see the executor's report before its own check |
 | `explainer` | `/build` stage 4 | Walks the user through the shape of the code and each judgment call, with quoted lines | Read, Grep, Glob, Bash | Defend the executor's choices |
 
-The two skills (`kickoff`, `build`) are orchestrators. They hold no domain
+The user is the product manager of the design team: they answer tier-one
+questions, settle disagreements between roles and approve each stage.
+
+The two skills (`design`, `build`) are orchestrators. They hold no domain
 logic: they spawn the agents in order, relay each report, run the user
 interview through AskUserQuestion, and decide where the turn ends.
-`/brief` is a third skill that runs no agents: it interviews the user
-about the product as a whole, tech stack included, and writes `brief.md`.
 
 ## Decision tiers
 
@@ -61,7 +66,7 @@ place the pipeline stops for input, which is what keeps it fast.
 ## Approval gates
 
 The user stays in the loop at every stage. Every tier-one question is put to
-the user; no default is taken without confirmation. `/kickoff` stops for
+the user; no default is taken without confirmation. `/design` stops for
 approval after every stage; `/build` after the spec, after a passing review,
 and after the walkthrough. The `flow` plugin also has `checkpoint` and `auto`
 modes that skip some of these; they are left out here (see
@@ -69,9 +74,15 @@ modes that skip some of these; they are left out here (see
 
 ## Rules that make it hold together
 
-- **One owner for the app-level documents.** Only the architect edits
-  `SPEC.md`, `PLAN.md`, `ROADMAP.md`. A planner that finds one wrong stops
-  and asks, and the user reruns `/kickoff`.
+- **One owner per design document, two independent reviewers.** Only its
+  owner edits a document. The reviewers see neither the author's report nor
+  each other's findings, and check against criteria that can fail it. One
+  review round, a second only if a blocker remains, then the user decides.
+  Reviews are kept in `feature-design/reviews/`.
+- **Locked, but living.** Approved documents are fixed. A planner or role
+  that finds one wrong stops and asks; the change goes through
+  `/design revise`, which bumps the version and re-reviews what depends on
+  it.
 - **Behaviour before code.** The planner writes acceptance criteria before it
   reads the repo, then reconciles paths and names. Reconciliation may not
   change a criterion; if it would, the question goes back to the user.
@@ -93,12 +104,13 @@ modes that skip some of these; they are left out here (see
 
 | File | Written by | Holds |
 |---|---|---|
-| `brief.md` | You | What you want, in your words |
-| `SPEC.md` | architect | What and why; rules you confirmed; Decisions at the end |
-| `PLAN.md` | architect | How: layout, data model, tests, coverage of the spec |
-| `ROADMAP.md` | architect | Ordered milestones and a traceability table |
-| `specs/NN-title.md` | planner | One milestone: criteria, allowed files, verification |
-| `specs/TEMPLATE.md`, `specs/ROADMAP-TEMPLATE.md` | `/setup` | Formats for the above; yours to edit per repo |
+| `original-brief.md` | the assessor | The brief as given; kept out of git |
+| `feature-design/product-spec.md`, `assumptions.md`, `wireframes.md` | product-designer | Problem, users, scope, non-goals; each ambiguity and the reading chosen; low-fi screens |
+| `feature-design/functional-requirements.md`, `non-functional-requirements.md`, `event-model.md`, `data-model.md`, `api.md` | eng-lead | Numbered requirements with acceptance criteria; event sources, detection and dedup; entities; endpoints |
+| `feature-design/tech-stack.md`, `high-level-design.md`, `roadmap.md` | cto | Stack, auth and data sources; components and data flow; ordered milestones and a traceability table |
+| `feature-design/reviews/` | the reviewing roles | Each review's findings and verdict, per stage and round |
+| `feature-design/milestones/NN-title.md` | planner | One milestone: criteria, allowed files, verification |
+| `feature-design/templates/TEMPLATE.md`, `feature-design/templates/ROADMAP-TEMPLATE.md` | `/setup` | Formats for the above; yours to edit per repo |
 
 How decisions, corrections and checks are recorded is in
 [`process-logs.md`](process-logs.md).
@@ -107,7 +119,7 @@ How decisions, corrections and checks are recorded is in
 
 ```
 /setup                 once per repo
-/brief                 interview about the product and tech stack, writes brief.md
-/kickoff               then approve SPEC.md, PLAN.md, ROADMAP.md
+/design                one stage per run; approve each, five in all
+/design revise <doc> <change>   change an approved document
 /build M1              per milestone; approve the spec, then the walkthrough
 ```

@@ -21,10 +21,10 @@ full.
 
 ## Preflight
 
-Check that `specs/TEMPLATE.md` exists. If not, tell the user to run
+Check that `feature-design/templates/TEMPLATE.md` exists. If not, tell the user to run
 `/setup` and stop. If the request is a roadmap ID such as `M3`, also
-check that `SPEC.md`, `PLAN.md` and `ROADMAP.md` exist; if not, tell the user
-to run `/kickoff` and stop.
+check that `feature-design/roadmap.md` exists; if not, tell the user to run
+`/design` and stop.
 
 ## Gates
 
@@ -35,11 +35,11 @@ after the walkthrough. The reviewer's third FAIL also ends the turn.
 ## Stage 1: spec
 
 1. Spawn `planner` with the request. If it is a roadmap ID such as `M3`,
-   pass the ID and the paths `ROADMAP.md`, `SPEC.md` and `PLAN.md`. It
-   returns interview questions with defaults, possibly none if the app-level
-   documents already answer everything.
+   pass the ID and the folder `feature-design/`. It returns interview
+   questions with defaults, possibly none if the design documents already
+   answer everything.
 2. Put the questions to the user with AskUserQuestion. Send the answers back
-   to the same planner with SendMessage. It writes `specs/NN-title.md`.
+   to the same planner with SendMessage. It writes `feature-design/milestones/NN-title.md`.
 3. End the turn with the spec path and the planner's Decisions, and ask the
    user to approve the spec or change it. Do not continue until they do.
 
@@ -79,12 +79,12 @@ Run these in one turn without asking, unless something below says stop.
 - Never commit or push.
 - Stage 4 always runs: the walkthrough is the user's only look at the
   decisions before the diff.
-- `SPEC.md`, `PLAN.md` and `ROADMAP.md` belong to `/kickoff`. If any
-  stage needs one changed, end the turn and tell the user to rerun
-  `/kickoff`.
+- The documents in `feature-design/` belong to `/design`. If any stage
+  needs one changed, end the turn and tell the user to run
+  `/design revise <document> <change>`.
 - When a milestone passes, ask the user whether to mark its spec path in
-  `ROADMAP.md`; only the architect edits that file, so the change goes
-  through `/kickoff`.
+  `feature-design/roadmap.md`; only the CTO edits that file, so the change
+  goes through `/design revise`.
 - If a subagent reports a missing expected file, relay it and ask the user how
   to proceed. Do not create the file yourself.
 - Pass file paths between stages, never file contents.

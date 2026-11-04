@@ -64,3 +64,21 @@ Rejections and course corrections, in order. Checks that passed are in [`checks.
 - **Caught by:** user, in check C-18.
 - **Why wrong:** "standard for any repo".
 - **Changed:** a short `README.md` at the root saying what the repo is and pointing to the workflow and process logs.
+
+### I-11 · CORRECT · [P-033](prompts/prompts.md#p-033)
+- **Claude did:** ran a `cd` into `submission-docs/` in [P-030](prompts/prompts.md#p-030), which left the session's shell there. The user's `git add .` then staged only that folder, and the commit left out `CLAUDE.md`, `README.md`, the skills, the agents and the template.
+- **Caught by:** Claude, checking the commit stat after it was made.
+- **Why wrong:** the commit logged D-09 to D-11 without the changes they describe. The user fixed it by hand, amending the commit in their own terminal.
+- **Changed:** commit `1429176` replaces `f28fb44` with all 15 files. Claude uses absolute paths in shell commands so the working directory stays at the repo root.
+
+### I-12 · CORRECT · [P-038](prompts/prompts.md#p-038)
+- **Claude did:** recommended a new `/design` skill that leaves `/kickoff` untouched, "so the old path is still there as a record" ([P-037](prompts/prompts.md#p-037)).
+- **Caught by:** user.
+- **Why wrong:** not stated. The user kept the name: "Replace kickoff (but use 'design' I like the term better)."
+- **Changed:** `/design` replaces `/kickoff`. See D-14.
+
+### I-13 · CORRECT · [P-040](prompts/prompts.md#p-040)
+- **Claude did:** kept `/brief` as an optional skill, with `/design` reading `brief.md` when it has content ([P-039](prompts/prompts.md#p-039)).
+- **Caught by:** user.
+- **Why wrong:** "no need to keep it if we know we will start in this repo with the design, it just adds noise."
+- **Changed:** the `/brief` skill and `brief.md` are deleted. `/design` starts from `original-brief.md` alone. See D-17.

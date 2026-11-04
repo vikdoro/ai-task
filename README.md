@@ -1,6 +1,6 @@
 # ai-task
 
-An assessment project built with Claude Code. The app is not specced yet; it starts from [`brief.md`](brief.md).
+An assessment project built with Claude Code. The app is designed in [`feature-design/`](feature-design/) (in progress), starting from the assessment brief.
 
 The record of how the AI was directed is as much the deliverable as the app:
 
