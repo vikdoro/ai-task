@@ -38,7 +38,7 @@ When an event makes its kind's cut, the app checks it against the demo user's al
 - A reset, cleanup or delete command for any database, and deleting `data/samples.db` or `data/app.db`.
 - Any new dependency. Resend and Slack are called with the built-in `fetch`.
 - Any live call by an agent. No agent runs with `SOURCE_MODE=live` or `DELIVERY_MODE=live`.
-- Editing `.env`, `.env.example`, `nuxt.config.ts`, `feature-design/product-spec.md` or `feature-design/local-demo/roadmap.md`. M5 adds no key. `DELIVERY_MODE` and `POLLING` are command-line switches and never go in `.env`.
+- Editing `.env`, `.env.example`, `nuxt.config.ts`, `feature-design/local-demo/product-spec.md` or `feature-design/local-demo/roadmap.md`. M5 adds no key. `DELIVERY_MODE` and `POLLING` are command-line switches and never go in `.env`.
 - Changing anything in `spikes/`. Creating, changing, moving or deleting anything in `spikes/samples/`.
 
 ## Acceptance criteria
@@ -230,7 +230,7 @@ When an event makes its kind's cut, the app checks it against the demo user's al
   - `DEMO_USER_EMAIL` and `SLACK_WEBHOOK_URL` are still named only in `lib/alert.ts`.
   - `hooks.slack.com` is still named in no file in `lib/`, `server/`, `app/` or `scripts/`.
   - M4's AC-19 "admin is untouched" check is replaced by the AC-23 paths above.
-- AC-26: The suite runs with M3's network guard in place. Delivery tests use a fake `fetch` and fake timers. `git status --porcelain` lists nothing under `spikes/` or `data/`. `git diff --stat` shows no change to `feature-design/product-spec.md`, `feature-design/local-demo/roadmap.md`, `.env.example` or anything in `spikes/`.
+- AC-26: The suite runs with M3's network guard in place. Delivery tests use a fake `fetch` and fake timers. `git status --porcelain` lists nothing under `spikes/` or `data/`. `git diff --stat` shows no change to `feature-design/local-demo/product-spec.md`, `feature-design/local-demo/roadmap.md`, `.env.example` or anything in `spikes/`.
 - AC-27: After the user's journey run (see [Steps the user runs](#steps-the-user-runs)), the executor adds an "M5 journey run" section at the end of `feature-design/local-demo/findings/delivery.md`, filled in from the user's pasted output:
   - the date and time in UTC;
   - the commands;

@@ -28,13 +28,16 @@ or was said earlier; point to it.
 
 ## Reading
 
-Never read `submission-docs/`. It holds the process logs, which only the main
-session writes. Look at `spikes/samples/` one file at a time and only in part
-(`head`, `jq`, or Read with a limit), never a whole file.
+Follow `CLAUDE.md` § Reading, to save tokens: never read `submission-docs/`,
+`node_modules/`, `.nuxt/`, `.output/`, `data/` or `package-lock.json`; never
+read `feature-design/local-demo/` except a section the current spec or
+roadmap cites, by line range; never a whole file in `spikes/samples/`. Find
+with Grep or Glob first and read large files by line range. Shell `grep -r`
+and `find` need `--exclude-dir` or `-prune` for `submission-docs` and
+`samples`.
 
-Search with Grep and Glob, which skip both folders through `.ignore`. Shell
-`grep -r` and `find` don't read `.ignore`, so when you use them, exclude both
-(`--exclude-dir=submission-docs --exclude-dir=samples`, or `-prune` in `find`).
+Read only: the spec, the executor's decision list, `git diff` and the
+files it changes.
 
 ## Preflight
 

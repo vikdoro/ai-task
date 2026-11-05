@@ -47,3 +47,21 @@ Tier-one decisions and decisions about the process or tooling, newest last. Tier
 ### D-95 · scope · Merging same-headline news events is deferred to post-MVP
 - **Decided by:** user · [P-200](prompts/prompts.md#p-200), as recommended (the alternatives were to fix it in M5, or record only)
 - **What:** in the MVP each source event ID fires once per channel. The merge rule goes to the [product spec](../../../feature-design/product-spec.md)'s Later section, and the case is in `feature-design/local-demo/findings/delivery.md` (M5 journey run). See I-51.
+
+### D-96 · process · `feature-design/` stays at the repo root
+- **Decided by:** user · [P-206](prompts/prompts.md#p-206), as recommended. The user had proposed moving it into `submission-docs/`.
+- **What:** design documents stay where agents may read them, and `submission-docs/` stays logs-only. A new [`submission-docs/README.md`](../../README.md) is the reader's entry point and links to them.
+- **Why:** agents never read `submission-docs/`, and it is hidden from their searches (D-60), but every agent needs the specs.
+
+### D-97 · process · The local demo is frozen and the MVP is a new phase with its own spec
+- **Decided by:** user · [P-206](prompts/prompts.md#p-206), as recommended (the alternative was one living spec, revised to v8)
+- **What:** product spec v7 moves to `feature-design/local-demo/product-spec.md`, marked frozen. A new `feature-design/product-spec.md` covers the shippable MVP, and `feature-design/mvp/` holds its roadmap and milestones. The `/build` skill, the planner, the roadmap template and `workflow.md` now point at `mvp/`.
+
+### D-98 · process · The product-designer writes the MVP spec, at most about 1,200 words
+- **Decided by:** user · [P-206](prompts/prompts.md#p-206), as recommended (the alternative was the main session drafting it with the user)
+- **What:** it interviews the user from the brief, the frozen spec and the findings, and cites the findings instead of restating them.
+
+### D-99 · tooling · Fixed read lists for agents and a cap on milestone spec length
+- **Decided by:** user · [P-206](prompts/prompts.md#p-206), as recommended. A lighter model for the reviewer and explainer, and sending the executor's report to the reviewer up front, were offered and not chosen.
+- **What:** a shared "Reading, to save tokens" rule in `CLAUDE.md` and a fixed read list in each agent file. `feature-design/local-demo/` is off limits except for sections a current doc cites. Milestone specs are capped at about 1,500 words (`TEMPLATE.md`, planner).
+- **Why:** the user: "we are still using a lot of tokens and the subprocesses are slow".

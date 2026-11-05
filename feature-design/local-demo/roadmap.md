@@ -4,7 +4,7 @@ Updated: 2026-11-04
 
 # Roadmap
 
-Leads from `feature-design/product-spec.md` to the local demo. Drafted by the user with Claude in the main session, at `feature-design/local-demo/roadmap.md`. Each milestone is specced just in time by the planner into `feature-design/local-demo/milestones/NN-title.md`.
+Leads from `feature-design/local-demo/product-spec.md` to the local demo. Drafted by the user with Claude in the main session, at `feature-design/local-demo/roadmap.md`. Each milestone is specced just in time by the planner into `feature-design/local-demo/milestones/NN-title.md`.
 
 The first two milestones are about learning, not features: what the sources and the delivery services really do. Their code is throwaway scripts; what they leave behind is the findings notes and samples. M3 to M5 build the app properly, test-first, on what they find.
 

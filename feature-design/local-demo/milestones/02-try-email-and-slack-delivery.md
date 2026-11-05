@@ -31,7 +31,7 @@ Only the happy path is tried (P-109). No failure is caused on purpose. Agents ne
 - Message wording beyond the approved test text in AC-2. Alert wording is OQ-07 and belongs to M5.
 - npm packages, including Resend's or Slack's SDKs. Use built-in `fetch` and `node:` modules only. Do not change `package.json` or `package-lock.json`.
 - Changing M1's scripts (`spikes/fetch-sources.mjs`, `spikes/sources/**`) or anything already in `spikes/samples/`.
-- Editing `feature-design/product-spec.md`, `feature-design/local-demo/roadmap.md` or `.env`.
+- Editing `feature-design/local-demo/product-spec.md`, `feature-design/local-demo/roadmap.md` or `.env`.
 - Unit tests (roadmap Decisions: spikes are verified by running them).
 
 ## Setup
@@ -99,7 +99,7 @@ Only the happy path is tried (P-109). No failure is caused on purpose. Agents ne
   - any failure that happened naturally, with its reason. This includes the `workflow_not_published` response, and the `restricted_api_key` status lookup from the runs before P-121.
 
   Until the user has run the command, the section reads `pending: user run`, and the milestone is not done.
-- AC-14: `git diff --stat` shows no change to `feature-design/product-spec.md`, `feature-design/local-demo/roadmap.md`, `spikes/fetch-sources.mjs` or anything under `spikes/sources/`.
+- AC-14: `git diff --stat` shows no change to `feature-design/local-demo/product-spec.md`, `feature-design/local-demo/roadmap.md`, `spikes/fetch-sources.mjs` or anything under `spikes/sources/`.
 
 ## Verification
 

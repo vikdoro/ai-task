@@ -1,6 +1,6 @@
 # ai-task
 
-An assessment project built with Claude Code. The app is designed in [`feature-design/`](feature-design/) (in progress), starting from the assessment brief.
+An assessment project built with Claude Code. The app is designed in [`feature-design/`](feature-design/), starting from the assessment brief: the local demo is done ([`feature-design/local-demo/`](feature-design/local-demo/)) and the MVP is next. How the AI was directed is logged in [`submission-docs/`](submission-docs/README.md).
 
 The record of how the AI was directed is as much the deliverable as the app:
 

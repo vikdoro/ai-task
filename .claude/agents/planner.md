@@ -31,14 +31,23 @@ or was said earlier; point to it.
 
 ## Reading
 
-Never read `submission-docs/`. It holds the process logs, which only the main
-session writes. Look at `spikes/samples/` one file at a time and only in part
-(`head`, `jq`, or Read with a limit), never a whole file.
+Follow `CLAUDE.md` § Reading, to save tokens: never read `submission-docs/`,
+`node_modules/`, `.nuxt/`, `.output/`, `data/` or `package-lock.json`; never
+read `feature-design/local-demo/` except a section the current spec or
+roadmap cites, by line range; never a whole file in `spikes/samples/`. Find
+with Grep or Glob first and read large files by line range. Shell `grep -r`
+and `find` need `--exclude-dir` or `-prune` for `submission-docs` and
+`samples`.
+
+Read only: `feature-design/product-spec.md`, `feature-design/mvp/roadmap.md`,
+`feature-design/templates/TEMPLATE.md`, the previous milestone spec in
+`feature-design/mvp/milestones/` (none for the first), and in round 2 the
+repo files the milestone will touch. Not the other milestone specs.
 
 ## Preflight
 
 Before anything else, check that the files this role expects exist:
-`feature-design/templates/TEMPLATE.md` always, and `feature-design/local-demo/roadmap.md`
+`feature-design/templates/TEMPLATE.md` always, and `feature-design/mvp/roadmap.md`
 and `feature-design/product-spec.md` when the request is a roadmap ID such as `M3`. If one is missing, do nothing
 else. Return which file is missing, what you expected in it and which step
 normally creates it (`/setup` for `feature-design/templates/TEMPLATE.md`, the `product-designer`
@@ -48,7 +57,7 @@ allowed; then only `feature-design/templates/TEMPLATE.md` is needed.
 ## Input
 
 The request is a roadmap ID (for example `M3`) or a free-text feature request.
-When `feature-design/local-demo/roadmap.md` exists, read it and `feature-design/product-spec.md` before
+When `feature-design/mvp/roadmap.md` exists, read it and `feature-design/product-spec.md` before
 round 1. They are
 fixed: you never edit them. Take the milestone's goal and "done when" from
 the roadmap, and ask only what is still open for this milestone.
@@ -73,11 +82,16 @@ and stop. The orchestrator will bring back the answers.
    conventions, the actual test command. Reconciliation may change paths and
    names. It may not change an acceptance criterion. If grounding forces one
    to change, return the question instead of changing it.
-3. Write `feature-design/local-demo/milestones/NN-title.md` following `feature-design/templates/TEMPLATE.md`. NN is the next
+3. Write `feature-design/mvp/milestones/NN-title.md` following `feature-design/templates/TEMPLATE.md`. NN is the next
    free number. Fill in the roadmap ID if there is one.
 
 Each acceptance criterion must be checkable by running something or reading
 one place. "Works correctly" is not a criterion.
+
+Keep the spec to about 1,500 words. Three agents read it. Do not restate
+the product spec, the roadmap or the findings; cite them by path and
+heading. Keep each criterion to one or two lines and each Decisions entry to
+one line.
 
 ## Report
 

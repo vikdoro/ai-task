@@ -37,7 +37,7 @@ describe('M5 AC-17 the admin page refreshes the alerts', () => {
 
 describe('M5 AC-26 untouched paths', () => {
   it('AC-26 no diff to nuxt.config.ts, .env.example, the product spec, the roadmap or spikes/', () => {
-    expect(git('diff', 'HEAD', '--stat', '--', 'nuxt.config.ts', '.env.example', 'feature-design/product-spec.md', 'feature-design/local-demo/roadmap.md', 'spikes')).toBe('');
+    expect(git('diff', 'HEAD', '--stat', '--', 'nuxt.config.ts', '.env.example', 'feature-design/local-demo/product-spec.md', 'feature-design/local-demo/roadmap.md', 'spikes')).toBe('');
     expect(git('status', '--porcelain', '--', 'spikes', 'data')).toBe('');
   });
 });

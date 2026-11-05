@@ -23,7 +23,7 @@ full.
 
 Check that `feature-design/templates/TEMPLATE.md` exists. If not, tell the user to run
 `/setup` and stop. If the request is a roadmap ID such as `M3`, also
-check that `feature-design/local-demo/roadmap.md` exists; if not, tell the user the
+check that `feature-design/mvp/roadmap.md` exists; if not, tell the user the
 roadmap has to be drafted and approved first, and stop.
 
 ## Gates
@@ -39,7 +39,7 @@ after a walkthrough. The reviewer's third FAIL also ends the turn.
    questions with defaults, possibly none if the design documents already
    answer everything.
 2. Put the questions to the user with AskUserQuestion. Send the answers back
-   to the same planner with SendMessage. It writes `feature-design/local-demo/milestones/NN-title.md`.
+   to the same planner with SendMessage. It writes `feature-design/mvp/milestones/NN-title.md`.
    An answer may defer an option to post-MVP ("1 post-MVP, MVP should be
    X"), with the MVP behaviour asked for if missing. The spec records X, and
    the deferred option goes to the `product-designer` for the Later section
@@ -86,10 +86,10 @@ Run only when the user asks for it.
 - Never commit or push.
 - Stage 4 runs only on request. Without it, the PASS message's list of
   tier-two choices is the user's look at the decisions before the diff.
-- `feature-design/product-spec.md` and `feature-design/local-demo/roadmap.md` are
+- `feature-design/product-spec.md` and `feature-design/mvp/roadmap.md` are
   fixed. If any stage needs one changed, end the turn and ask the user.
 - When a milestone passes, ask the user whether to mark its spec path in
-  `feature-design/local-demo/roadmap.md`, and edit it if they agree.
+  `feature-design/mvp/roadmap.md`, and edit it if they agree.
 - If a subagent reports a missing expected file, relay it and ask the user how
   to proceed. Do not create the file yourself.
 - Pass file paths between stages, never file contents.

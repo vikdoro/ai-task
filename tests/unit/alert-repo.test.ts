@@ -61,7 +61,7 @@ describe('M4 AC-22 nothing is sent (narrowed by M5 AC-25)', () => {
 describe('M4 AC-23 untouched paths', () => {
   it('AC-23 git lists nothing under spikes/ or data/, and no diff to the spec, roadmap, .env.example or spikes/', () => {
     expect(git('status', '--porcelain', '--', 'spikes', 'data')).toBe('');
-    const locked = ['feature-design/product-spec.md', 'feature-design/local-demo/roadmap.md', '.env.example', 'spikes'];
+    const locked = ['feature-design/local-demo/product-spec.md', 'feature-design/local-demo/roadmap.md', '.env.example', 'spikes'];
     expect(git('diff', 'HEAD', '--stat', '--', ...locked)).toBe('');
   });
 });

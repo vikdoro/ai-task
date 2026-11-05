@@ -3,11 +3,16 @@
 <!-- flow:begin -->
 ## Way of working
 
-Adapted from the `flow` workflow. Everything lives in `feature-design/`: the product spec and the templates in `templates/` at its root, and one subfolder per phase holding that phase's roadmap and milestone specs, starting with `local-demo/` (`roadmap.md`, `milestones/`). The current phase is a local demo (D-27): one user journey that tries real external data sources and email and Slack delivery, run locally and never deployed publicly.
+Adapted from the `flow` workflow. Everything lives in `feature-design/`: the current phase's product spec and the templates in `templates/` at its root, and one subfolder per phase.
 
-- **Product spec, once: the `product-designer` agent.** It interviews the user from `original-brief.md` and writes `feature-design/product-spec.md`, a mostly non-technical spec of about two pages. No role reviews it; the user approves it.
-- **Roadmap: the user with Claude.** The main session drafts `feature-design/local-demo/roadmap.md` with the user from the approved spec (format: `feature-design/templates/ROADMAP-TEMPLATE.md`). Its milestones lead to the local demo.
-- **Milestone level, per slice: `/build M3`.** The `planner` reads the spec and the roadmap, treats them as fixed, and writes `feature-design/local-demo/milestones/NN-title.md` (format: `feature-design/templates/TEMPLATE.md`). The `executor` implements it test-first, the `reviewer` checks the diff against the spec, and, only when the user asks, the `explainer` walks the user through the result.
+- `local-demo/` is done and frozen: its product spec (v7), roadmap, milestone specs and `findings/`. Nothing in it is edited, except to fix a path.
+- `mvp/` is the current phase, a shippable MVP built on what the local demo found. It holds `roadmap.md` and `milestones/`, created when they are first written.
+
+The phase steps:
+
+- **Product spec, once per phase: the `product-designer` agent.** It interviews the user from `original-brief.md`, the frozen local-demo spec and the findings, and writes `feature-design/product-spec.md`, at most about 1,200 words. No role reviews it; the user approves it.
+- **Roadmap: the user with Claude.** The main session drafts `feature-design/mvp/roadmap.md` with the user from the approved spec (format: `feature-design/templates/ROADMAP-TEMPLATE.md`).
+- **Milestone level, per slice: `/build M3`.** The `planner` reads the spec and the roadmap, treats them as fixed, and writes `feature-design/mvp/milestones/NN-title.md` (format: `feature-design/templates/TEMPLATE.md`, at most about 1,500 words). The `executor` implements it test-first, the `reviewer` checks the diff against the spec, and, only when the user asks, the `explainer` walks the user through the result.
 - The user is the product manager: they answer tier-one questions and approve the spec, the roadmap and each milestone.
 - The spec and the roadmap are locked once approved. A change goes to the user as a tier one question; the `product-designer` revises the spec, the main session revises the roadmap with the user.
 - Any answer can defer an option to post-MVP ("1 post-MVP, MVP should be X"). X is recorded, and the deferred option goes in the spec's Later section (D-20).
@@ -15,6 +20,16 @@ Adapted from the `flow` workflow. Everything lives in `feature-design/`: the pro
 - The `cto` and `eng-lead` agents are not used in this phase.
 - The user reads the full diff and commits. Agents never commit or push.
 - Every agent checks for the files it expects before starting. If one is missing it stops and asks, and does not invent it.
+
+## Reading, to save tokens
+
+Subagents are slow and every file they open costs tokens. Each agent reads its own fixed list (in its agent file) and nothing more. It never reads:
+
+- `submission-docs/`, `node_modules/`, `.nuxt/`, `.output/`, `data/`, or `package-lock.json`;
+- `feature-design/local-demo/`, except a section that the current spec or roadmap cites by path and heading, read by its line range;
+- a whole file in `spikes/samples/`. It reads one file at a time and only part of it.
+
+It finds things with Grep or Glob before opening a file, and reads large files by line range. Grep and Glob skip `submission-docs/` and `spikes/samples/` through `.ignore`. Shell `grep -r` and `find` need `--exclude-dir` or `-prune` for both.
 
 ## Secrets
 

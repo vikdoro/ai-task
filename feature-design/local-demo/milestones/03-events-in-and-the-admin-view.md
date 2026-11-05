@@ -38,7 +38,7 @@ This is the first app milestone. It sets up the stack: Nuxt 4, TypeScript, Vites
 - Login or auth (DEC-09).
 - Any live call by an agent: no run with `SOURCE_MODE=live`, with no exception.
 - Changing anything in `spikes/`, and creating, changing, moving or deleting anything in `spikes/samples/`.
-- Editing `feature-design/product-spec.md`, `feature-design/local-demo/roadmap.md`, `.env` or `.env.example`. M3 adds no keys, and `SOURCE_MODE` is not a key and never goes in `.env`.
+- Editing `feature-design/local-demo/product-spec.md`, `feature-design/local-demo/roadmap.md`, `.env` or `.env.example`. M3 adds no keys, and `SOURCE_MODE` is not a key and never goes in `.env`.
 - Drizzle, tsx, Playwright, a UI or CSS library, and Nitro's experimental `database` feature or `useDatabase()`.
 
 ## Acceptance criteria
@@ -200,7 +200,7 @@ This is the first app milestone. It sets up the stack: Nuxt 4, TypeScript, Vites
   - any failure, with its reason.
 
   Until then the section reads `pending: user run`, and the milestone is not done.
-- AC-28: `git status --porcelain` lists nothing under `spikes/` or `data/`. `git diff --stat` shows no change to `feature-design/product-spec.md`, `feature-design/local-demo/roadmap.md` or anything in `spikes/`.
+- AC-28: `git status --porcelain` lists nothing under `spikes/` or `data/`. `git diff --stat` shows no change to `feature-design/local-demo/product-spec.md`, `feature-design/local-demo/roadmap.md` or anything in `spikes/`.
 
 ## Verification
 

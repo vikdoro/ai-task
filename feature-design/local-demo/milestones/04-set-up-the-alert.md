@@ -35,7 +35,7 @@ The demo user gets their own screen at `/`. On it they can set up their one aler
 - A reset or cleanup command for the database.
 - Any change to the polling, the sources, the bars or the events tables.
 - Changing anything in `spikes/`. Creating, changing, moving or deleting anything in `spikes/samples/`.
-- Editing `feature-design/product-spec.md` or `feature-design/local-demo/roadmap.md`.
+- Editing `feature-design/local-demo/product-spec.md` or `feature-design/local-demo/roadmap.md`.
 - Playwright, a UI or CSS library, and any dependency not named in AC-20.
 
 ## Acceptance criteria
@@ -132,7 +132,7 @@ The demo user gets their own screen at `/`. On it they can set up their one aler
 - AC-20: The dependencies are M3's (`nuxt`, `vue`, `db0`, `vitest`, `@nuxt/test-utils`, `typescript`, and `husky`), plus exactly `@vue/test-utils` and `happy-dom` as dev dependencies. M3's AC-24 check in `tests/unit/repo.test.ts` is updated to this list.
 - AC-21: `lib/alert.ts` follows M3's AC-25. It imports only relative `.ts` paths, `node:` modules or `db0`, and uses no `enum`, `namespace` or parameter properties.
 - AC-22: Nothing is sent and no outbound call is made. No file in `lib/`, `server/`, `app/` or `scripts/` contains `api.resend.com` or `hooks.slack.com`. The suite runs with M3's network guard in place.
-- AC-23: `git status --porcelain` lists nothing under `spikes/` or `data/`. `git diff --stat` shows no change to `feature-design/product-spec.md`, `feature-design/local-demo/roadmap.md`, `.env.example` or anything in `spikes/`.
+- AC-23: `git status --porcelain` lists nothing under `spikes/` or `data/`. `git diff --stat` shows no change to `feature-design/local-demo/product-spec.md`, `feature-design/local-demo/roadmap.md`, `.env.example` or anything in `spikes/`.
 
 ## Verification
 

@@ -851,3 +851,69 @@ One thing for you to decide: should I close the M5 row in `submission-docs/phase
 The M5 row stays open, so later prompts keep going into `submission-docs/03-local-demo/m5/`. Nothing else is pending. When you're ready, commit with `Add M5 alert delivery, admin record and spec v7`.
 
 ---
+
+## P-206
+
+**User** · 2026-11-05 01:52 UTC
+
+> I'm thinking to rethink a little the repo structure for the submission. Maybe feature-design should move to the submission docs? Also, the current product-spec.md could be moved to the local-demo and we can create a new one now that we have a clearer picture about the data source, tech stack and delivery modes. Do you agree? We should try to speed up a little, so we should maybe identify what takes us to a shippable MVP now that we have the local-demo working. Consider adding general rules to the agents what not to read as we are still using a lot of tokens and the subprocesses are slow. Let's first implement the new folder structure and adapt the workflow.
+
+**Mode:** Auto
+
+### Claude Code
+
+I agree with two of the three ideas, and the restructure is in place. The one I advised against, and you agreed, is moving `feature-design/` into `submission-docs/`. Agents are barred from reading `submission-docs/` to save tokens, yet every agent needs the specs. Nothing is committed.
+
+**What changed:**
+- **Spec split:** the product spec (v7) moved to `feature-design/local-demo/product-spec.md` and its status now says frozen. `feature-design/local-demo/` now holds the whole finished demo.
+- **New phase:** `feature-design/product-spec.md` will be the new MVP spec, and `feature-design/mvp/` will hold the MVP's roadmap and milestones. The `/build` skill, the planner, the roadmap template, `CLAUDE.md` and `submission-docs/workflow.md` now point there.
+- **Read rules:** `CLAUDE.md` has a new section, "Reading, to save tokens", with a list of what no agent reads, including the local-demo folder apart from sections a current document cites.
+  - The planner, executor, reviewer, explainer and product-designer each now have a short fixed list of what they may read.
+  - The planner reads only the previous milestone spec, not all of them.
+  - The executor reads only its spec and the files it's allowed to change.
+- **Length caps:** milestone specs are capped at about 1,500 words (they ran 2,700 to 4,200) and the MVP spec at about 1,200, citing other documents instead of restating them.
+- **Entry page:** a new `submission-docs/README.md` is the reader's starting point and links to the design documents. The repo `README.md` links to it.
+
+**Choices I made that you might veto:**
+- **Old paths fixed in frozen files:** in the local-demo milestone specs, the roadmap and the data-sources findings, references to `feature-design/product-spec.md` now read `feature-design/local-demo/product-spec.md`. Otherwise they would point at the new MVP spec.
+- **Two M4/M5 tests changed:** I updated the path in `tests/unit/alert-repo.test.ts` and `tests/unit/delivery-repo.test.ts` (both check that locked files are untouched). Until you commit, both fail, because the moved spec and the roadmap differ from the last commit. They pass once you commit.
+- **`mvp/` doesn't exist yet:** it's created when the roadmap is written, since git doesn't keep empty folders.
+- **Left alone:** the `/setup` templates in `.claude/templates/` and the unused `cto` and `eng-lead` agents. Re-running `/setup` would bring back the old paths.
+
+**Logged:**
+- D-96 · process · `feature-design/` stays at the repo root
+- D-97 · process · The local demo is frozen and the MVP is a new phase with its own spec
+- D-98 · process · The product-designer writes the MVP spec, at most about 1,200 words
+- D-99 · tooling · Fixed read lists for agents and a cap on milestone spec length
+
+**Checks for you:**
+1. Read the new "Reading, to save tokens" section and the "Way of working" changes in `CLAUDE.md`.
+2. Read the new Reading section in `.claude/agents/planner.md`, `.claude/agents/product-designer.md` and the other three edited agents.
+3. Run `git diff --stat`, commit, then run `npm test`. Expect everything to pass.
+
+**Next, in order:**
+1. **Commit.** A suggested message: `Freeze local demo and set up MVP phase`.
+2. **Open a new log phase.** Today's logs still go to M5's folder, but planning the MVP is new work. I recommend closing M5 and opening `04-mvp/00-spec-and-roadmap/`, the same split the local demo used. Say yes or give another name.
+3. **Write the MVP spec.** The product-designer interviews you, and that's where "what takes us to a shippable MVP" gets decided. One question to settle up front: its rules currently forbid naming technologies or vendors, but you said the new spec should reflect what we now know about the data sources, tech stack and delivery. My recommendation is to allow a short section naming those choices, with links to the findings, and keep the rest non-technical.
+
+---
+
+## P-207
+
+**User** · 2026-11-05 02:02 UTC
+
+> Check 1, 2 OK. I'll commit manually next.
+
+**Mode:** Auto
+
+### Claude Code
+
+I've logged checks 1 and 2 as OK (C-94, C-95).
+
+Check 3 is still open: after you commit, run `npm test`. Everything should pass, including the two locked-path tests that fail until the commit (`tests/unit/alert-repo.test.ts` and `tests/unit/delivery-repo.test.ts`).
+
+Once you've committed, two things need your answer:
+1. **Log phase:** should I close M5 and open `04-mvp/00-spec-and-roadmap/` for the MVP planning? I recommend yes; otherwise MVP prompts keep landing in M5's folder.
+2. **MVP spec rules:** should the product-designer be allowed a short section naming the chosen data sources, tech stack and delivery services, with links to the findings? I recommend yes, with the rest of the spec kept non-technical. Without it, the rule that bars naming technologies stays.
+
+---

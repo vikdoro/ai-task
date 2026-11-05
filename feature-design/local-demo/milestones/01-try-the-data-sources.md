@@ -11,7 +11,7 @@ Throwaway scripts in `spikes/` fetch real data from these sources:
 
 No AI or LLM processing is used, and no RSS feeds are fetched. The scripts save the raw samples locally, gitignored. A committed findings note in `feature-design/local-demo/findings/` records what each source returns, maps its fields to FR-06, and proposes two or three candidate bars per kind, so the user can settle OQ-01 at the walkthrough.
 
-DEC-04, DEC-05, DEC-26 and PM-15 in `feature-design/product-spec.md` stay as they are. The findings may only propose revising them before M3, and that would go through `/design revise`.
+DEC-04, DEC-05, DEC-26 and PM-15 in `feature-design/local-demo/product-spec.md` stay as they are. The findings may only propose revising them before M3, and that would go through `/design revise`.
 
 ## Allowed files
 
@@ -39,7 +39,7 @@ DEC-04, DEC-05, DEC-26 and PM-15 in `feature-design/product-spec.md` stay as the
 - npm packages or other dependencies, including Event Registry's SDKs. Use only built-in `fetch` and `node:` modules. Do not change `package.json` or `package-lock.json`.
 - A database, a server, scheduling beyond the 3-minute watch, or any app code for M3.
 - Drafting message wording (DEC-23, OQ-07). The findings map fields only.
-- Editing `feature-design/product-spec.md` or `feature-design/local-demo/roadmap.md`.
+- Editing `feature-design/local-demo/product-spec.md` or `feature-design/local-demo/roadmap.md`.
 - Unit tests (roadmap Decisions: spikes are verified by running them).
 - Committing samples or keys.
 
@@ -134,7 +134,7 @@ AC numbers are kept stable across amendments. An AC that was removed keeps its n
   - records how the 4 rounds at 1-minute intervals were run, with dates and times in UTC;
   - recommends a source setup for each kind for the user to confirm;
   - says whether the evidence supports proposing a revision of DEC-04, DEC-05, DEC-26 or PM-15 before M3. It presents this as a proposal only, with no change to the spec.
-- AC-15: `git diff --stat` shows no change to `feature-design/product-spec.md` or `feature-design/local-demo/roadmap.md`.
+- AC-15: `git diff --stat` shows no change to `feature-design/local-demo/product-spec.md` or `feature-design/local-demo/roadmap.md`.
 
 ## Verification
 

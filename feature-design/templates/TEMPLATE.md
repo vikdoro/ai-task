@@ -2,6 +2,8 @@
 
 Roadmap: M? (or "none" for work outside the roadmap)
 
+At most about 1,500 words. Cite the product spec, roadmap and findings by path and heading; do not restate them.
+
 ## Intent
 
 One or two sentences on the behaviour this milestone adds or changes.

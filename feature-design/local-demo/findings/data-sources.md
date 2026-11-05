@@ -203,7 +203,7 @@ Every count is a snapshot of numbers that were still moving (one event doubled i
 
 ## Do the findings support revising DEC-04, DEC-05, DEC-26 or PM-15?
 
-A proposal only. `feature-design/product-spec.md` is unchanged; any change goes through `/design revise`.
+A proposal only. `feature-design/local-demo/product-spec.md` is unchanged; any change goes through `/design revise`.
 
 - **DEC-04 (product decides, user picks no level):** no revision suggested.
 - **DEC-05 (bars set from the data):** no revision suggested. Every bar above is a product-defined threshold on a source field.
