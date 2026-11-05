@@ -1,6 +1,6 @@
 # Phases
 
-The work in order. Each phase has its own folder holding its four logs: `prompts/prompts.md`, `decisions.md`, `interventions.md` and `checks.md`. IDs run on across phases, and the ranges below say which folder holds an ID. A phase ends when the user says so; its ranges are filled in then. Roadmap milestones become phases of their own: those from `feature-design/local-demo/roadmap.md` under `03-local-demo/`, and those from `feature-design/mvp/roadmap.md` under `04-mvp/`.
+The work in order. Each phase has its own folder holding its four logs: `prompts/prompts.md`, `decisions.md`, `interventions.md` and `checks.md`. IDs run on across phases, and the ranges below say which folder holds an ID. A phase ends when the user says so; its ranges are filled in then. Roadmap milestones become phases of their own: those from `submission-docs/feature-design/local-demo/roadmap.md` under `03-local-demo/`, and those from `submission-docs/feature-design/mvp/roadmap.md` under `04-mvp/`.
 
 The last row is the open phase, and the prompt hook writes there. Each row's Prompts cell starts with its first prompt ID, which the hook reads to split the prompt log, so keep that format.
 

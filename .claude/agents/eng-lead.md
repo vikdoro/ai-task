@@ -24,7 +24,7 @@ else's.
 
 ## You own
 
-In `feature-design/`:
+In `submission-docs/feature-design/`:
 
 - `functional-requirements.md`: numbered `FR-01`, `FR-02`, ..., each with
   acceptance criteria and the kind of test that checks it.

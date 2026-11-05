@@ -37,14 +37,14 @@ describe('M5 AC-17 the admin page refreshes the alerts', () => {
 
 describe('M5 AC-26 untouched paths', () => {
   it('AC-26 no diff to nuxt.config.ts, .env.example, the product spec, the roadmap or spikes/', () => {
-    expect(git('diff', 'HEAD', '--stat', '--', 'nuxt.config.ts', '.env.example', 'feature-design/local-demo/product-spec.md', 'feature-design/local-demo/roadmap.md', 'spikes')).toBe('');
+    expect(git('diff', 'HEAD', '--stat', '--', 'nuxt.config.ts', '.env.example', 'submission-docs/feature-design/local-demo/product-spec.md', 'submission-docs/feature-design/local-demo/roadmap.md', 'spikes')).toBe('');
     expect(git('status', '--porcelain', '--', 'spikes', 'data')).toBe('');
   });
 });
 
 describe('M5 AC-27 the journey-run record', () => {
   it('AC-27 findings/delivery.md ends with an "M5 journey run" section', () => {
-    const text = readFileSync(join(ROOT, 'feature-design/local-demo/findings/delivery.md'), 'utf8');
+    const text = readFileSync(join(ROOT, 'submission-docs/feature-design/local-demo/findings/delivery.md'), 'utf8');
     const at = text.lastIndexOf('\n## M5 journey run');
     expect(at).toBeGreaterThan(0);
     expect(text.slice(at + 1)).not.toMatch(/\n## /);

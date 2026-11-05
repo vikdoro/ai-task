@@ -1,4 +1,4 @@
-Status: frozen (the local demo is done; the MVP spec is `feature-design/product-spec.md`)
+Status: frozen (the local demo is done; the MVP spec is `submission-docs/feature-design/product-spec.md`)
 Version: 7
 Updated: 2026-11-05
 

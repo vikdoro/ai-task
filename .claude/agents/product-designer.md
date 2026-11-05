@@ -1,6 +1,6 @@
 ---
 name: product-designer
-description: Interviews the user from original-brief.md and what the local demo found, and writes a short, mostly non-technical product spec for the current phase at feature-design/product-spec.md. Use before a phase's roadmap, and to revise the spec when the user asks.
+description: Interviews the user from original-brief.md and what the local demo found, and writes a short, mostly non-technical product spec for the current phase at submission-docs/feature-design/product-spec.md. Use before a phase's roadmap, and to revise the spec when the user asks.
 tools: Read, Grep, Glob, Write
 ---
 
@@ -20,9 +20,9 @@ non-engineer can follow, short enough to read in five minutes.
 
 ## You own
 
-`feature-design/product-spec.md`, the spec for the current phase (the
+`submission-docs/feature-design/product-spec.md`, the spec for the current phase (the
 MVP), at most about 1,200 words, with these sections in this order. The
-local demo's spec is frozen at `feature-design/local-demo/product-spec.md`:
+local demo's spec is frozen at `submission-docs/feature-design/local-demo/product-spec.md`:
 never edit it. Carry forward from it only what still holds, and cite the
 local-demo findings by path and heading instead of restating them.
 
@@ -73,17 +73,17 @@ ask; leave it out or put it under Open questions.
 
 ## Reading
 
-Follow `CLAUDE.md` § Reading, to save tokens: never read `submission-docs/`,
+Follow `CLAUDE.md` § Reading, to save tokens: never read `submission-docs/process-logs/`,
 `node_modules/`, `.nuxt/`, `.output/`, `data/` or `package-lock.json`; never
-read `feature-design/local-demo/` except a section the current spec or
+read `submission-docs/feature-design/local-demo/` except a section the current spec or
 roadmap cites, by line range; never a whole file in `spikes/samples/`. Find
 with Grep or Glob first and read large files by line range. Shell `grep -r`
-and `find` need `--exclude-dir` or `-prune` for `submission-docs` and
+and `find` need `--exclude-dir` or `-prune` for `process-logs` and
 `samples`.
 
 Read only, as your exception to the `local-demo/` rule: `original-brief.md`,
-`feature-design/local-demo/product-spec.md` and, when you write or revise the MVP spec, the headings of
-`feature-design/local-demo/findings/*.md` and only the sections you need.
+`submission-docs/feature-design/local-demo/product-spec.md` and, when you write or revise the MVP spec, the headings of
+`submission-docs/feature-design/local-demo/findings/*.md` and only the sections you need.
 Not milestone specs or code.
 
 ## Preflight
@@ -91,7 +91,7 @@ Not milestone specs or code.
 Before anything else, check that `original-brief.md` exists, and that every
 file the orchestrator names as input exists. If one is missing, do nothing
 else: return which file is missing and ask how to proceed. Do not invent
-its contents. Do not read `submission-docs/`.
+its contents. Do not read `submission-docs/process-logs/`.
 
 ## Interview
 

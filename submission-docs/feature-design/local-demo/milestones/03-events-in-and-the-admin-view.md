@@ -21,7 +21,7 @@ This is the first app milestone. It sets up the stack: Nuxt 4, TypeScript, Vites
 - `tests/**`: unit tests, end-to-end tests, fixtures, and the setup file that blocks the network.
 - `.gitignore`: add `data/`, `.nuxt/`, `.output/`.
 - `README.md`: add a "Run the local demo" section. The existing text stays as it is.
-- `feature-design/local-demo/findings/data-sources.md`: add a "M3 live run" section at the end, filled in from the user's pasted output (AC-27). The rest stays as it is.
+- `submission-docs/feature-design/local-demo/findings/data-sources.md`: add a "M3 live run" section at the end, filled in from the user's pasted output (AC-27). The rest stays as it is.
 - `data/app.db` and `data/samples.db`: written at runtime, gitignored, never committed.
 
 ## Out of scope
@@ -38,7 +38,7 @@ This is the first app milestone. It sets up the stack: Nuxt 4, TypeScript, Vites
 - Login or auth (DEC-09).
 - Any live call by an agent: no run with `SOURCE_MODE=live`, with no exception.
 - Changing anything in `spikes/`, and creating, changing, moving or deleting anything in `spikes/samples/`.
-- Editing `feature-design/local-demo/product-spec.md`, `feature-design/local-demo/roadmap.md`, `.env` or `.env.example`. M3 adds no keys, and `SOURCE_MODE` is not a key and never goes in `.env`.
+- Editing `submission-docs/feature-design/local-demo/product-spec.md`, `submission-docs/feature-design/local-demo/roadmap.md`, `.env` or `.env.example`. M3 adds no keys, and `SOURCE_MODE` is not a key and never goes in `.env`.
 - Drizzle, tsx, Playwright, a UI or CSS library, and Nitro's experimental `database` feature or `useDatabase()`.
 
 ## Acceptance criteria
@@ -192,7 +192,7 @@ This is the first app milestone. It sets up the stack: Nuxt 4, TypeScript, Vites
 - AC-24: The dependencies added are exactly `nuxt`, `vue`, `db0`, `vitest`, `@nuxt/test-utils` and `typescript`, plus whatever npm installs under them. `husky` stays. `package.json` has `"type": "module"`.
 - AC-25: Nothing in `lib/` or `scripts/` imports from `nuxt`, `#imports`, `#app`, `h3`, `nitropack` or a `~`/`@` alias. Their imports are relative paths ending in `.ts`, `node:` modules, or `db0`. They use only TS syntax Node can strip (no `enum`, `namespace` or parameter properties), so `node scripts/poll-once.ts` runs on Node 26 without a build step.
 - AC-26: The test suite runs with outbound network blocked. A Vitest setup file replaces `fetch` with one that throws `network blocked in tests` for any host other than `localhost` or `127.0.0.1`.
-- AC-27: The user does one live run at the end of M3 (see [Steps the user runs](#steps-the-user-runs)). The executor then records the user's pasted output in a new "M3 live run" section at the end of `feature-design/local-demo/findings/data-sources.md`:
+- AC-27: The user does one live run at the end of M3 (see [Steps the user runs](#steps-the-user-runs)). The executor then records the user's pasted output in a new "M3 live run" section at the end of `submission-docs/feature-design/local-demo/findings/data-sources.md`:
   - the date and time in UTC;
   - the commands;
   - the `poll:once` lines;
@@ -200,7 +200,7 @@ This is the first app milestone. It sets up the stack: Nuxt 4, TypeScript, Vites
   - any failure, with its reason.
 
   Until then the section reads `pending: user run`, and the milestone is not done.
-- AC-28: `git status --porcelain` lists nothing under `spikes/` or `data/`. `git diff --stat` shows no change to `feature-design/local-demo/product-spec.md`, `feature-design/local-demo/roadmap.md` or anything in `spikes/`.
+- AC-28: `git status --porcelain` lists nothing under `spikes/` or `data/`. `git diff --stat` shows no change to `submission-docs/feature-design/local-demo/product-spec.md`, `submission-docs/feature-design/local-demo/roadmap.md` or anything in `spikes/`.
 
 ## Verification
 

@@ -21,12 +21,12 @@ decide on a finding), say so plainly at the end of your report.
 
 ## Reading
 
-Follow `CLAUDE.md` § Reading, to save tokens: never read `submission-docs/`,
+Follow `CLAUDE.md` § Reading, to save tokens: never read `submission-docs/process-logs/`,
 `node_modules/`, `.nuxt/`, `.output/`, `data/` or `package-lock.json`; never
-read `feature-design/local-demo/` except a section the current spec or
+read `submission-docs/feature-design/local-demo/` except a section the current spec or
 roadmap cites, by line range; never a whole file in `spikes/samples/`. Find
 with Grep or Glob first and read large files by line range. Shell `grep -r`
-and `find` need `--exclude-dir` or `-prune` for `submission-docs` and
+and `find` need `--exclude-dir` or `-prune` for `process-logs` and
 `samples`.
 
 Read only: the spec, `git diff` (with `--stat` first), the changed files

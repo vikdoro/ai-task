@@ -6,7 +6,7 @@ A spec-driven way of working for Claude Code, adapted for this repo from the
 product designer who interviews the user, a build pipeline of four
 subagents, one orchestrating skill, and a few rules about who may decide
 what. A three-role `/design` skill was tried and dropped; see
-[I-19](03-local-demo/00-spec-and-roadmap/interventions.md) and [D-27](03-local-demo/00-spec-and-roadmap/decisions.md). It assumes you know Claude Code subagents,
+[I-19](process-logs/03-local-demo/00-spec-and-roadmap/interventions.md) and [D-27](process-logs/03-local-demo/00-spec-and-roadmap/decisions.md). It assumes you know Claude Code subagents,
 and skills.
 
 ## The idea
@@ -14,19 +14,19 @@ and skills.
 Two levels, planned once and built slice by slice:
 
 ```
-original-brief.md ──product-designer──▶ feature-design/product-spec.md ──user + Claude──▶ feature-design/mvp/roadmap.md
+original-brief.md ──product-designer──▶ submission-docs/feature-design/product-spec.md ──user + Claude──▶ submission-docs/feature-design/mvp/roadmap.md
                       (interview)                                          (toward the current phase)
 
-feature-design/mvp/roadmap.md ──/build M3──▶ feature-design/mvp/milestones/NN-title.md ─▶ code + tests ─▶ review ─▶ walkthrough
+submission-docs/feature-design/mvp/roadmap.md ──/build M3──▶ submission-docs/feature-design/mvp/milestones/NN-title.md ─▶ code + tests ─▶ review ─▶ walkthrough
                                               planner             executor        reviewer   explainer
 ```
 
 Each phase gets its own product spec, roadmap and milestones. The first
 phase, a local demo, tried one user journey with real external data sources
 and email and Slack delivery, to learn about the data and the services. It
-is done and frozen in `feature-design/local-demo/`. The current phase is a
-shippable MVP in `feature-design/mvp/`, with a new product spec at
-`feature-design/product-spec.md`. Every session starts with no
+is done and frozen in `submission-docs/feature-design/local-demo/`. The current phase is a
+shippable MVP in `submission-docs/feature-design/mvp/`, with a new product spec at
+`submission-docs/feature-design/product-spec.md`. Every session starts with no
 memory, so the spec and the roadmap are what carry intent from one milestone
 to the next. The user approves both, and everyone else treats them as fixed.
 
@@ -35,7 +35,7 @@ to the next. The user approves both, and everyone else treats them as fixed.
 | Agent | Runs in | Does | Tools | Must not |
 |---|---|---|---|---|
 | `product-designer` | before the roadmap | Interviews the user and writes the short, mostly non-technical product spec | Read, Grep, Glob, Write | Name technologies; decide tier one |
-| `planner` | `/build` stage 1 | Interviews the user, writes `feature-design/mvp/milestones/NN-title.md` from a roadmap milestone | Read, Grep, Glob, Write | Write code; edit the design documents |
+| `planner` | `/build` stage 1 | Interviews the user, writes `submission-docs/feature-design/mvp/milestones/NN-title.md` from a roadmap milestone | Read, Grep, Glob, Write | Write code; edit the design documents |
 | `executor` | `/build` stage 2 | Implements one spec test-first; proves it with the spec's verification command | All | Touch files outside the spec; decide tier one questions; commit |
 | `reviewer` | `/build` stage 3 | Checks the diff against the spec: files, verification, criteria, scope | Read, Grep, Glob, Bash | Edit anything; see the executor's report before its own check |
 | `explainer` | `/build` stage 4 | Walks the user through the shape of the code and each judgment call, with quoted lines | Read, Grep, Glob, Bash | Defend the executor's choices |
@@ -75,7 +75,7 @@ the user; no default is taken without confirmation. The spec and the roadmap
 each stop for approval; `/build` after the spec, after a passing review,
 and after the walkthrough. The `flow` plugin also has `checkpoint` and `auto`
 modes that skip some of these; they are left out here (see
-[D-09](01-setup/decisions.md#d-09--process--one-autonomy-level-the-user-approves-every-stage)).
+[D-09](process-logs/01-setup/decisions.md#d-09--process--one-autonomy-level-the-user-approves-every-stage)).
 
 ## Rules that make it hold together
 
@@ -106,14 +106,14 @@ modes that skip some of these; they are left out here (see
 | File | Written by | Holds |
 |---|---|---|
 | `original-brief.md` | the assessor | The brief as given; kept out of git |
-| `feature-design/product-spec.md` | product-designer | The current phase's spec: problem, users, goals, journeys, this phase, later, non-goals, open questions |
-| `feature-design/mvp/roadmap.md` | the user with Claude | Ordered milestones toward the MVP, and a traceability table |
-| `feature-design/mvp/milestones/NN-title.md` | planner | One milestone: criteria, allowed files, verification |
-| `feature-design/local-demo/` | (frozen) | The local demo's spec v7, roadmap, milestones M1 to M5 and findings |
-| `feature-design/templates/TEMPLATE.md`, `feature-design/templates/ROADMAP-TEMPLATE.md` | `/setup` | Formats for the above; yours to edit per repo |
+| `submission-docs/feature-design/product-spec.md` | product-designer | The current phase's spec: problem, users, goals, journeys, this phase, later, non-goals, open questions |
+| `submission-docs/feature-design/mvp/roadmap.md` | the user with Claude | Ordered milestones toward the MVP, and a traceability table |
+| `submission-docs/feature-design/mvp/milestones/NN-title.md` | planner | One milestone: criteria, allowed files, verification |
+| `submission-docs/feature-design/local-demo/` | (frozen) | The local demo's spec v7, roadmap, milestones M1 to M5 and findings |
+| `submission-docs/feature-design/templates/TEMPLATE.md`, `submission-docs/feature-design/templates/ROADMAP-TEMPLATE.md` | `/setup` | Formats for the above; yours to edit per repo |
 
 How decisions, corrections and checks are recorded is in
-[`process-logs.md`](process-logs.md).
+[`process-logs.md`](process-logs/process-logs.md).
 
 ## Using it
 

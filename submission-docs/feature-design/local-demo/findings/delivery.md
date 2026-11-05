@@ -1,6 +1,6 @@
 # Findings: email and Slack delivery (M2)
 
-Spec: [`../milestones/02-try-email-and-slack-delivery.md`](../milestones/02-try-email-and-slack-delivery.md). Script: [`spikes/`](../../../spikes/README.md) (M2 section). The raw responses stay local in `spikes/samples/delivery-*/` (gitignored).
+Spec: [`../milestones/02-try-email-and-slack-delivery.md`](../milestones/02-try-email-and-slack-delivery.md). Script: [`spikes/`](../../../../spikes/README.md) (M2 section). The raw responses stay local in `spikes/samples/delivery-*/` (gitignored).
 
 Only the happy path was tried (P-109). No failure was caused on purpose, so every failure case below comes from the docs unless it is marked as seen in a run. This note contains no alert wording (OQ-07, M5).
 

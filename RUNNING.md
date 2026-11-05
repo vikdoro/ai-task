@@ -67,7 +67,7 @@ Mail comes from `onboarding@resend.dev` and may land in spam.
 Slack takes a webhook URL that posts to one channel. The app sends `{"text": "..."}` and reads either kind of webhook:
 
 - **Incoming webhook** (`https://hooks.slack.com/services/...`): create a Slack app, turn on Incoming Webhooks, and add one to the channel you want.
-- **Workflow Builder webhook** (`https://hooks.slack.com/triggers/...`), which the demo used: needs a paid Slack plan. Make a workflow that starts from a webhook, define a text variable named exactly `text`, add a step that posts `text` to a channel, and publish it. Without the `text` variable, Slack answers `ok` but posts nothing ([`findings/delivery.md`](feature-design/local-demo/findings/delivery.md#slack-webhooks)).
+- **Workflow Builder webhook** (`https://hooks.slack.com/triggers/...`), which the demo used: needs a paid Slack plan. Make a workflow that starts from a webhook, define a text variable named exactly `text`, add a step that posts `text` to a channel, and publish it. Without the `text` variable, Slack answers `ok` but posts nothing ([`findings/delivery.md`](submission-docs/feature-design/local-demo/findings/delivery.md#slack-webhooks)).
 
 ```sh
 printf 'SLACK_WEBHOOK_URL=https://hooks.slack.com/...\n' >> .env

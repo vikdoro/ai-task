@@ -18,9 +18,9 @@ Ask the user nothing; this skill has no options.
    does not exist, create it with a `# CLAUDE.md` heading and the block. If it
    exists and has the markers, replace between them. If it exists without
    markers, append the block. Never touch text outside the markers.
-2. **Templates.** Copy `templates/spec-TEMPLATE.md` to `feature-design/templates/TEMPLATE.md` and
-   `templates/ROADMAP-TEMPLATE.md` to `feature-design/templates/ROADMAP-TEMPLATE.md`. Create
-   `feature-design/templates/` if needed. Skip a file that exists and is
+2. **Templates.** Copy `templates/spec-TEMPLATE.md` to `submission-docs/feature-design/templates/TEMPLATE.md` and
+   `templates/ROADMAP-TEMPLATE.md` to `submission-docs/feature-design/templates/ROADMAP-TEMPLATE.md`. Create
+   `submission-docs/feature-design/templates/` if needed. Skip a file that exists and is
    identical; ask if it differs.
 
 ## Step 2: report

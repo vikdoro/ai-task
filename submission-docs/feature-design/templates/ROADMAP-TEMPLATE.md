@@ -1,6 +1,6 @@
 # Roadmap
 
-Leads from `feature-design/product-spec.md` to the end of the current phase. Drafted by the user with Claude in the main session, at `feature-design/mvp/roadmap.md`. Each milestone is specced just in time by the planner into `feature-design/mvp/milestones/NN-title.md`.
+Leads from `submission-docs/feature-design/product-spec.md` to the end of the current phase. Drafted by the user with Claude in the main session, at `submission-docs/feature-design/mvp/roadmap.md`. Each milestone is specced just in time by the planner into `submission-docs/feature-design/mvp/milestones/NN-title.md`.
 
 ## Milestones
 
@@ -10,7 +10,7 @@ Leads from `feature-design/product-spec.md` to the end of the current phase. Dra
 - Depends on: none
 - Why here: One line on why this comes first (dependency, risk, or what it proves).
 - Done when: A checkable condition, by running something or reading one place.
-- Spec: `feature-design/mvp/milestones/NN-title.md` (filled in when the planner writes it)
+- Spec: `submission-docs/feature-design/mvp/milestones/NN-title.md` (filled in when the planner writes it)
 
 ### M2: Title
 

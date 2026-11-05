@@ -3,16 +3,16 @@
 <!-- flow:begin -->
 ## Way of working
 
-Adapted from the `flow` workflow. Everything lives in `feature-design/`: the current phase's product spec and the templates in `templates/` at its root, and one subfolder per phase.
+Adapted from the `flow` workflow. Everything lives in `submission-docs/feature-design/`: the current phase's product spec and the templates in `templates/` at its root, and one subfolder per phase.
 
 - `local-demo/` is done and frozen: its product spec (v7), roadmap, milestone specs and `findings/`. Nothing in it is edited, except to fix a path.
 - `mvp/` is the current phase, a shippable MVP built on what the local demo found. It holds `roadmap.md` and `milestones/`, created when they are first written.
 
 The phase steps:
 
-- **Product spec, once per phase: the `product-designer` agent.** It interviews the user from `original-brief.md`, the frozen local-demo spec and the findings, and writes `feature-design/product-spec.md`, at most about 1,200 words. No role reviews it; the user approves it.
-- **Roadmap: the user with Claude.** The main session drafts `feature-design/mvp/roadmap.md` with the user from the approved spec (format: `feature-design/templates/ROADMAP-TEMPLATE.md`).
-- **Milestone level, per slice: `/build M3`.** The `planner` reads the spec and the roadmap, treats them as fixed, and writes `feature-design/mvp/milestones/NN-title.md` (format: `feature-design/templates/TEMPLATE.md`, at most about 1,500 words). The `executor` implements it test-first, the `reviewer` checks the diff against the spec, and, only when the user asks, the `explainer` walks the user through the result.
+- **Product spec, once per phase: the `product-designer` agent.** It interviews the user from `original-brief.md`, the frozen local-demo spec and the findings, and writes `submission-docs/feature-design/product-spec.md`, at most about 1,200 words. No role reviews it; the user approves it.
+- **Roadmap: the user with Claude.** The main session drafts `submission-docs/feature-design/mvp/roadmap.md` with the user from the approved spec (format: `submission-docs/feature-design/templates/ROADMAP-TEMPLATE.md`).
+- **Milestone level, per slice: `/build M3`.** The `planner` reads the spec and the roadmap, treats them as fixed, and writes `submission-docs/feature-design/mvp/milestones/NN-title.md` (format: `submission-docs/feature-design/templates/TEMPLATE.md`, at most about 1,500 words). The `executor` implements it test-first, the `reviewer` checks the diff against the spec, and, only when the user asks, the `explainer` walks the user through the result.
 - The user is the product manager: they answer tier-one questions and approve the spec, the roadmap and each milestone.
 - The spec and the roadmap are locked once approved. A change goes to the user as a tier one question; the `product-designer` revises the spec, the main session revises the roadmap with the user.
 - Any answer can defer an option to post-MVP ("1 post-MVP, MVP should be X"). X is recorded, and the deferred option goes in the spec's Later section (D-20).
@@ -25,11 +25,11 @@ The phase steps:
 
 Subagents are slow and every file they open costs tokens. Each agent reads its own fixed list (in its agent file) and nothing more. It never reads:
 
-- `submission-docs/`, `node_modules/`, `.nuxt/`, `.output/`, `data/`, or `package-lock.json`;
-- `feature-design/local-demo/`, except a section that the current spec or roadmap cites by path and heading, read by its line range;
+- `submission-docs/process-logs/`, `node_modules/`, `.nuxt/`, `.output/`, `data/`, or `package-lock.json`;
+- `submission-docs/feature-design/local-demo/`, except a section that the current spec or roadmap cites by path and heading, read by its line range;
 - a whole file in `spikes/samples/`. It reads one file at a time and only part of it.
 
-It finds things with Grep or Glob before opening a file, and reads large files by line range. Grep and Glob skip `submission-docs/` and `spikes/samples/` through `.ignore`. Shell `grep -r` and `find` need `--exclude-dir` or `-prune` for both.
+It finds things with Grep or Glob before opening a file, and reads large files by line range. Grep and Glob skip `submission-docs/process-logs/` and `spikes/samples/` through `.ignore`. Shell `grep -r` and `find` need `--exclude-dir` or `-prune` for both.
 
 ## Secrets
 
@@ -86,6 +86,6 @@ This overrides the global one-line rule for this repo; the other global git rule
 
 ## Process logs
 
-The main session keeps four process logs in `submission-docs/`, one set per phase folder (`01-setup/`, ..., `03-local-demo/m4/`), listed in `submission-docs/phases.md`. It writes only to the open phase's folder, the last row of `phases.md`, which the prompt hook names every turn. It opens logs by path only, and opens a closed phase's logs only when the user asks. Searches skip `submission-docs/` and `spikes/samples/`: Grep and Glob do so through `.ignore`, while shell `grep -r` and `find` need `--exclude-dir` or `-prune` for both. Their rules, including when a reply ends with **Checks for you:**, are in `submission-docs/CLAUDE.md`. The main session reads it once per session, before its first reply or log entry. Subagents never read `submission-docs/`: they return their decisions and findings, and the main session logs them.
+The main session keeps four process logs in `submission-docs/process-logs/`, one set per phase folder (`01-setup/`, ..., `05-submission-polish/`), listed in `submission-docs/process-logs/phases.md`. It writes only to the open phase's folder, the last row of `phases.md`, which the prompt hook names every turn. It opens logs by path only, and opens a closed phase's logs only when the user asks. Searches skip `submission-docs/process-logs/` and `spikes/samples/`: Grep and Glob do so through `.ignore`, while shell `grep -r` and `find` need `--exclude-dir` or `-prune` for both. Their rules, including when a reply ends with **Checks for you:**, are in `submission-docs/process-logs/CLAUDE.md`. The main session reads it once per session, before its first reply or log entry. Subagents never read `submission-docs/process-logs/`: they return their decisions and findings, and the main session logs them.
 
 IDs such as D-27 point to an entry in a phase folder's `decisions.md` and are there for the record. The rule as written in this file or in a spec is complete, so no agent looks an ID up.

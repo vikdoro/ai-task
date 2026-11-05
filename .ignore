@@ -1,4 +1,4 @@
 # Kept out of Claude's Grep and Glob searches to save subagent tokens (D-60).
 # Files here can still be read by path.
-submission-docs/
+submission-docs/process-logs/
 spikes/samples/

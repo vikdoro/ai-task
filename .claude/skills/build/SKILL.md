@@ -21,9 +21,9 @@ full.
 
 ## Preflight
 
-Check that `feature-design/templates/TEMPLATE.md` exists. If not, tell the user to run
+Check that `submission-docs/feature-design/templates/TEMPLATE.md` exists. If not, tell the user to run
 `/setup` and stop. If the request is a roadmap ID such as `M3`, also
-check that `feature-design/mvp/roadmap.md` exists; if not, tell the user the
+check that `submission-docs/feature-design/mvp/roadmap.md` exists; if not, tell the user the
 roadmap has to be drafted and approved first, and stop.
 
 ## Gates
@@ -35,15 +35,15 @@ after a walkthrough. The reviewer's third FAIL also ends the turn.
 ## Stage 1: spec
 
 1. Spawn `planner` with the request. If it is a roadmap ID such as `M3`,
-   pass the ID and the folder `feature-design/`. It returns interview
+   pass the ID and the folder `submission-docs/feature-design/`. It returns interview
    questions with defaults, possibly none if the design documents already
    answer everything.
 2. Put the questions to the user with AskUserQuestion. Send the answers back
-   to the same planner with SendMessage. It writes `feature-design/mvp/milestones/NN-title.md`.
+   to the same planner with SendMessage. It writes `submission-docs/feature-design/mvp/milestones/NN-title.md`.
    An answer may defer an option to post-MVP ("1 post-MVP, MVP should be
    X"), with the MVP behaviour asked for if missing. The spec records X, and
    the deferred option goes to the `product-designer` for the Later section
-   of `feature-design/product-spec.md`. Each tier-one answer goes in
+   of `submission-docs/feature-design/product-spec.md`. Each tier-one answer goes in
    the open phase's `decisions.md` as one line that links to the spec.
 3. End the turn with the spec path and the planner's Decisions, and ask the
    user to approve the spec or change it. Do not continue until they do.
@@ -86,10 +86,10 @@ Run only when the user asks for it.
 - Never commit or push.
 - Stage 4 runs only on request. Without it, the PASS message's list of
   tier-two choices is the user's look at the decisions before the diff.
-- `feature-design/product-spec.md` and `feature-design/mvp/roadmap.md` are
+- `submission-docs/feature-design/product-spec.md` and `submission-docs/feature-design/mvp/roadmap.md` are
   fixed. If any stage needs one changed, end the turn and ask the user.
 - When a milestone passes, ask the user whether to mark its spec path in
-  `feature-design/mvp/roadmap.md`, and edit it if they agree.
+  `submission-docs/feature-design/mvp/roadmap.md`, and edit it if they agree.
 - If a subagent reports a missing expected file, relay it and ask the user how
   to proceed. Do not create the file yourself.
 - Pass file paths between stages, never file contents.

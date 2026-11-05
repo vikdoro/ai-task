@@ -4,7 +4,7 @@ Updated: 2026-11-05
 
 # Roadmap
 
-Leads from `feature-design/product-spec.md` to the MVP. Drafted by the user with Claude in the main session, at `feature-design/mvp/roadmap.md`. Each milestone is specced just in time by the planner into `feature-design/mvp/milestones/NN-title.md`.
+Leads from `submission-docs/feature-design/product-spec.md` to the MVP. Drafted by the user with Claude in the main session, at `submission-docs/feature-design/mvp/roadmap.md`. Each milestone is specced just in time by the planner into `submission-docs/feature-design/mvp/milestones/NN-title.md`.
 
 The MVP builds on the local demo's code. Sign-in comes first, since nothing goes online without it. Going online comes second, because the server, the verified sending domain and sign-in links from a real address are the biggest unknowns outside the repo. The design pass comes after the screens settle, so it is done once.
 

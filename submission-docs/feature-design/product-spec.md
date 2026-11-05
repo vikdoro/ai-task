@@ -6,7 +6,7 @@ Updated: 2026-11-05
 
 ## Problem
 
-A professional wants to hear at once when something important happens in the world, such as major news, a big market move or a serious disaster, without watching the news. Generic news apps alert too often and too vaguely. They want few alerts, each worth reading, in email and Slack. The local demo proved the loop on real data and delivery (`feature-design/local-demo/product-spec.md`, "Phase 1: the local demo"). The MVP puts it online for private, non-commercial use by the product manager and one reviewer.
+A professional wants to hear at once when something important happens in the world, such as major news, a big market move or a serious disaster, without watching the news. Generic news apps alert too often and too vaguely. They want few alerts, each worth reading, in email and Slack. The local demo proved the loop on real data and delivery (`submission-docs/feature-design/local-demo/product-spec.md`, "Phase 1: the local demo"). The MVP puts it online for private, non-commercial use by the product manager and one reviewer.
 
 ## Users
 
@@ -43,7 +43,7 @@ Others:
 - **Sign-in and seats** as in PD-01: an emailed link, one allowed domain, at most 5 accounts.
 - **Checking windows:** a user's first alert setup starts 3 hours in which all three sources are checked. Outside a window, no source is checked and no alert is sent. Everyone with an alert set up gets a window's alerts (PD-19 to PD-23).
 - **One alert per user**, always covering all three kinds. The user sets only channels: email to the login address, and Slack by a pasted link.
-- **Importance:** the demo's bar per kind, unchanged (DEC-27, DEC-30; `feature-design/local-demo/findings/data-sources.md`, "Candidate bars per kind").
+- **Importance:** the demo's bar per kind, unchanged (DEC-27, DEC-30; `submission-docs/feature-design/local-demo/findings/data-sources.md`, "Candidate bars per kind").
 - **Delivery:** at once, at most one message per event per channel, ever. No cap, pause or retry.
 - **News repeats:** items with the same headline, or an item the source says replaces another, are one event.
 - **Messages:** what happened, and where and when if available and appropriate. Disaster messages credit their source. Times in the user's time zone, with UTC.
@@ -61,9 +61,9 @@ Others:
 
 ## Chosen services
 
-- **Data sources:** GDACS for disasters, Twelve Data for markets, Event Registry for news (`feature-design/local-demo/findings/data-sources.md`, "Recommended source per kind (for the user to confirm)").
-- **Tech stack:** Nuxt 4 with TypeScript, and SQLite (`feature-design/local-demo/milestones/03-events-in-and-the-admin-view.md`, its Stack decision).
-- **Delivery services:** Resend for email, Slack incoming webhooks (`feature-design/local-demo/findings/delivery.md`, "Email: Resend" and "Slack: webhooks").
+- **Data sources:** GDACS for disasters, Twelve Data for markets, Event Registry for news (`submission-docs/feature-design/local-demo/findings/data-sources.md`, "Recommended source per kind (for the user to confirm)").
+- **Tech stack:** Nuxt 4 with TypeScript, and SQLite (`submission-docs/feature-design/local-demo/milestones/03-events-in-and-the-admin-view.md`, its Stack decision).
+- **Delivery services:** Resend for email, Slack incoming webhooks (`submission-docs/feature-design/local-demo/findings/delivery.md`, "Email: Resend" and "Slack: webhooks").
 - **Hosting:** provider chosen in the roadmap (PD-11).
 
 ## Later
@@ -93,7 +93,7 @@ Open sign-up; public or commercial use; user-set importance; a light mode or the
 - **OQ-02 Few disasters may alert:** the demo's OQ-11, still open.
 - **OQ-03 News allowance.** Closed: the windows cap news checks at 450 tokens in total (PD-22).
 - **OQ-04 Failure reasons.** Closed: counts only (PD-10).
-- **OQ-05 Slack link kinds:** the demo's kind needs a paid Slack plan (`feature-design/local-demo/findings/delivery.md`, "The two webhook kinds"). Which kinds the help covers is open.
+- **OQ-05 Slack link kinds:** the demo's kind needs a paid Slack plan (`submission-docs/feature-design/local-demo/findings/delivery.md`, "The two webhook kinds"). Which kinds the help covers is open.
 
 ## Decisions
 
@@ -107,7 +107,7 @@ By the user, in the interview:
 - **PD-03** Markets stay on the demo's source, with no new licence. **Override:** I recommended licensing market data. User: "This is private, non-commercial use with me and the reviewer."
 - **PD-04** Alert email fixed to login email, as recommended. Reason: no extra setup.
 - **PD-05** Slack by pasted link with step-by-step help, as recommended. Reason: proven in the demo.
-- **PD-06** Simple news merge, as recommended. Reason: two identical alerts (`feature-design/local-demo/findings/delivery.md`, "M5 journey run").
+- **PD-06** Simple news merge, as recommended. Reason: two identical alerts (`submission-docs/feature-design/local-demo/findings/delivery.md`, "M5 journey run").
 - **PD-07** DEC-27 kept exactly. **Override:** I recommended dropping sport and entertainment news.
 - **PD-08** No retry. **Override:** I recommended retrying and telling the user.
 - **PD-09** Daily counts per channel replace per-delivery rows; read-only, no contact details or content (DEC-31, DEC-33), as recommended. Reason: the user's own design.

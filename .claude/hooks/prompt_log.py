@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Claude Code hook: log prompts and replies to submission-docs/.
+"""Claude Code hook: log prompts and replies to submission-docs/process-logs/.
 
 Registered for UserPromptSubmit and Stop. Appends one line per event to
-submission-docs/prompts/raw/prompts.jsonl (source of truth), then regenerates
+submission-docs/process-logs/prompts/raw/prompts.jsonl (source of truth), then regenerates
 each phase's <folder>/prompts/prompts.md from that file alone, splitting by the
-first prompt ID of each row in submission-docs/phases.md. The last row is the
+first prompt ID of each row in submission-docs/process-logs/phases.md. The last row is the
 open phase. Never blocks the session.
 
 On UserPromptSubmit it also gives Claude the prompt's ID (P-001, P-002, ...)
@@ -22,7 +22,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(os.environ.get("CLAUDE_PROJECT_DIR") or Path(__file__).resolve().parents[2])
-DOCS = ROOT / "submission-docs"
+DOCS = ROOT / "submission-docs" / "process-logs"
 RAW = DOCS / "prompts" / "raw" / "prompts.jsonl"
 PHASES = DOCS / "phases.md"
 # a phases.md row: its Folder cell links to the folder, its Prompts cell starts with the first ID
@@ -179,7 +179,7 @@ def last_prompt_time(session_id):
 
 def context_for(pid, signals):
     """Text the UserPromptSubmit hook hands Claude for this turn."""
-    logs = f"submission-docs/{phases()[-1][0]}"
+    logs = f"submission-docs/process-logs/{phases()[-1][0]}"
     text = REMINDER.format(pid=pid, anchor=pid.lower(), logs=logs)
     if signals:
         text += (

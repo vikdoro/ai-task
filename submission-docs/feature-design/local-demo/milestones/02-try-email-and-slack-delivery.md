@@ -4,7 +4,7 @@ Roadmap: M2
 
 ## Intent
 
-A throwaway script in `spikes/` sends one plain-text test message to the demo user's own email through Resend, and one to a dedicated Slack channel through a Slack webhook. Since P-118 that is a Workflow Builder webhook. It prints delivered, failed or skipped for each channel, with the reason. A committed findings note in `feature-design/local-demo/findings/` records each service's limits and failure cases, taken from the services' docs, and the outcome of the user's own live runs.
+A throwaway script in `spikes/` sends one plain-text test message to the demo user's own email through Resend, and one to a dedicated Slack channel through a Slack webhook. Since P-118 that is a Workflow Builder webhook. It prints delivered, failed or skipped for each channel, with the reason. A committed findings note in `submission-docs/feature-design/local-demo/findings/` records each service's limits and failure cases, taken from the services' docs, and the outcome of the user's own live runs.
 
 Only the happy path is tried (P-109). No failure is caused on purpose. Agents never send live. The executor and the reviewer verify offline, and the user runs every live send (see [Steps the user runs](#steps-the-user-runs)).
 
@@ -16,7 +16,7 @@ Only the happy path is tried (P-109). No failure is caused on purpose. Agents ne
 - `spikes/no-network.mjs` (offline guard used only for verification; see AC-9)
 - `spikes/README.md` (add an M2 section; the M1 section stays as it is)
 - `.env.example` (add the three key names, no values)
-- `feature-design/local-demo/findings/delivery.md`
+- `submission-docs/feature-design/local-demo/findings/delivery.md`
 - `spikes/samples/delivery-<run timestamp>/**` (written by the script, gitignored, never committed)
 
 ## Out of scope
@@ -31,7 +31,7 @@ Only the happy path is tried (P-109). No failure is caused on purpose. Agents ne
 - Message wording beyond the approved test text in AC-2. Alert wording is OQ-07 and belongs to M5.
 - npm packages, including Resend's or Slack's SDKs. Use built-in `fetch` and `node:` modules only. Do not change `package.json` or `package-lock.json`.
 - Changing M1's scripts (`spikes/fetch-sources.mjs`, `spikes/sources/**`) or anything already in `spikes/samples/`.
-- Editing `feature-design/local-demo/product-spec.md`, `feature-design/local-demo/roadmap.md` or `.env`.
+- Editing `submission-docs/feature-design/local-demo/product-spec.md`, `submission-docs/feature-design/local-demo/roadmap.md` or `.env`.
 - Unit tests (roadmap Decisions: spikes are verified by running them).
 
 ## Setup
@@ -76,7 +76,7 @@ Only the happy path is tried (P-109). No failure is caused on purpose. Agents ne
 - AC-9: With `--import ./spikes/no-network.mjs`, any `fetch` call throws `network blocked by no-network.mjs`. That guard file does nothing else.
 - AC-10: A run other than a dry run saves the raw response and a `.meta.json` for each send in a new folder, `spikes/samples/delivery-<run timestamp>/`. That is at most one send per channel and no email-status files. The `.meta.json` holds the redacted request (method, URL, headers, body), the time sent in UTC, the status and the response headers, or the error. Nothing else under `spikes/samples/` is created, changed or removed.
 - AC-11: `git status --porcelain` lists nothing under `spikes/samples/`. `package.json` and `package-lock.json` are unchanged, and every import in the new files is a relative path or a `node:` module. `.env.example` lists `RESEND_API_KEY`, `DEMO_USER_EMAIL` and `SLACK_WEBHOOK_URL`, with no values.
-- AC-12: `feature-design/local-demo/findings/delivery.md` exists. For Resend and for Slack webhooks, it covers the items below, each with the URL it came from, marked as either read in the docs or seen in a run:
+- AC-12: `submission-docs/feature-design/local-demo/findings/delivery.md` exists. For Resend and for Slack webhooks, it covers the items below, each with the URL it came from, marked as either read in the docs or seen in a run:
   - the free-use limits and terms. For Resend these are the daily and monthly quotas, the request rate limit, and the rule that the test sender delivers only to the account's own address. For Slack they are the webhook rate limit and the message size limit;
   - every failure case the docs name, with the status and the error name or body text it comes back as;
   - for Resend, a note for M5:
@@ -99,7 +99,7 @@ Only the happy path is tried (P-109). No failure is caused on purpose. Agents ne
   - any failure that happened naturally, with its reason. This includes the `workflow_not_published` response, and the `restricted_api_key` status lookup from the runs before P-121.
 
   Until the user has run the command, the section reads `pending: user run`, and the milestone is not done.
-- AC-14: `git diff --stat` shows no change to `feature-design/local-demo/product-spec.md`, `feature-design/local-demo/roadmap.md`, `spikes/fetch-sources.mjs` or anything under `spikes/sources/`.
+- AC-14: `git diff --stat` shows no change to `submission-docs/feature-design/local-demo/product-spec.md`, `submission-docs/feature-design/local-demo/roadmap.md`, `spikes/fetch-sources.mjs` or anything under `spikes/sources/`.
 
 ## Verification
 
@@ -124,7 +124,7 @@ These are run from the repo root. They use fake values, and the `--import ./spik
    - `git check-ignore spikes/samples/any`;
    - `git diff --stat`;
    - `grep -nE "^import|from '" spikes/send-test.mjs spikes/channels/*.mjs spikes/no-network.mjs`.
-6. Findings (AC-12): read `feature-design/local-demo/findings/delivery.md`.
+6. Findings (AC-12): read `submission-docs/feature-design/local-demo/findings/delivery.md`.
 
 These parts cannot be run offline, so the reviewer checks them by reading `spikes/channels/email-resend.mjs` and `spikes/channels/slack-webhook.mjs`:
 - the 10-second timeout;

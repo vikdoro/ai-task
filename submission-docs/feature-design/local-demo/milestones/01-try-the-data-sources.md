@@ -9,9 +9,9 @@ Throwaway scripts in `spikes/` fetch real data from these sources:
 - market movements: Twelve Data;
 - breaking news: Event Registry's event (cluster) API, where each event's article count is the signal of how important it is.
 
-No AI or LLM processing is used, and no RSS feeds are fetched. The scripts save the raw samples locally, gitignored. A committed findings note in `feature-design/local-demo/findings/` records what each source returns, maps its fields to FR-06, and proposes two or three candidate bars per kind, so the user can settle OQ-01 at the walkthrough.
+No AI or LLM processing is used, and no RSS feeds are fetched. The scripts save the raw samples locally, gitignored. A committed findings note in `submission-docs/feature-design/local-demo/findings/` records what each source returns, maps its fields to FR-06, and proposes two or three candidate bars per kind, so the user can settle OQ-01 at the walkthrough.
 
-DEC-04, DEC-05, DEC-26 and PM-15 in `feature-design/local-demo/product-spec.md` stay as they are. The findings may only propose revising them before M3, and that would go through `/design revise`.
+DEC-04, DEC-05, DEC-26 and PM-15 in `submission-docs/feature-design/local-demo/product-spec.md` stay as they are. The findings may only propose revising them before M3, and that would go through `/design revise`.
 
 ## Allowed files
 
@@ -24,7 +24,7 @@ DEC-04, DEC-05, DEC-26 and PM-15 in `feature-design/local-demo/product-spec.md` 
 - `spikes/README.md` (how to run, which keys are needed)
 - `.env.example` (key names only, no values)
 - `.gitignore` (add `spikes/samples/`)
-- `feature-design/local-demo/findings/data-sources.md`
+- `submission-docs/feature-design/local-demo/findings/data-sources.md`
 - `spikes/samples/**` (written by the script, gitignored, never committed)
 
 ## Out of scope
@@ -39,7 +39,7 @@ DEC-04, DEC-05, DEC-26 and PM-15 in `feature-design/local-demo/product-spec.md` 
 - npm packages or other dependencies, including Event Registry's SDKs. Use only built-in `fetch` and `node:` modules. Do not change `package.json` or `package-lock.json`.
 - A database, a server, scheduling beyond the 3-minute watch, or any app code for M3.
 - Drafting message wording (DEC-23, OQ-07). The findings map fields only.
-- Editing `feature-design/local-demo/product-spec.md` or `feature-design/local-demo/roadmap.md`.
+- Editing `submission-docs/feature-design/local-demo/product-spec.md` or `submission-docs/feature-design/local-demo/roadmap.md`.
 - Unit tests (roadmap Decisions: spikes are verified by running them).
 - Committing samples or keys.
 
@@ -112,7 +112,7 @@ AC numbers are kept stable across amendments. An AC that was removed keeps its n
 - AC-10: `package.json` and `package-lock.json` are unchanged. Every import in `spikes/` is a relative path or a `node:` module.
   - No AI or LLM service is called: no file under `spikes/` (outside `spikes/samples/`) contains `generativelanguage` or `GEMINI`.
   - No RSS feed or Google News is fetched: no such file contains `rss`, `bbci`, `theguardian`, `aljazeera` or `news.google`.
-- AC-11: `feature-design/local-demo/findings/data-sources.md` exists and, for each of GDACS, Twelve Data and Event Registry, covers:
+- AC-11: `submission-docs/feature-design/local-demo/findings/data-sources.md` exists and, for each of GDACS, Twelve Data and Event Registry, covers:
   - the fields returned;
   - how significance is shown;
   - how updates and duplicates show up;
@@ -134,7 +134,7 @@ AC numbers are kept stable across amendments. An AC that was removed keeps its n
   - records how the 4 rounds at 1-minute intervals were run, with dates and times in UTC;
   - recommends a source setup for each kind for the user to confirm;
   - says whether the evidence supports proposing a revision of DEC-04, DEC-05, DEC-26 or PM-15 before M3. It presents this as a proposal only, with no change to the spec.
-- AC-15: `git diff --stat` shows no change to `feature-design/local-demo/product-spec.md` or `feature-design/local-demo/roadmap.md`.
+- AC-15: `git diff --stat` shows no change to `submission-docs/feature-design/local-demo/product-spec.md` or `submission-docs/feature-design/local-demo/roadmap.md`.
 
 ## Verification
 
@@ -142,7 +142,7 @@ AC numbers are kept stable across amendments. An AC that was removed keeps its n
   - the AC-7 key-unset case: `env -u TWELVE_DATA_API_KEY -u EVENT_REGISTRY_API_KEY node spikes/fetch-sources.mjs`;
   - the AC-9 checks: `git status --porcelain` and `git check-ignore spikes/samples/any`;
   - the AC-10 check: `grep -rniE "generativelanguage|GEMINI|rss|bbci|theguardian|aljazeera|news\.google" spikes/ --exclude-dir=samples`, which should find nothing.
-- Success: the output and saved samples match AC-1 to AC-10, apart from AC-4, which is removed. Each command exits as AC-1, AC-7 and AC-8 describe. Reading `feature-design/local-demo/findings/data-sources.md` confirms AC-11 to AC-14, and `git diff --stat` confirms AC-15. There are no unit tests (roadmap Decisions).
+- Success: the output and saved samples match AC-1 to AC-10, apart from AC-4, which is removed. Each command exits as AC-1, AC-7 and AC-8 describe. Reading `submission-docs/feature-design/local-demo/findings/data-sources.md` confirms AC-11 to AC-14, and `git diff --stat` confirms AC-15. There are no unit tests (roadmap Decisions).
 
 ## Decisions from the interview
 

@@ -4,7 +4,7 @@ Updated: 2026-11-04
 
 # Roadmap
 
-Leads from `feature-design/local-demo/product-spec.md` to the local demo. Drafted by the user with Claude in the main session, at `feature-design/local-demo/roadmap.md`. Each milestone is specced just in time by the planner into `feature-design/local-demo/milestones/NN-title.md`.
+Leads from `submission-docs/feature-design/local-demo/product-spec.md` to the local demo. Drafted by the user with Claude in the main session, at `submission-docs/feature-design/local-demo/roadmap.md`. Each milestone is specced just in time by the planner into `submission-docs/feature-design/local-demo/milestones/NN-title.md`.
 
 The first two milestones are about learning, not features: what the sources and the delivery services really do. Their code is throwaway scripts; what they leave behind is the findings notes and samples. M3 to M5 build the app properly, test-first, on what they find.
 
@@ -16,8 +16,8 @@ The first two milestones are about learning, not features: what the sources and 
 - Depends on: none
 - Why here: OQ-01 (coverage and bar per kind), OQ-07 (wording) and DEC-26 (one source per kind) all wait on seeing real data. It is the biggest unknown.
 - Done when: one command fetches from the chosen source for each kind and saves the samples, and a findings note proposes coverage and a bar for each kind, for the user to settle OQ-01.
-- Spec: `feature-design/local-demo/milestones/01-try-the-data-sources.md`
-- Status: done (P-100). Findings: `feature-design/local-demo/findings/data-sources.md`. Reviewer PASS in round 2; walkthrough skipped by the user (D-50).
+- Spec: `submission-docs/feature-design/local-demo/milestones/01-try-the-data-sources.md`
+- Status: done (P-100). Findings: `submission-docs/feature-design/local-demo/findings/data-sources.md`. Reviewer PASS in round 2; walkthrough skipped by the user (D-50).
 
 ### M2: Try email and Slack delivery
 
@@ -25,29 +25,29 @@ The first two milestones are about learning, not features: what the sources and 
 - Depends on: none (can run alongside M1)
 - Why here: the second unknown. FR-09 needs to know which failure reasons the services give, and the service choice affects setup.
 - Done when: one command sends a test message to each channel and prints delivered or failed, with the reason. A findings note records the service's limits and its failure cases.
-- Spec: `feature-design/local-demo/milestones/02-try-email-and-slack-delivery.md`
-- Status: done (P-132). Findings: `feature-design/local-demo/findings/delivery.md`. Reviewer PASS; Slack goes through a Workflow Builder webhook rather than an incoming webhook (D-57); walkthrough not run (D-59).
+- Spec: `submission-docs/feature-design/local-demo/milestones/02-try-email-and-slack-delivery.md`
+- Status: done (P-132). Findings: `submission-docs/feature-design/local-demo/findings/delivery.md`. Reviewer PASS; Slack goes through a Workflow Builder webhook rather than an incoming webhook (D-57); walkthrough not run (D-59).
 
 ### M3: Events in and the admin view
 
 Poll the three chosen sources, store events, apply each kind's bar from OQ-01, and show them in the read-only admin view (FR-07, FR-10).
 
-- Spec: `feature-design/local-demo/milestones/03-events-in-and-the-admin-view.md`
-- Status: done (P-172). Live run: `feature-design/local-demo/findings/data-sources.md#m3-live-run`. Reviewer PASS; the 60-minute schedule run moved to M5's live run (D-71); walkthrough not run.
+- Spec: `submission-docs/feature-design/local-demo/milestones/03-events-in-and-the-admin-view.md`
+- Status: done (P-172). Live run: `submission-docs/feature-design/local-demo/findings/data-sources.md#m3-live-run`. Reviewer PASS; the 60-minute schedule run moved to M5's live run (D-71); walkthrough not run.
 
 ### M4: Set up the alert
 
 The demo user's screen: set up the alert, change channels, delete it (FR-01 to FR-03, FR-11).
 
-- Spec: `feature-design/local-demo/milestones/04-set-up-the-alert.md`
+- Spec: `submission-docs/feature-design/local-demo/milestones/04-set-up-the-alert.md`
 - Status: done (P-190). Reviewer PASS on the first round; contact values stay in `.env` for the demo (D-83); `.nuxtrc` gitignored (D-84); walkthrough not run.
 
 ### M5: Alerts delivered, the journey complete
 
 Match events that clear their bar to the alert, deliver once per channel with the approved wording (OQ-07), and show alerts fired and deliveries in the admin view (FR-05, FR-06, FR-08, FR-09). J-01 runs end to end.
 
-- Spec: `feature-design/local-demo/milestones/05-alerts-delivered.md`
-- Status: done (P-203). Journey run: `feature-design/local-demo/findings/delivery.md#m5-journey-run`. Reviewer PASS; journey run only, the 60-minute live run stays deferred (D-90); same-headline news merge deferred to PM-17 (D-95); walkthrough not run.
+- Spec: `submission-docs/feature-design/local-demo/milestones/05-alerts-delivered.md`
+- Status: done (P-203). Journey run: `submission-docs/feature-design/local-demo/findings/delivery.md#m5-journey-run`. Reviewer PASS; journey run only, the 60-minute live run stays deferred (D-90); same-headline news merge deferred to PM-17 (D-95); walkthrough not run.
 
 ## Traceability
 
@@ -67,7 +67,7 @@ Every in-scope item of the local demo in `product-spec.md` maps to at least one 
 
 - Two learning milestones come first, before any feature. Decided by the user (P-067), as recommended: the spec's open questions all wait on real data.
 - M1 and M2 are throwaway scripts plus findings notes. The real source fetchers and channel senders are built in M3 and M5. Decided by the user (P-067); Claude had recommended keeping them as test-first app modules.
-- M1 and M2 scripts live in `spikes/` at the repo root, and their findings notes and samples in `feature-design/local-demo/findings/`. Being throwaway, they have no unit tests: their verification is running the script and checking its output. Decided by Claude, accepted by the user (P-069).
+- M1 and M2 scripts live in `spikes/` at the repo root, and their findings notes and samples in `submission-docs/feature-design/local-demo/findings/`. Being throwaway, they have no unit tests: their verification is running the script and checking its output. Decided by Claude, accepted by the user (P-069).
 - The web framework and storage are chosen in M3's spec; M1 and M2 need only the Node toolchain (D-05). Decided by the user (P-067), as recommended.
 
 ## Change log

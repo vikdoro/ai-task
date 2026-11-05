@@ -24,19 +24,19 @@ else's.
 
 ## You own
 
-In `feature-design/`:
+In `submission-docs/feature-design/`:
 
 - `tech-stack.md`: tech stack, auth and data-source choices. For each, the
   options considered, the choice and the reason.
 - `high-level-design.md`: components and how data flows from ingest to
   delivery, as a Mermaid diagram plus prose.
 - `roadmap.md`: ordered milestones in the format of
-  `feature-design/templates/ROADMAP-TEMPLATE.md`, traced to the functional requirements.
+  `submission-docs/feature-design/templates/ROADMAP-TEMPLATE.md`, traced to the functional requirements.
   Each `PM-NN` in the Post-MVP section of `product-spec.md` becomes a
   one-line milestone after the MVP, or a stated non-goal.
 
 The Node toolchain is fixed (decision D-05 in
-`submission-docs/01-setup/decisions.md`). Do not reopen it.
+`submission-docs/process-logs/01-setup/decisions.md`). Do not reopen it.
 
 ## You review
 
