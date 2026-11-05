@@ -344,3 +344,47 @@ Add reflections and simplify submission docs
 That's 44 characters. I'd skip a body, since D-132 and D-133 already record why the files moved. Run `git add .` before you commit: `reflections.md` and `what-was-built-and-why.md` are still untracked, and the README edits and the deletion aren't staged.
 
 ---
+
+## P-245
+
+**User** · 2026-11-05 07:00 UTC
+
+> can we fix npm audit findings?
+
+**Mode:** Auto
+
+### Claude Code
+
+I fixed the 9 moderate findings. Seven low ones are left, and they have no fix yet.
+
+**What I changed:** `package.json` now has an `overrides` block that forces the patched versions of two packages: `glob@^14.0.3` and `minimatch@^11.0.4`. `package-lock.json` was regenerated to match. `npm audit` went from 15 findings (6 low, 9 moderate) to 7 low. All 279 tests pass and `nuxt build` succeeds.
+
+I didn't use `npm audit fix --force`, which is what npm suggests. It would have downgraded `nuxt` from 4.6.4 to 4.1.3 and `@vue/test-utils` from 2.5.1 to 2.4.11.
+
+**What's left:** all 7 low findings come from one problem in `deepmerge` (GHSA-gcqx-w48m-w2h4). There's no fixed version yet: the latest release, 4.3.1, is affected. It only gets in through a plugin Nuxt uses when building the app (`@rollup/plugin-node-resolve`), and that plugin merges its own build settings with it. It never touches request data, so I left it.
+
+**My choice you might veto:** the overrides make `@vue/test-utils` and Nuxt's server layer use one major version newer of `glob` and `minimatch` than they ask for. The build and tests pass with them. To undo it, remove the `overrides` block and run `npm install`. If a later Nuxt release lists the fixed versions itself, the block can go.
+
+**Logged:** D-134 · process · npm `overrides` pin patched `glob` and `minimatch`; `deepmerge` advisory left open
+
+**Checks for you:**
+1. Run `npm run dev`, open the app and click through it once. The tests and the build pass, but they don't exercise the dev server's file watching, and that uses the newer `glob`.
+2. Read the `git diff package.json` and the lockfile diff before you commit. Only `glob`, `minimatch` and the new `overrides` block should change.
+
+---
+
+## P-246
+
+**User** · 2026-11-05 07:07 UTC
+
+> Check 1, 2 done.
+
+**Mode:** Auto
+
+### Claude Code
+
+I've logged both checks as passed in `checks.md`, so nothing from this work is still open.
+
+The audit fix is ready for you to commit. It's in `package.json`, `package-lock.json` and the new entries in the `05-submission-polish` logs (`decisions.md`, `checks.md`). A subject line you could use: `Override glob and minimatch to patched versions`.
+
+---

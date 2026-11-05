@@ -17,3 +17,8 @@ Tier-one decisions and decisions about the process or tooling, newest last. Tier
 - **Decided by:** user · [P-243](prompts/prompts.md#p-243)
 - **What:** Both files move from `submission-docs/` to `submission-docs/process-logs/`, so agents no longer read them. This changes where D-131 left them.
 - **Why:** not stated.
+
+### D-134 · process · npm `overrides` pin patched `glob` and `minimatch`; `deepmerge` advisory left open
+- **Decided by:** claude · [P-245](prompts/prompts.md#p-245)
+- **What:** `package.json` overrides force `glob@^14.0.3` and `minimatch@^11.0.4` (both a major above what `@vue/test-utils` and `nitropack` ask for). `npm audit` drops from 15 (9 moderate) to 7 low. The `deepmerge` advisory has no patched release and reaches us only through Nitro's build-time Rollup plugin, so it stays.
+- **Why:** `npm audit fix --force` would downgrade `nuxt` to 4.1.3 and `@vue/test-utils` to 2.4.11. With the overrides, tests (279) and `nuxt build` pass.
