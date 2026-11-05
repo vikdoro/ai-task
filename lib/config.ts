@@ -45,7 +45,8 @@ export function parsePolling(value: string | undefined): Polling {
 
 export function resolveConfig(env: Record<string, string | undefined>, cwd: string = process.cwd()): Config {
   const mode = parseMode(env.SOURCE_MODE);
-  const samplesDir = env.SAMPLES_DIR ? resolve(cwd, env.SAMPLES_DIR) : resolve(cwd, 'spikes/samples');
+  // The committed demo samples by default (D-129); the recorded spike samples need SAMPLES_DIR=spikes/samples.
+  const samplesDir = env.SAMPLES_DIR ? resolve(cwd, env.SAMPLES_DIR) : resolve(cwd, 'samples');
   const dbPath = env.DB_PATH ? resolve(cwd, env.DB_PATH) : resolve(cwd, mode === 'live' ? 'data/app.db' : 'data/samples.db');
   return { mode, samplesDir, dbPath };
 }

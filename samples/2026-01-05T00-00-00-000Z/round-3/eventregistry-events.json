@@ -1,0 +1,26 @@
+{
+  "events": {
+    "results": [
+      {
+        "uri": "sample-news-4",
+        "title": {
+          "eng": "Sample quiet-day news story (below the bar)"
+        },
+        "eventDate": "2026-01-07",
+        "totalArticleCount": 250,
+        "location": {
+          "type": "place",
+          "label": {
+            "eng": "Sample Village"
+          },
+          "country": {
+            "type": "country",
+            "label": {
+              "eng": "Sample Country"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

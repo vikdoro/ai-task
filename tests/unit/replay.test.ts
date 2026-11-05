@@ -24,10 +24,10 @@ function snapshot(dir: string): Record<string, string> {
 }
 
 describe('AC-15 SOURCE_MODE', () => {
-  it('AC-15 unset or samples is samples mode, with spikes/samples by default and data/samples.db', () => {
+  it('AC-15 unset or samples is samples mode, with the demo samples/ by default (D-129) and data/samples.db', () => {
     const cwd = '/repo';
     for (const env of [{}, { SOURCE_MODE: 'samples' }]) {
-      expect(resolveConfig(env, cwd)).toEqual({ mode: 'samples', samplesDir: resolve(cwd, 'spikes/samples'), dbPath: resolve(cwd, 'data/samples.db') });
+      expect(resolveConfig(env, cwd)).toEqual({ mode: 'samples', samplesDir: resolve(cwd, 'samples'), dbPath: resolve(cwd, 'data/samples.db') });
     }
   });
 

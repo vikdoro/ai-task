@@ -39,7 +39,7 @@ It finds things with Grep or Glob before opening a file, and reads large files b
 
 ## Live data calls
 
-- Until the user says otherwise (D-49), no agent calls an external data source live: not GDACS, Twelve Data or Event Registry. All development and verification run against the samples saved in `spikes/samples/` by M1.
+- Until the user says otherwise (D-49), no agent calls an external data source live: not GDACS, Twelve Data or Event Registry. All development and verification run against the samples saved in `spikes/samples/` by M1, selected with `SAMPLES_DIR=spikes/samples`. The default is the committed demo set in `samples/`, which is generic and made up (D-129).
 - Event Registry's free allowance is 2,000 tokens that never renew, at 5 per search.
 - `spikes/samples/` is gitignored, so it exists only on the user's machine. No agent deletes, moves or overwrites it.
 - A step that seems to need a live call stops and asks the user.

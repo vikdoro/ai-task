@@ -1,0 +1,10 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://eventregistry.org/api/v1/event"
+  },
+  "status": 200,
+  "headers": {
+    "x-ratelimit-remaining": "1985"
+  }
+}

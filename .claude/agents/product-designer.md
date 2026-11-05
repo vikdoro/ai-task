@@ -45,7 +45,10 @@ Start the file with `Status: draft | approved`, `Version: N`,
 (`J-01` for journeys, `PM-01`, `OQ-01`, `PD-01`) so later documents can
 point to an item.
 
-Do not name technologies, vendors, data models or APIs. Where the brief
+One exception: a short section, **Chosen services**, placed after This
+phase, names the data sources, tech stack and delivery services the local
+demo settled on, one line each, linking to the local-demo findings.
+Everywhere else, do not name technologies, vendors, data models or APIs. Where the brief
 asks "where the data comes from", say what kind of data is needed, not
 which provider.
 

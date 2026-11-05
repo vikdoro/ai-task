@@ -65,3 +65,11 @@ Tier-one decisions and decisions about the process or tooling, newest last. Tier
 - **Decided by:** user · [P-206](prompts/prompts.md#p-206), as recommended. A lighter model for the reviewer and explainer, and sending the executor's report to the reviewer up front, were offered and not chosen.
 - **What:** a shared "Reading, to save tokens" rule in `CLAUDE.md` and a fixed read list in each agent file. `feature-design/local-demo/` is off limits except for sections a current doc cites. Milestone specs are capped at about 1,500 words (`TEMPLATE.md`, planner).
 - **Why:** the user: "we are still using a lot of tokens and the subprocesses are slow".
+
+### D-100 · process · M5 closed; MVP planning opens as `04-mvp/00-spec-and-roadmap/`
+- **Decided by:** user · [P-208](prompts/prompts.md#p-208), as recommended
+- **What:** M5's log phase closes after the restructure (D-96 to D-99). MVP planning gets its own phase folder, in the same split the local demo used.
+
+### D-101 · process · The MVP spec may name the chosen sources, stack and delivery services
+- **Decided by:** user · [P-208](prompts/prompts.md#p-208), as recommended
+- **What:** the product-designer may write one short section naming the data sources, tech stack and delivery services, with links to the local-demo findings. The rest of the spec stays non-technical. `.claude/agents/product-designer.md` is updated.

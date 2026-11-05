@@ -1,0 +1,55 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0,
+          0
+        ]
+      },
+      "properties": {
+        "eventtype": "TC",
+        "eventid": 9001,
+        "name": "Sample tropical cyclone",
+        "country": "Sample Country",
+        "fromdate": "2026-01-05T06:00:00",
+        "alertlevel": "Red",
+        "episodealertlevel": "Red",
+        "iscurrent": "true",
+        "severitydata": {
+          "severity": 1,
+          "severitytext": "Sample cyclone, 120 mph winds",
+          "severityunit": ""
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0,
+          0
+        ]
+      },
+      "properties": {
+        "eventtype": "EQ",
+        "eventid": 9004,
+        "name": "Sample earthquake",
+        "country": "Sample Country",
+        "fromdate": "2026-01-06T09:30:00",
+        "alertlevel": "Orange",
+        "episodealertlevel": "Orange",
+        "iscurrent": "true",
+        "severitydata": {
+          "severity": 1,
+          "severitytext": "Magnitude 7.0M",
+          "severityunit": ""
+        }
+      }
+    }
+  ]
+}

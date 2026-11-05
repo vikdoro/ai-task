@@ -1,0 +1,56 @@
+{
+  "SPY": {
+    "symbol": "SPY",
+    "name": "Sample US stock index fund",
+    "exchange": "Sample exchange",
+    "datetime": "2026-01-07",
+    "last_quote_at": 1767801600,
+    "percent_change": "0.2",
+    "close": "100"
+  },
+  "QQQ": {
+    "symbol": "QQQ",
+    "name": "Sample tech stock index fund",
+    "exchange": "Sample exchange",
+    "datetime": "2026-01-07",
+    "last_quote_at": 1767801600,
+    "percent_change": "0.3",
+    "close": "100"
+  },
+  "EUR/USD": {
+    "symbol": "EUR/USD",
+    "name": "Sample euro to dollar rate",
+    "exchange": "Sample exchange",
+    "datetime": "2026-01-07",
+    "last_quote_at": 1767801600,
+    "percent_change": "-0.1",
+    "close": "100"
+  },
+  "BTC/USD": {
+    "symbol": "BTC/USD",
+    "name": "Sample bitcoin to dollar rate",
+    "exchange": "Sample exchange",
+    "datetime": "2026-01-07",
+    "last_quote_at": 1767801600,
+    "percent_change": "1.5",
+    "close": "100"
+  },
+  "GLD": {
+    "symbol": "GLD",
+    "name": "Sample gold fund",
+    "exchange": "Sample exchange",
+    "datetime": "2026-01-07",
+    "last_quote_at": 1767801600,
+    "percent_change": "0.5",
+    "close": "100"
+  },
+  "USO": {
+    "symbol": "USO",
+    "name": "Sample oil fund",
+    "exchange": "Sample exchange",
+    "datetime": "2026-01-07",
+    "last_quote_at": 1767801600,
+    "percent_change": "-1.2",
+    "close": "100"
+  }
+}

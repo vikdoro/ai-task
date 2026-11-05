@@ -917,3 +917,35 @@ Once you've committed, two things need your answer:
 2. **MVP spec rules:** should the product-designer be allowed a short section naming the chosen data sources, tech stack and delivery services, with links to the findings? I recommend yes, with the rest of the spec kept non-technical. Without it, the rule that bars naming technologies stays.
 
 ---
+
+## P-208
+
+**User** · 2026-11-05 02:04 UTC
+
+> I commited. 
+> 1. Close M5 and open 04-mvp/00-spec-and-roadmap/ for the MVP planning. 
+> 2. That's fine, yes.
+
+**Mode:** Auto
+
+### Claude Code
+
+M5 is closed and the MVP planning phase is open. You confirmed the commit (`a5b1577`), and I ran `npm test`: 278 of 278 tests pass.
+
+- **M5 row closed:** its row in `submission-docs/phases.md` now shows P-192 to P-208, D-85 to D-101, I-50 to I-51 and C-87 to C-96.
+- **New phase opened:** "MVP: spec and roadmap" is now the last row, starting from P-209, D-102, I-52 and C-97. Its folder `submission-docs/04-mvp/00-spec-and-roadmap/` holds empty `decisions.md`, `interventions.md` and `checks.md` with the same headers as before. The hook will file prompts there from your next one.
+- **phases.md intro:** it now says that MVP milestones become phases under `04-mvp/`.
+- **Product-designer rule:** `.claude/agents/product-designer.md` now allows one short **Chosen services** section, placed after "This phase". It names the data sources, tech stack and delivery services the demo settled on, one line each with links to the findings. The rest of the spec stays non-technical.
+
+These edits are uncommitted.
+
+**Logged:**
+- D-100 · process · M5 closed; MVP planning opens as `04-mvp/00-spec-and-roadmap/`
+- D-101 · process · The MVP spec may name the chosen sources, stack and delivery services
+
+**Checks for you:**
+1. Read the new exception at `.claude/agents/product-designer.md:47-50`.
+
+**Next:** start the MVP spec. I recommend a fresh session: run `/clear`, then ask for "the MVP product spec". The product-designer will come back with interview questions, including what makes the MVP shippable, and I'll put each one to you. The new spec will be capped at about 1,200 words.
+
+---

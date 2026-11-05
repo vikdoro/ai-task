@@ -1,6 +1,6 @@
 # Phases
 
-The work in order. Each phase has its own folder holding its four logs: `prompts/prompts.md`, `decisions.md`, `interventions.md` and `checks.md`. IDs run on across phases, and the ranges below say which folder holds an ID. A phase ends when the user says so; its ranges are filled in then. Roadmap milestones from `feature-design/local-demo/roadmap.md` become phases of their own, under `03-local-demo/`.
+The work in order. Each phase has its own folder holding its four logs: `prompts/prompts.md`, `decisions.md`, `interventions.md` and `checks.md`. IDs run on across phases, and the ranges below say which folder holds an ID. A phase ends when the user says so; its ranges are filled in then. Roadmap milestones become phases of their own: those from `feature-design/local-demo/roadmap.md` under `03-local-demo/`, and those from `feature-design/mvp/roadmap.md` under `04-mvp/`.
 
 The last row is the open phase, and the prompt hook writes there. Each row's Prompts cell starts with its first prompt ID, which the hook reads to split the prompt log, so keep that format.
 
@@ -13,4 +13,6 @@ The last row is the open phase, and the prompt hook writes there. Each row's Pro
 | M2 | [`03-local-demo/m2/`](03-local-demo/m2/) | Try email and Slack delivery | [P-108](03-local-demo/m2/prompts/prompts.md#p-108) – [P-143](03-local-demo/m2/prompts/prompts.md#p-143) | D-53 – D-61 | I-35 – I-39 | C-54 – C-64 |
 | M3 | [`03-local-demo/m3/`](03-local-demo/m3/) | Events in and the admin view, with the tech stack calls before it | [P-144](03-local-demo/m3/prompts/prompts.md#p-144) – [P-173](03-local-demo/m3/prompts/prompts.md#p-173) | D-62 – D-71 | I-40 – I-45 | C-65 – C-75 |
 | M4 | [`03-local-demo/m4/`](03-local-demo/m4/) | Set up the alert; opened with the split of these logs into phase folders | [P-174](03-local-demo/m4/prompts/prompts.md#p-174) – [P-191](03-local-demo/m4/prompts/prompts.md#p-191) | D-72 – D-84 | I-46 – I-49 | C-76 – C-86 |
-| M5 | [`03-local-demo/m5/`](03-local-demo/m5/) | Alerts delivered, the journey complete | from [P-192](03-local-demo/m5/prompts/prompts.md#p-192) | from D-85 | from I-50 | from C-87 |
+| M5 | [`03-local-demo/m5/`](03-local-demo/m5/) | Alerts delivered, the journey complete; closed with the local demo frozen and the MVP phase set up | [P-192](03-local-demo/m5/prompts/prompts.md#p-192) – [P-208](03-local-demo/m5/prompts/prompts.md#p-208) | D-85 – D-101 | I-50 – I-51 | C-87 – C-96 |
+| MVP: spec and roadmap | [`04-mvp/00-spec-and-roadmap/`](04-mvp/00-spec-and-roadmap/) | New product spec for a shippable MVP, and its roadmap | [P-209](04-mvp/00-spec-and-roadmap/prompts/prompts.md#p-209) – [P-231](04-mvp/00-spec-and-roadmap/prompts/prompts.md#p-231) | D-102 – D-130 | I-52 – I-62 | C-97 – C-111 |
+| Submission polish | [`05-submission-polish/`](05-submission-polish/) | Polish the submission deliverables: reflections, highlights, plan of attack | from [P-232](05-submission-polish/prompts/prompts.md#p-232) | from D-131 | from I-63 | from C-112 |

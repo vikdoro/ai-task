@@ -1,0 +1,80 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0,
+          0
+        ]
+      },
+      "properties": {
+        "eventtype": "TC",
+        "eventid": 9001,
+        "name": "Sample tropical cyclone",
+        "country": "Sample Country",
+        "fromdate": "2026-01-05T06:00:00",
+        "alertlevel": "Red",
+        "episodealertlevel": "Red",
+        "iscurrent": "true",
+        "severitydata": {
+          "severity": 1,
+          "severitytext": "Sample cyclone, 120 mph winds",
+          "severityunit": ""
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0,
+          0
+        ]
+      },
+      "properties": {
+        "eventtype": "FL",
+        "eventid": 9002,
+        "name": "Sample flood (below the bar)",
+        "country": "Sample Country",
+        "fromdate": "2026-01-04T00:00:00",
+        "alertlevel": "Orange",
+        "episodealertlevel": "Orange",
+        "iscurrent": "true",
+        "severitydata": {
+          "severity": 1,
+          "severitytext": "",
+          "severityunit": ""
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0,
+          0
+        ]
+      },
+      "properties": {
+        "eventtype": "EQ",
+        "eventid": 9003,
+        "name": "Sample past earthquake (no longer current)",
+        "country": "Sample Country",
+        "fromdate": "2025-12-20T03:00:00",
+        "alertlevel": "Orange",
+        "episodealertlevel": "Orange",
+        "iscurrent": "false",
+        "severitydata": {
+          "severity": 1,
+          "severitytext": "Magnitude 6.4M",
+          "severityunit": ""
+        }
+      }
+    }
+  ]
+}

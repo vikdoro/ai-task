@@ -1,0 +1,46 @@
+{
+  "events": {
+    "results": [
+      {
+        "uri": "sample-news-1",
+        "title": {
+          "eng": "Sample major news story"
+        },
+        "eventDate": "2026-01-05",
+        "totalArticleCount": 1500,
+        "location": {
+          "type": "place",
+          "label": {
+            "eng": "Sample City"
+          },
+          "country": {
+            "type": "country",
+            "label": {
+              "eng": "Sample Country"
+            }
+          }
+        }
+      },
+      {
+        "uri": "sample-news-2",
+        "title": {
+          "eng": "Sample minor news story (below the bar)"
+        },
+        "eventDate": "2026-01-05",
+        "totalArticleCount": 300,
+        "location": {
+          "type": "place",
+          "label": {
+            "eng": "Sample Town"
+          },
+          "country": {
+            "type": "country",
+            "label": {
+              "eng": "Sample Country"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

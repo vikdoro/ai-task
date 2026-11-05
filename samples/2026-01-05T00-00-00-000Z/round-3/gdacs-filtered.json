@@ -1,0 +1,30 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0,
+          0
+        ]
+      },
+      "properties": {
+        "eventtype": "EQ",
+        "eventid": 9004,
+        "name": "Sample earthquake",
+        "country": "Sample Country",
+        "fromdate": "2026-01-06T09:30:00",
+        "alertlevel": "Orange",
+        "episodealertlevel": "Orange",
+        "iscurrent": "true",
+        "severitydata": {
+          "severity": 1,
+          "severitytext": "Magnitude 7.0M",
+          "severityunit": ""
+        }
+      }
+    }
+  ]
+}

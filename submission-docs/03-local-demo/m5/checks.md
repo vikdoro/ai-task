@@ -13,3 +13,4 @@ Every check the user ran on Claude's output, in order. Claude lists checks at th
 | C-93 | The full M5 diff | [P-199](prompts/prompts.md#p-199), [P-202](prompts/prompts.md#p-202) | [P-204](prompts/prompts.md#p-204) | OK |
 | C-94 | `CLAUDE.md`: the new "Reading, to save tokens" section and the "Way of working" changes | [P-206](prompts/prompts.md#p-206) | [P-207](prompts/prompts.md#p-207) | OK |
 | C-95 | The new Reading sections in the planner, product-designer, executor, reviewer and explainer agent files | [P-206](prompts/prompts.md#p-206) | [P-207](prompts/prompts.md#p-207) | OK |
+| C-96 | Commit the restructure, then `npm test`; expect all pass, including the two locked-path tests | [P-206](prompts/prompts.md#p-206) | [P-208](prompts/prompts.md#p-208) | OK: committed (`a5b1577`); Claude ran `npm test`, 278 of 278 passed |
