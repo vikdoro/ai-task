@@ -1,0 +1,5 @@
+{
+  "extends": "../.nuxt/tsconfig.app.json",
+  "compilerOptions": { "noUncheckedIndexedAccess": false },
+  "include": ["../.nuxt/nuxt.d.ts", "./**/*"]
+}

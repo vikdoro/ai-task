@@ -130,7 +130,7 @@ describe('M5 Alerts fired, end to end', () => {
     await add(db, '2026-11-04T02:00:00.000Z', 'before');
     await add(db, '2026-11-04T04:00:00.000Z', 'sent');
     const f = (async (url: string) =>
-      String(url).startsWith('https://api.resend.com') ? jsonResponse({ id: 'em_e2e' }) : new Response('no_service', { status: 404 })) as unknown as typeof fetch;
+      String(url).startsWith('https://api.resend.com') ? jsonResponse({ id: 'em_e2e' }) : new Response('no_service', { status: 404 })) as unknown as typeof globalThis.fetch;
     await matchAlerts({ db, mode: 'live', env: { RESEND_API_KEY: SECRETS.RESEND_API_KEY }, fetch: f });
     await saveAlert(db, contacts, { email: false, slack: false }, new Date('2026-11-04T05:00:00.000Z'));
     await add(db, '2026-11-04T06:00:00.000Z', 'none');

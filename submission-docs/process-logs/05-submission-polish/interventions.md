@@ -12,3 +12,15 @@ Rejections and course corrections, in order. Checks that passed are in [`checks.
 - **Caught by:** user: "closed logs should not be updated"
 - **Why wrong:** not stated.
 - **Changed:** closed phase logs keep their paths as written, even where links break. Only live documents and the open phase's logs are updated. See D-131.
+
+### I-64 · CORRECT · [P-236](prompts/prompts.md#p-236)
+- **Claude did:** said `tsc` across the four Nuxt tsconfigs covered `tests/` and that the TS check was clean ([P-235](prompts/prompts.md#p-235)).
+- **Caught by:** user, through C-112: "Cannot find module '../../app/components/alert/Panel.vue'" and "Type '\"text\"' is not assignable to type '\"json\"'".
+- **Why wrong:** no Nuxt tsconfig includes `tests/`, so the IDE checked those files in a loose inferred project without Nuxt's types. Claude did not confirm which files the tsconfigs included.
+- **Changed:** added `tests/tsconfig.json`, which extends the app tsconfig, and referenced it from the root `tsconfig.json`. Fixed a cast in `tests/e2e/alerts.test.ts` that this exposed.
+
+### I-65 · CORRECT · [P-237](prompts/prompts.md#p-237)
+- **Claude did:** said the new `tests/tsconfig.json` would clear the `Panel.vue` import error, checking it only with `vue-tsc` on TypeScript 5.9 ([P-236](prompts/prompts.md#p-236)).
+- **Caught by:** user, through C-113: "still errors on line 4".
+- **Why wrong:** the project's TypeScript 7 cannot load Vue's plugin, so plain `tsc` does not resolve `.vue` imports. Running `tsc` 7 on the new config had already shown this error, and Claude did not act on it.
+- **Changed:** added `tests/shims-vue.d.ts`, which declares `*.vue` modules for TypeScript without the Vue plugin.

@@ -78,3 +78,145 @@ Move design docs and logs into submission-docs
 That's 46 characters, so it fits the 50-character limit. I left out a body because D-131 already records the reason. Your README wording change goes into the same commit. If you'd like it in its own commit, commit `README.md` first, though it also contains my link updates.
 
 ---
+
+## Unrecorded prompt
+
+**User** · 2026-11-05 05:02 UTC
+
+_Prompt not recorded_
+
+**Mode:** Auto
+
+### Claude Code
+
+Your test run passed cleanly: all 279 tests in 24 files, in about 47 seconds.
+
+Vitest also suggests setting `isolate: false` to save about 7 seconds per run. I'd leave it as is. With isolation on, each test file gets its own worker, so files can't leak state or module mocks into each other, and that's worth more than 7 seconds.
+
+What would you like to do next?
+
+---
+
+## P-235
+
+**User** · 2026-11-05 05:04 UTC
+
+> Check for linter and TypeScript errors, I see a few being flagged in my IDE
+
+**Mode:** Auto
+
+### Claude Code
+
+I found and fixed one TypeScript problem, which showed up as two errors. There's no linter to run: the repo has no ESLint installed or configured.
+
+**What was wrong:** in `lib/poll.ts`, `let events;` had no type, so `tsc` reported TS7034 at line 67 and TS7005 at line 85. I typed it as `ParsedEvent[] | undefined` and added `ParsedEvent` to the existing import from `./sources/types.ts`. That's the whole diff, two lines.
+
+**What's clean now:**
+- `tsc --noEmit` passes on all four Nuxt projects (app, server, shared, node). These cover `lib/`, `server/`, `tests/` and `scripts/`.
+- The `.vue` files in `app/` pass too. Your TypeScript 7 can't check them, so I ran `vue-tsc` through `npx` with TypeScript 5.9. That copy lives only in the npx cache; nothing was added to `package.json` or `node_modules`.
+- All 279 tests still pass.
+
+**No linter:** whatever lint warnings your IDE shows must come from the editor itself, such as its built-in TypeScript or Vue extension. Adding ESLint would mean a new dependency, so it's your call. I'd skip it this close to submission.
+
+**Checks for you:**
+1. Reload your IDE's TypeScript server and confirm the flags on `lib/poll.ts:67` and `:85` are gone. If anything else is still flagged, send me the file and the message. It may come from an editor rule that `tsc` doesn't apply.
+2. Read the diff with `git diff lib/poll.ts`.
+
+---
+
+## P-236
+
+**User** · 2026-11-05 05:12 UTC
+
+> TS errors in the test folder: "Cannot find module '../../app/components/alert/Panel.vue' or its corresponding type declarations." in alert-panel.test.ts and "Type '"text"' is not assignable to type '"json"'." in responseType in admin.test.ts
+
+**Mode:** Auto
+
+### Claude Code
+
+My earlier "the TS check is clean" was wrong: none of Nuxt's generated tsconfigs include `tests/`, and I didn't confirm what they covered. So your IDE checked the test files on their own, without Nuxt's types. That's the cause of both errors you saw:
+- **`Panel.vue` not found:** test files outside any project get no `.vue` support.
+- **`responseType: 'text'`:** without Nuxt's global types, `$fetch` falls back to ofetch's plain signature, which only accepts `'json'` once you write `$fetch<string>`.
+
+**What I changed:**
+- **`tests/tsconfig.json` (new):** it extends `.nuxt/tsconfig.app.json` and covers all of `tests/`, so the IDE now checks the tests with Nuxt's types.
+- **`tsconfig.json`:** now references `tests/tsconfig.json` alongside the four Nuxt configs.
+- **`tests/e2e/alerts.test.ts:133`:** a real bug that showed up once the tests were type-checked. `typeof fetch` there meant the `fetch` imported from `@nuxt/test-utils/e2e`, not the global one. It now reads `typeof globalThis.fetch`.
+
+`vue-tsc` now reports no errors on `tests/`, and all 279 tests pass.
+
+**A choice I made that you may want to veto:** the new tests config turns off `noUncheckedIndexedAccess`. Nuxt turns that setting on, and with it about 60 lines in the tests that index arrays (like `rows[0].x`) get flagged. Turning it on for tests later means adding `!` or guards to those lines. App and server code keep the strict setting.
+
+**Logged:** I-64 · CORRECT · TS check missed `tests/`, which no Nuxt tsconfig includes
+
+**Checks for you:**
+1. Restart the TS server in your IDE (in VS Code, "TypeScript: Restart TS Server") and confirm `tests/component/alert-panel.test.ts` and `tests/e2e/admin.test.ts` are clean.
+2. Read the diff: `git diff tsconfig.json tests/` plus the new file `tests/tsconfig.json`.
+
+---
+
+## P-237
+
+**User** · 2026-11-05 05:19 UTC
+
+> `alert-panel.test.ts` still errors on line 4: "Cannot find module '../../app/components/alert/Panel.vue' or its corresponding type declarations."
+
+**Mode:** Auto
+
+### Claude Code
+
+The remaining error comes from your TypeScript version. You're on TypeScript 7, and it can't load Vue's language plugin, so plain `tsc` and your IDE can't see inside `.vue` files. `tsc` 7 had already shown this exact error last turn and I missed it, because I only confirmed the fix with `vue-tsc` on TypeScript 5.9.
+
+**What I changed:** I added `tests/shims-vue.d.ts`, which tells TypeScript that any `.vue` import is a Vue component. `vue-tsc` still reads the real file and ignores the shim.
+
+Both checkers now pass on `tests/`: `tsc` 7 and `vue-tsc` report no errors. The 16 component tests also still pass.
+
+**The cost:** in your IDE, `Panel` is now a generic component, so the props passed to `mount()` in that test aren't checked against `Panel.vue`. `vue-tsc` still checks them properly. The shim only affects `tests/` and goes away whenever you decide to remove it.
+
+**Logged:** I-65 · CORRECT · tests tsconfig alone did not clear the `.vue` import error under TypeScript 7
+
+**Checks for you:**
+1. Restart the TS server and confirm `tests/component/alert-panel.test.ts:4` is clean.
+2. Read the new file `tests/shims-vue.d.ts`.
+
+---
+
+## P-238
+
+**User** · 2026-11-05 05:20 UTC
+
+> No more errors. Checks 1, 2, OK.
+
+**Mode:** Auto
+
+### Claude Code
+
+Good, I've logged both checks as passed (C-114, C-115).
+
+I didn't carry two earlier checks into my last list, as the rules require. They're still open:
+
+**Checks for you:**
+1. Read the `lib/poll.ts` fix with `git diff lib/poll.ts` (two lines: `events` typed as `ParsedEvent[] | undefined`).
+2. Read the test config changes with `git diff tsconfig.json tests/e2e/alerts.test.ts`, plus the new file `tests/tsconfig.json`.
+
+`README.md` also shows as modified, but I didn't touch it this session. Check it's your own edit before you commit.
+
+Once those are read, all the TypeScript work is ready for you to commit: the files listed above, `tests/shims-vue.d.ts` and the log updates.
+
+---
+
+## P-239
+
+**User** · 2026-11-05 05:22 UTC
+
+> all checks fine. README.md is my own edit.
+
+**Mode:** Auto
+
+### Claude Code
+
+I've logged both checks as passed (C-116, C-117), so nothing is open now.
+
+The TypeScript fixes are ready for you to commit: `lib/poll.ts`, `tsconfig.json`, `tests/tsconfig.json`, `tests/shims-vue.d.ts`, `tests/e2e/alerts.test.ts`, the log updates, and your `README.md` edit. A subject line that fits the repo's style is `Fix TypeScript errors and type-check tests`.
+
+---

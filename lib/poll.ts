@@ -7,7 +7,7 @@ import { parseRatelimit, readReplay } from './replay.ts';
 import { GDACS_URL, parseGdacs } from './sources/gdacs.ts';
 import { parseTwelveData, twelveDataUrl } from './sources/twelvedata.ts';
 import { EVENT_REGISTRY_URL, buildEventRegistryBody, parseEventRegistry } from './sources/eventregistry.ts';
-import type { ParseResult } from './sources/types.ts';
+import type { ParseResult, ParsedEvent } from './sources/types.ts';
 import type { Db } from './storage/db.ts';
 import { countOkChecks, latestCheck, latestRatelimitRemaining, recordPoll, type Outcome } from './storage/store.ts';
 
@@ -64,7 +64,7 @@ async function pollNow(source: Source, ctx: PollContext): Promise<PollResult> {
 
   let outcome: Outcome;
   let detail: string;
-  let events;
+  let events: ParsedEvent[] | undefined;
   if (!fetched.ok) {
     outcome = fetched.outcome;
     detail = fetched.detail;
