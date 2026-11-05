@@ -6,6 +6,10 @@ Reflections on how it went: [`submission-docs/reflections.md`](submission-docs/r
 
 What was built and why: [`submission-docs/feature-design/what-was-built-and-why.md`](submission-docs/feature-design/what-was-built-and-why.md)
 
+Plan of attack, the deliverables and their order: [`submission-docs/plan-of-attack.md`](submission-docs/plan-of-attack.md)
+
+Highlights, the catches and course corrections worth reading first: [`submission-docs/highlights.md`](submission-docs/highlights.md)
+
 The agentic workflow: [`submission-docs/workflow.md`](submission-docs/workflow.md)
 
 Prompt history, checks, decisions, interventions, grouped by phases: [`submission-docs/process-logs/phases.md`](submission-docs/process-logs/phases.md)

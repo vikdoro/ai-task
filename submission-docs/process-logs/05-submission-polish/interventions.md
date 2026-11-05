@@ -24,3 +24,9 @@ Rejections and course corrections, in order. Checks that passed are in [`checks.
 - **Caught by:** user, through C-113: "still errors on line 4".
 - **Why wrong:** the project's TypeScript 7 cannot load Vue's plugin, so plain `tsc` does not resolve `.vue` imports. Running `tsc` 7 on the new config had already shown this error, and Claude did not act on it.
 - **Changed:** added `tests/shims-vue.d.ts`, which declares `*.vue` modules for TypeScript without the Vue plugin.
+
+### I-66 · CORRECT · [P-249](prompts/prompts.md#p-249)
+- **Claude did:** added links to `plan-of-attack.md` and `highlights.md` to the root `README.md`, with a note that `original-brief.md` is kept out of git on purpose ([P-248](prompts/prompts.md#p-248)).
+- **Caught by:** user, through C-124: "I edited the README.md, keep it as I left it."
+- **Why wrong:** not stated.
+- **Changed:** the user reordered the links and removed the `original-brief.md` note. Claude leaves the README as the user left it.

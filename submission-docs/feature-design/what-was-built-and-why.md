@@ -12,4 +12,4 @@ What it learned is in [`local-demo/findings/`](local-demo/findings/). This phase
 
 The MVP builds on the local demo's code and findings towards a first release that real people can use online. The [product spec](product-spec.md) says what it must do, and the [roadmap](mvp/roadmap.md) splits it into six milestones: sign-in, going online, per-user alerts, polling windows, a dark design, and a final check.
 
-The roadmap is approved, but none of its milestones has been built yet.
+The roadmap is approved, but none of its milestones has been built yet. How each open point in the brief was settled is in [`highlights.md`](../highlights.md#how-the-briefs-open-points-were-settled).

@@ -46,9 +46,9 @@ The `cto` and `eng-lead` agents from the dropped `/design` skill are still in
 The user is the product manager: they answer tier-one questions and approve
 the spec, the roadmap and each milestone.
 
-The `build` skill is an orchestrator. They hold no domain
-logic: they spawn the agents in order, relay each report, run the user
-interview through AskUserQuestion, and decide where the turn ends.
+The `build` skill is an orchestrator. It holds no domain
+logic: it spawns the agents in order, relays each report, runs the user
+interview through AskUserQuestion, and decides where the turn ends.
 
 ## Decision tiers
 

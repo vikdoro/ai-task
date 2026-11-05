@@ -22,3 +22,8 @@ Tier-one decisions and decisions about the process or tooling, newest last. Tier
 - **Decided by:** claude · [P-245](prompts/prompts.md#p-245)
 - **What:** `package.json` overrides force `glob@^14.0.3` and `minimatch@^11.0.4` (both a major above what `@vue/test-utils` and `nitropack` ask for). `npm audit` drops from 15 (9 moderate) to 7 low. The `deepmerge` advisory has no patched release and reaches us only through Nitro's build-time Rollup plugin, so it stays.
 - **Why:** `npm audit fix --force` would downgrade `nuxt` to 4.1.3 and `@vue/test-utils` to 2.4.11. With the overrides, tests (279) and `nuxt build` pass.
+
+### D-135 · process · Add `plan-of-attack.md` and `highlights.md` to the submission
+- **Decided by:** user · [P-248](prompts/prompts.md#p-248), on Claude's recommendation in [P-247](prompts/prompts.md#p-247)
+- **What:** `submission-docs/plan-of-attack.md` lays out the deliverables, their order and how the plan changed, written after the fact. `submission-docs/highlights.md` picks the strongest interventions and maps each open point in the brief to where it was settled. Both are linked from the root `README.md`, and Claude drafted both for the user to edit.
+- **Why:** the brief grades the plan of attack and the catches. Neither had one place a reader could find it.

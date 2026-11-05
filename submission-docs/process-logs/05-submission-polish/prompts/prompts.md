@@ -388,3 +388,139 @@ I've logged both checks as passed in `checks.md`, so nothing from this work is s
 The audit fix is ready for you to commit. It's in `package.json`, `package-lock.json` and the new entries in the `05-submission-polish` logs (`decisions.md`, `checks.md`). A subject line you could use: `Override glob and minimatch to patched versions`.
 
 ---
+
+## P-247
+
+**User** · 2026-11-05 07:11 UTC
+
+> Review the repo, especially for the assesssment — anything more to add, document?
+
+**Mode:** Auto
+
+### Claude Code
+
+I didn't change any files. 279 tests pass across 24 files, and every relative link in the live docs resolves except one.
+
+## What the brief asks for, and what the repo has
+
+| Brief asks for | Status |
+|---|---|
+| Commits for each major milestone | ✅ 18 commits: setup, design dropped, M1–M5, MVP spec, polish |
+| Prompt history | ✅ `process-logs/*/prompts/prompts.md` plus the raw jsonl |
+| Plans, decision logs, working artifacts | ✅ thorough: D-01–D-134, I-01–I-65, C-01–C-120 |
+| **"Define your own plan of attack… what deliverables, what order, and why"**, which the brief says "is itself part of the evaluation" | ⚠️ **No single document holds it.** It's spread across `first-notes.md`, `phases.md`, two specs and two roadmaps |
+| **"We pay particular attention to… hallucinations or shortcuts you caught"** | ⚠️ All 65 interventions are logged, but there's **no curated view**. An assessor would have to open about ten log files to find the good ones |
+| Screenshots | ❌ none; optional, but cheap |
+
+The `phases.md` row for this phase already plans "reflections, highlights, plan of attack". Only the reflections are written.
+
+## What I'd add, in order
+
+1. **`submission-docs/plan-of-attack.md`** (about 400 words): the deliverables you chose and why they come in that order. The order was the setup and logging first, then design, then the pivot to a local demo to find the sources' and channels' limits (I-19), then the MVP spec and roadmap. Include how the plan changed and why. It should be written after the fact and say so, linking to `first-notes.md` as the original plan.
+2. **`submission-docs/highlights.md`**: the 8 to 12 best catches, each in one line with a link. This is what the assessor is looking for. Good candidates from what I saw:
+   - I-64 and I-65: Claude said the type check was clean without checking which files the tsconfigs covered.
+   - I-19: the design approach dropped.
+   - I-63: closed logs kept as written.
+   - The strongest entries from M1 (8) and the MVP spec phase (11).
+
+   You'd want to pick these yourself, since judgment is what's being assessed.
+3. **How the brief's ambiguities were resolved**: a short table, either in highlights or in `what-was-built-and-why.md`. It would cover each open point in the brief and the spec section or decision that settled it:
+   - what "something important" means
+   - where the data comes from
+   - how events are detected
+   - "more channels later" (the channel registry)
+   - the admin view
+
+   Right now `what-was-built-and-why.md` doesn't connect the build back to the brief.
+4. **Link all three from the root `README.md`.**
+5. **Optional:** two screenshots of the alert setup screen and `/admin`, embedded in `RUNNING.md` or the README.
+
+## Small fixes
+
+- `submission-docs/reflections.md:3`: the link `submission-docs/process-logs/phases.md` is broken. It's relative to `submission-docs/`, so it should be `process-logs/phases.md`. On the same line, "may have lead us" should be "led".
+- `original-brief.md` is gitignored, but `CLAUDE.md`, `workflow.md` and the agents all refer to it. If you're allowed to commit the brief, doing so makes the repo self-contained. If not, a one-line note in the README saying it was deliberately left out avoids confusion.
+- `workflow.md` says "The `build` skill is an orchestrator. They hold no domain logic". "They" is left over from when there were several skills; it should be "It holds".
+- `what-was-built-and-why.md` ends with "none of its milestones has been built yet". That's fine, but the reflections could say why the work stops there (time box or choice), so it reads as a decision rather than unfinished work.
+
+## Next step
+
+Which of 1–3 do you want, and do you want to pick the highlights yourself, or have me draft a shortlist from the intervention logs for you to cut? I'd recommend that I draft all three and you edit, especially the highlights. I can also make the small fixes at the same time.
+
+---
+
+## P-248
+
+**User** · 2026-11-05 07:17 UTC
+
+> Draft all three and the small fixes
+
+**Mode:** Auto
+
+### Claude Code
+
+I've drafted the plan of attack and the highlights, folded the brief-to-spec table into the highlights, and made the small fixes. Every relative link in the touched files resolves. Nothing is committed.
+
+**New files**
+- `submission-docs/plan-of-attack.md`: the five deliverables, the phases in order with why each came where it did, five ways the plan changed (each linked to its I-/D- entry), and where the work stopped.
+- `submission-docs/highlights.md`:
+  - 17 picks from the logs, grouped as: claims made without checking, side effects caught after the fact, found by running the app, and scope corrections.
+  - A table showing how each open point in the brief was settled: what counts as "important", where the data comes from, how events are detected, the users, the channels, adding channels later, and the admin view.
+
+**Edits**
+- `README.md`: links to both new files, and a note that `original-brief.md` is kept out of git on purpose.
+- `submission-docs/reflections.md:3`: fixed the broken `phases.md` link and changed "lead" to "led".
+- `submission-docs/workflow.md:49-51`: "They hold" is now "It holds", with the verbs after it fixed to match.
+- `submission-docs/feature-design/what-was-built-and-why.md`: one line at the end linking to the table in the highlights.
+
+**Choices you might change**
+- Both new files are written in your first person ("I dropped it…"), to match the reflections.
+- I put "why the work stops before the MVP milestones" in the plan of attack, not the reflections.
+
+**Logged:** D-135 · process · Add `plan-of-attack.md` and `highlights.md` to the submission
+
+**Checks for you:**
+1. `submission-docs/plan-of-attack.md`, last paragraph: "With the time box spent, I chose to finish the record… rather than start M1". That reason is my guess. Replace it with your real one.
+2. `submission-docs/highlights.md`: cut or add picks. The judgment is yours, and this is the file the assessor will read most closely. I'd keep I-29, I-64/65, I-61, I-19 and I-25 at the very least.
+3. `submission-docs/highlights.md`, the table: confirm "Demo: one user" and the polling intervals. The intervals come from the demo's `nuxt.config.ts`, where news is polled hourly; the MVP spec moves news to every 10 minutes inside a window.
+4. Read the edits to `README.md` and `workflow.md`, and confirm the `original-brief.md` note matches why you left it out.
+
+---
+
+## P-249
+
+**User** · 2026-11-05 07:27 UTC
+
+> I edited the README.md, keep it as I left it. Other checks fine.
+
+**Mode:** Auto
+
+### Claude Code
+
+I've left the README exactly as you edited it, and logged checks 1–3 as passed.
+
+**Logged:** I-66 · CORRECT · README kept as the user left it (your edit removed the note saying `original-brief.md` is left out of git)
+
+Nothing else needs changing from my side. The changes are ready for you to read the diff and commit:
+- the two new files, `submission-docs/plan-of-attack.md` and `submission-docs/highlights.md`
+- the small fixes in `reflections.md`, `workflow.md` and `what-was-built-and-why.md`
+- this phase's log entries
+
+---
+
+## P-250
+
+**User** · 2026-11-05 07:31 UTC
+
+> Suggested commit message?
+
+**Mode:** Auto
+
+### Claude Code
+
+```
+Add plan of attack and highlights
+```
+
+It's 33 characters, in the imperative and with no trailing period, which fits the repo's 50-character rule. It needs no body: the reason is already logged in D-135.
+
+---
