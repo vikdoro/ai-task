@@ -700,3 +700,24 @@ Add M4 alert setup screen and API
 **Next:** commit when you're ready; I don't commit. Also tell me whether to close the M4 phase now. If yes, I'll close its row in `submission-docs/phases.md` and open an M5 folder, so this session's prompts go into the M5 logs from then on.
 
 ---
+
+## P-191
+
+**User** · 2026-11-05 00:38 UTC
+
+> I commited. Close M4 and open M5. I will run the build skill myself.
+
+**Mode:** Auto
+
+### Claude Code
+
+I've closed M4 and opened M5.
+
+- **`submission-docs/phases.md`:** the M4 row is closed at P-174 – P-191, D-72 – D-84, I-46 – I-49 and C-76 – C-86. A new M5 row, "Alerts delivered, the journey complete", starts from P-192, D-85, I-50 and C-87.
+- **`submission-docs/03-local-demo/m5/`:** created with empty `decisions.md`, `interventions.md` and `checks.md`, using the same headers as M4's, plus an empty `prompts/` folder. Your next prompt will be logged there.
+
+These log edits came after your commit, so they're uncommitted for now. Your next commit, or the M5 one, can include them.
+
+**Next:** start a fresh session and run `/build M5`.
+
+---

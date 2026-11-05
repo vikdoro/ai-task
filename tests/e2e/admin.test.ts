@@ -86,7 +86,8 @@ describe('admin view, end to end', () => {
     const html = await $fetch<string>('/admin', { responseType: 'text' });
     expect(html).toContain('<title>Admin: events in</title>');
     expect(html).not.toContain('Waiting for the first event.');
-    const headers = [...html.matchAll(/<th[^>]*>([^<]*)<\/th>/g)].map((m) => m[1]);
+    // Scoped to the events table: M5 adds the Alerts fired table below it.
+    const headers = [...html.slice(0, html.indexOf('>Alerts fired<')).matchAll(/<th[^>]*>([^<]*)<\/th>/g)].map((m) => m[1]);
     expect(headers).toEqual(['Received (UTC)', 'Kind', 'What', 'Where', 'Source time', 'Measure', 'Current', 'Cleared bar', 'Source ID']);
     expect(html).toContain('Showing 11 of 11 events, newest first.');
     expect(html).toContain('Tropical Cyclone A');

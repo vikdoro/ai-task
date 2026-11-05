@@ -33,6 +33,8 @@ describe('AC-17 poll:once', () => {
       'gdacs ok 4 items, 2 made the cut',
       'twelvedata ok 5 items, 2 made the cut. USO: code 404: symbol not found',
       'eventregistry ok 2 items, 1 made the cut',
+      // M5 AC-16: the alerts summary follows the source lines.
+      'alerts: 0 sent, 5 not sent',
     ]);
     expect(existsSync(db)).toBe(true);
   });
@@ -41,7 +43,8 @@ describe('AC-17 poll:once', () => {
     const empty = tmpDir();
     const r = run({ SAMPLES_DIR: empty, DB_PATH: join(tmpDir(), 'p.db') });
     expect(r.status).toBe(1);
-    const lines = r.stdout.trim().split('\n');
+    // M5 AC-16: the three source lines, then the alerts summary.
+    const lines = r.stdout.trim().split('\n').slice(0, 3);
     expect(lines).toHaveLength(3);
     for (const l of lines) expect(l).toMatch(new RegExp(` failed no samples found in ${empty}$`));
   });

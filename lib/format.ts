@@ -1,6 +1,7 @@
 // Wording and formats shown on /admin (Q16).
 import type { Source } from './config.ts';
 import type { CheckRow } from './storage/store.ts';
+import type { Channel, DeliveryOutcome } from './delivery/store.ts';
 
 export const SOURCE_LABELS: Record<Source, string> = {
   gdacs: 'GDACS',
@@ -41,5 +42,25 @@ export function statusLine(source: Source, latest: CheckRow | undefined, lastSuc
       return `${name}: not configured (API key missing).`;
     case 'paused':
       return `${name}: paused: token floor reached.`;
+  }
+}
+
+/** The Alert column of Alerts fired (M5 AC-19). */
+export function alertLabel(sent: boolean, reason: string): string {
+  return sent ? 'Sent' : `Not sent: ${reason}`;
+}
+
+/** The Email and Slack columns of Alerts fired (M5 AC-20). `delivery` is null when the channel has no row. */
+export function deliveryLabel(channel: Channel, sent: boolean, delivery: { outcome: DeliveryOutcome; detail: string } | null): string {
+  if (!sent) return '';
+  if (!delivery) return 'Not picked';
+  switch (delivery.outcome) {
+    case 'sending':
+      return 'Sending';
+    case 'failed':
+      return `Failed: ${delivery.detail}`;
+    case 'delivered':
+      if (delivery.detail === 'fake: not sent') return 'Delivered (fake: not sent)';
+      return channel === 'email' ? 'Delivered (accepted by Resend)' : 'Delivered';
   }
 }

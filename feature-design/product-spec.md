@@ -1,6 +1,6 @@
 Status: approved
-Version: 6
-Updated: 2026-11-04
+Version: 7
+Updated: 2026-11-05
 
 # Product spec: world event alerts
 
@@ -104,6 +104,7 @@ PM-01 to PM-03 were removed in v3, because all three kinds of event are now in t
 | PM-14 | User chooses which kinds of event to follow | The alert covers all three kinds | [DEC-22](#decisions) |
 | PM-15 | Merging separate items, or items from several sources, that report one story | One source per kind. Each source item, with its updates, is one event, and the admin view shows the duplicates | [DEC-26](#decisions) |
 | PM-16 | The admin sees one aggregated count per day of deliveries delivered and failed, in place of the per-delivery view | Alerts fired and each delivery's outcome, as in FR-08 and FR-09 | [DEC-33](#decisions) |
+| PM-17 | News events that look like duplicates are merged. The news source can split one story into two events with different IDs and the same headline; in the M5 journey run (2026-11-05) that sent two identical alerts | Each source event ID is one event and fires once per channel | User in the M5 build: "Record, defer to Later". Extends [DEC-26](#decisions) |
 
 ## Decisions
 
@@ -152,3 +153,4 @@ PM-01 to PM-03 were removed in v3, because all three kinds of event are now in t
 - v4 (2026-11-04): applied the user's decision in P-096 from the M1 findings. Closed OQ-01 with the bar per kind (DEC-27), and pointed DEC-05 and DEC-25 to it. Added OQ-10 for the source gaps M3 must handle.
 - v5 (2026-11-04): applied the user's decision in P-098 to simplify messages (DEC-28). FR-06 now carries only what happened, and where and when if available and appropriate, plus a source credit on disaster messages. Marked the removed parts of DEC-10, and all of DEC-24, as superseded. Removed the source-link gap from OQ-10, and updated OQ-07 and the glossary (importance bar, message) to match.
 - v6 (2026-11-04): applied the user's decisions in P-154, made while M3 was specced. A market event is one instrument's trading day, alerting at most once per day (DEC-29). Disasters alert only if marked current and at the DEC-27 alert level, while the admin sees every listed item with its current mark (DEC-30, amending DEC-27). FR-07 shows every event for all three kinds. FR-08 and FR-09 hide the user's contact details and message content from the admin (DEC-31), and the admin's row in Users and roles says so; FR-08 now says "made the cut", matching FR-07. Added the agreed PM-08 design (DEC-32), PM-16 for a daily delivery count (DEC-33), and OQ-11 for the risk that few disasters alert. Updated the glossary's Event entry. Approved by the user (P-156).
+- v7 (2026-11-05): added PM-17, merging news events that look like duplicates, deferred by the user in the M5 build after two identical alerts in the M5 journey run. Nothing else changed.

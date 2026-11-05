@@ -1,5 +1,6 @@
 // The user's one alert: its rules and its storage (M4 AC-1 to AC-13).
-// This is the only module that names the contact keys. The Slack webhook URL never leaves it.
+// This is the only module that names the contact keys. The Slack webhook URL never leaves it,
+// except through getStoredAlert, for lib/delivery/ only (M5); the user routes never see it.
 import type { Db } from './storage/db.ts';
 
 export type Env = Record<string, string | undefined>;
@@ -95,4 +96,19 @@ export async function saveAlert(db: Db, env: Env, ticked: Ticked, now: Date = ne
 export async function deleteAlert(db: Db, env: Env): Promise<AlertState> {
   await db.exec('DELETE FROM alert');
   return toState(null, env);
+}
+
+/** The stored alert as lib/delivery/ needs it to match and send (M5). Never returned by a user route. */
+export interface StoredAlert {
+  email: boolean;
+  slack: boolean;
+  emailAddress: string;
+  slackWebhookUrl: string;
+  createdAt: string;
+}
+
+export async function getStoredAlert(db: Db): Promise<StoredAlert | null> {
+  const row = await readRow(db);
+  if (!row) return null;
+  return { email: row.email === 1, slack: row.slack === 1, emailAddress: row.email_address, slackWebhookUrl: row.slack_webhook_url, createdAt: row.created_at };
 }

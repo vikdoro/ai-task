@@ -35,4 +35,27 @@ export const SCHEMA: string[] = [
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
   )`,
+  // One row per event that made the cut, written once when it is matched against the alert (M5 AC-4).
+  // reason is empty when sent. No message text and no contact value is stored here.
+  `CREATE TABLE IF NOT EXISTS alerts_fired (
+    kind TEXT NOT NULL,
+    source_id TEXT NOT NULL,
+    matched_at TEXT NOT NULL,
+    sent INTEGER NOT NULL CHECK (sent IN (0, 1)),
+    reason TEXT NOT NULL DEFAULT '' CHECK (reason IN ('', 'no alert set up', 'made the cut before the alert was set up', 'no channels picked')),
+    PRIMARY KEY (kind, source_id)
+  )`,
+  // One row per sent event per ticked channel (M5 AC-4, AC-5). Written as 'sending' before the send call.
+  // detail is the failure reason, 'fake: not sent', or empty. email_id is Resend's id when there is one.
+  `CREATE TABLE IF NOT EXISTS deliveries (
+    kind TEXT NOT NULL,
+    source_id TEXT NOT NULL,
+    channel TEXT NOT NULL CHECK (channel IN ('email', 'slack')),
+    outcome TEXT NOT NULL CHECK (outcome IN ('sending', 'delivered', 'failed')),
+    detail TEXT NOT NULL DEFAULT '',
+    email_id TEXT,
+    started_at TEXT NOT NULL,
+    finished_at TEXT,
+    PRIMARY KEY (kind, source_id, channel)
+  )`,
 ];

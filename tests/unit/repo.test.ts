@@ -19,14 +19,14 @@ function files(dir: string, exts = /\.(ts|vue|mjs|js)$/): string[] {
   return out;
 }
 
-describe('AC-23 no user secrets in M3 code (narrowed by M4 AC-18)', () => {
-  it('AC-23 M4 AC-18 DEMO_USER_EMAIL and SLACK_WEBHOOK_URL are named only in lib/alert.ts; RESEND_API_KEY nowhere', () => {
+describe('AC-23 no user secrets in M3 code (narrowed by M4 AC-18 and M5 AC-25)', () => {
+  it('AC-23 M4 AC-18 M5 AC-25 DEMO_USER_EMAIL and SLACK_WEBHOOK_URL are named only in lib/alert.ts; RESEND_API_KEY only in the email sender', () => {
     const all = ['lib', 'server', 'app', 'scripts'].flatMap((d) => files(d));
     expect(all.length).toBeGreaterThan(0);
     const contacts = all.filter((f) => /DEMO_USER_EMAIL|SLACK_WEBHOOK_URL/.test(readFileSync(f, 'utf8')));
     expect(contacts.map((f) => relative(ROOT, f))).toEqual(['lib/alert.ts']);
     const resend = all.filter((f) => /RESEND_API_KEY/.test(readFileSync(f, 'utf8')));
-    expect(resend.map((f) => relative(ROOT, f))).toEqual([]);
+    expect(resend.map((f) => relative(ROOT, f))).toEqual(['lib/delivery/email.ts']);
   });
 });
 

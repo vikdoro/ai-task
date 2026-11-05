@@ -11,6 +11,12 @@ export const TIMEOUT_SECONDS: Record<Source, number> = { gdacs: 30, twelvedata: 
 
 export type Mode = 'samples' | 'live';
 
+/** Whether alerts are really sent (M5 AC-14). Set on the command line only, never in .env. */
+export type DeliveryMode = 'fake' | 'live';
+
+/** Whether the server polls (M5 AC-15). poll:once ignores it. */
+export type Polling = 'on' | 'off';
+
 export interface Config {
   mode: Mode;
   samplesDir: string;
@@ -23,6 +29,18 @@ export function parseMode(value: string | undefined): Mode {
   if (value === undefined || value === '' || value === 'samples') return 'samples';
   if (value === 'live') return 'live';
   throw new ModeError(`SOURCE_MODE must be "samples" or "live" (got "${value}")`);
+}
+
+export function parseDeliveryMode(value: string | undefined): DeliveryMode {
+  if (value === undefined || value === '' || value === 'fake') return 'fake';
+  if (value === 'live') return 'live';
+  throw new ModeError(`DELIVERY_MODE must be "fake" or "live" (got "${value}")`);
+}
+
+export function parsePolling(value: string | undefined): Polling {
+  if (value === undefined || value === '' || value === 'on') return 'on';
+  if (value === 'off') return 'off';
+  throw new ModeError(`POLLING must be "on" or "off" (got "${value}")`);
 }
 
 export function resolveConfig(env: Record<string, string | undefined>, cwd: string = process.cwd()): Config {

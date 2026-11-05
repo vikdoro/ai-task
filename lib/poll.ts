@@ -1,5 +1,7 @@
 // pollSource: one check of one source, from the samples or live, written as exactly one source_checks row.
-import { INTERVAL_MINUTES, SOURCES, TIMEOUT_SECONDS, type Mode, type Source } from './config.ts';
+import { INTERVAL_MINUTES, SOURCES, TIMEOUT_SECONDS, type DeliveryMode, type Mode, type Source } from './config.ts';
+import { withDbLock } from './delivery/lock.ts';
+import { matchAlerts, type MatchResult } from './delivery/match.ts';
 import { request, transportFailure, type Attempt } from './http.ts';
 import { parseRatelimit, readReplay } from './replay.ts';
 import { GDACS_URL, parseGdacs } from './sources/gdacs.ts';
@@ -14,6 +16,8 @@ export interface PollContext {
   mode: Mode;
   samplesDir: string;
   env: Record<string, string | undefined>;
+  /** How alerts are sent after the poll (M5 AC-14). Fake when not given. */
+  deliveryMode?: DeliveryMode;
   fetch?: typeof fetch;
   now?: () => Date;
 }
@@ -22,6 +26,8 @@ export interface PollResult {
   source: Source;
   outcome: Outcome;
   detail: string;
+  /** The events matched after this poll (M5 AC-1). */
+  alerts?: MatchResult;
 }
 
 /** Below this many Event Registry tokens, no live request is made (AC-14). */
@@ -76,8 +82,18 @@ async function pollNow(source: Source, ctx: PollContext): Promise<PollResult> {
     }
   }
   detail = redact(detail, ctx.env);
-  await recordPoll(ctx.db, { source, checkedAt, outcome, detail, ratelimitRemaining: fetched.ratelimitRemaining, events });
-  return { source, outcome, detail };
+  await withDbLock(ctx.db, () => recordPoll(ctx.db, { source, checkedAt, outcome, detail, ratelimitRemaining: fetched.ratelimitRemaining, events }));
+  return { source, outcome, detail, alerts: await matchAfterPoll(ctx) };
+}
+
+/** M5 AC-1: after every recorded check, whatever its outcome. A matching error is logged and never changes the poll's result. */
+async function matchAfterPoll(ctx: PollContext): Promise<MatchResult> {
+  try {
+    return await matchAlerts({ db: ctx.db, mode: ctx.deliveryMode ?? 'fake', env: ctx.env, fetch: ctx.fetch, now: ctx.now });
+  } catch (err) {
+    console.error('[alerts] matching failed:', err instanceof Error ? err.message : err);
+    return { fired: [] };
+  }
 }
 
 function redact(text: string, env: Record<string, string | undefined>): string {

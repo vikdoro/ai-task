@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import type { AdminEvents, AdminSources } from '../../lib/admin.ts';
+import type { AdminAlerts, AdminEvents, AdminSources } from '../../lib/admin.ts';
 
 useHead({ title: 'Admin: events in' });
 
 const { data: sources, refresh: refreshSources } = await useFetch<AdminSources>('/api/admin/sources');
 const { data: events, refresh: refreshEvents } = await useFetch<AdminEvents>('/api/admin/events');
+const { data: alerts, refresh: refreshAlerts } = await useFetch<AdminAlerts>('/api/admin/alerts');
 
-// Fetch the data again every 60 seconds, without reloading the page (AC-18).
+// Fetch the data again every 60 seconds, without reloading the page (AC-18, M5 AC-17).
 let timer: ReturnType<typeof setInterval> | undefined;
 onMounted(() => {
   timer = setInterval(() => {
     refreshSources();
     refreshEvents();
+    refreshAlerts();
   }, 60_000);
 });
 onBeforeUnmount(() => clearInterval(timer));
@@ -23,6 +25,7 @@ onBeforeUnmount(() => clearInterval(timer));
     <p v-if="events && events.total === 0">Waiting for the first event.</p>
     <AdminStatusLines :lines="sources?.lines ?? []" />
     <AdminEventsTable v-if="events && events.total > 0" :events="events" />
+    <AdminAlertsFired :alerts="alerts ?? null" />
   </main>
 </template>
 

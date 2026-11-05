@@ -1,10 +1,9 @@
 import { pollSource } from '../../../lib/poll.ts';
-import { getPollContext } from '../../../lib/runtime.ts';
+import { getPollContext, whenPolling } from '../../../lib/runtime.ts';
 
 export default defineTask({
-  meta: { name: 'poll:twelvedata', description: 'Poll twelvedata once and record the check' },
-  async run() {
-    const result = await pollSource('twelvedata', await getPollContext());
-    return { result };
+  meta: { name: 'poll:twelvedata', description: 'Poll twelvedata once and record the check, unless POLLING=off' },
+  run() {
+    return whenPolling(async () => pollSource('twelvedata', await getPollContext()));
   },
 });

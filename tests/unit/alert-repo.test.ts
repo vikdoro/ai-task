@@ -21,22 +21,12 @@ function files(dir: string): string[] {
   return out;
 }
 
-describe('M4 AC-19 the admin is untouched', () => {
-  it('AC-19 git shows no change to the admin, sources, polling, tasks or plugins', () => {
-    const paths = [
-      'app/pages/admin.vue',
-      'app/components/admin',
-      'server/api/admin',
-      'lib/admin.ts',
-      'lib/sources',
-      'lib/poll.ts',
-      'lib/bars.ts',
-      'lib/replay.ts',
-      'server/tasks',
-      'server/plugins',
-    ];
+describe('M4 AC-19 replaced by M5 AC-23: the parsers, bars, replay and user routes are untouched', () => {
+  it('M5 AC-23 git shows no change to lib/sources, lib/bars.ts, lib/replay.ts, nuxt.config.ts or the user routes and screen', () => {
+    const paths = ['lib/sources', 'lib/bars.ts', 'lib/replay.ts', 'nuxt.config.ts', 'server/api/alert.get.ts', 'server/api/alert.put.ts', 'server/api/alert.delete.ts', 'app/pages/index.vue', 'app/components/alert'];
     expect(git('diff', 'HEAD', '--stat', '--', ...paths)).toBe('');
     expect(git('status', '--porcelain', '--', ...paths)).toBe('');
+    expect(git('status', '--porcelain', '--', 'server/api')).not.toMatch(/server\/api\/alert\./);
   });
 });
 
@@ -53,12 +43,14 @@ describe('M4 AC-21 lib/alert.ts is a plain module', () => {
   });
 });
 
-describe('M4 AC-22 nothing is sent', () => {
-  it('AC-22 no file in lib, server, app or scripts contains api.resend.com or hooks.slack.com', () => {
+describe('M4 AC-22 nothing is sent (narrowed by M5 AC-25)', () => {
+  it('AC-22 M5 AC-25 api.resend.com is named only in the email sender; hooks.slack.com in no file in lib, server, app or scripts', () => {
     const all = ['lib', 'server', 'app', 'scripts'].flatMap(files);
     expect(all.length).toBeGreaterThan(0);
-    const hits = all.filter((f) => /api\.resend\.com|hooks\.slack\.com/.test(readFileSync(f, 'utf8')));
-    expect(hits.map((f) => relative(ROOT, f))).toEqual([]);
+    const resend = all.filter((f) => /api\.resend\.com/.test(readFileSync(f, 'utf8')));
+    expect(resend.map((f) => relative(ROOT, f))).toEqual(['lib/delivery/email.ts']);
+    const slack = all.filter((f) => /hooks\.slack\.com/.test(readFileSync(f, 'utf8')));
+    expect(slack.map((f) => relative(ROOT, f))).toEqual([]);
   });
   it('AC-22 the network guard is in place for the suite', () => {
     expect(() => fetch('https://api.resend.com/emails', { method: 'POST' })).toThrow('network blocked in tests');

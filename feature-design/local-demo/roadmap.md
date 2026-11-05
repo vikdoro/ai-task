@@ -46,6 +46,9 @@ The demo user's screen: set up the alert, change channels, delete it (FR-01 to F
 
 Match events that clear their bar to the alert, deliver once per channel with the approved wording (OQ-07), and show alerts fired and deliveries in the admin view (FR-05, FR-06, FR-08, FR-09). J-01 runs end to end.
 
+- Spec: `feature-design/local-demo/milestones/05-alerts-delivered.md`
+- Status: done (P-203). Journey run: `feature-design/local-demo/findings/delivery.md#m5-journey-run`. Reviewer PASS; journey run only, the 60-minute live run stays deferred (D-90); same-headline news merge deferred to PM-17 (D-95); walkthrough not run.
+
 ## Traceability
 
 Every in-scope item of the local demo in `product-spec.md` maps to at least one milestone.

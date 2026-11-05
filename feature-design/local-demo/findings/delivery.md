@@ -232,3 +232,56 @@ samples in /Users/viktordorozsmai/dev/ai-task/spikes/samples/delivery-2026-11-04
 - Hand check: the email arrived in the **inbox**, and the test text appeared in the demo channel (user, P-132).
 
 No failure other than the two in run 1 happened in these runs.
+
+## M5 journey run
+
+J-01, run once by the user on the replayed samples with real email and Slack delivery (M5 AC-27).
+
+- **When:** 2026-11-05, about 01:29 UTC. The 7 events cleared the bar between 01:29:29 and 01:29:31 UTC.
+- **Commands:**
+  1. `DB_PATH=data/journey.db POLLING=off npm start`
+  2. On `http://127.0.0.1:3000/`, the alert was set up with email and Slack.
+  3. `DB_PATH=data/journey.db DELIVERY_MODE=live npm run poll:once`
+  4. The user checked the inbox, the Slack demo channel and `Alerts fired` on `http://127.0.0.1:3000/admin`.
+  5. Step 3 was run again.
+
+**Step 3 output:**
+
+```
+gdacs ok 83 items, 1 made the cut
+twelvedata ok 6 items, 2 made the cut
+eventregistry ok 50 items, 4 made the cut
+alert sent Natural disaster TC-1001346: email delivered, slack delivered
+alert sent Market movement GLD 2026-11-04: email delivered, slack delivered
+alert sent Market movement USO 2026-11-04: email delivered, slack delivered
+alert sent Breaking news eng-12152708: email delivered, slack delivered
+alert sent Breaking news eng-12155091: email delivered, slack delivered
+alert sent Breaking news eng-12157638: email delivered, slack delivered
+alert sent Breaking news fra-1360006: email delivered, slack delivered
+alerts: 7 sent, 0 not sent
+```
+
+**Step 5 output (the rerun):** nothing new was sent, which shows "once per channel, ever".
+
+```
+gdacs ok 83 items, 1 made the cut
+twelvedata ok 6 items, 2 made the cut
+eventregistry ok 50 items, 3 made the cut
+alerts: 0 sent, 0 not sent
+```
+
+**`Alerts fired` on `/admin`:**
+- All 7 rows show Alert `Sent`, Email `Delivered (accepted by Resend)` and Slack `Delivered`.
+- They cleared the bar between 2026-11-05 01:29:29 and 01:29:31 UTC.
+- The rows are 1 disaster (Tropical Cyclone MURASU-26), 2 market (GLD, USO) and 4 news.
+
+**Hand check (user):** all 7 emails landed in the **inbox**, not spam. All 7 Slack messages arrived in the demo channel with the expected text.
+
+**Failures:** none.
+
+**Observation: two news alerts look like duplicates.**
+- eng-12155091 (1,654 articles) and eng-12157638 (1,117 articles) are separate Event Registry events.
+- Both carry the title "Alaska's map is complicated. Here's what we're watching for."
+- Both give the place as "Texas, United States", which is wrong.
+- Per the spec, an event's identity is its source ID, so both fired.
+- The user deferred a same-title merge rule to post-MVP (Later).
