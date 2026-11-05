@@ -39,6 +39,9 @@ Poll the three chosen sources, store events, apply each kind's bar from OQ-01, a
 
 The demo user's screen: set up the alert, change channels, delete it (FR-01 to FR-03, FR-11).
 
+- Spec: `feature-design/local-demo/milestones/04-set-up-the-alert.md`
+- Status: done (P-190). Reviewer PASS on the first round; contact values stay in `.env` for the demo (D-83); `.nuxtrc` gitignored (D-84); walkthrough not run.
+
 ### M5: Alerts delivered, the journey complete
 
 Match events that clear their bar to the alert, deliver once per channel with the approved wording (OQ-07), and show alerts fired and deliveries in the admin view (FR-05, FR-06, FR-08, FR-09). J-01 runs end to end.

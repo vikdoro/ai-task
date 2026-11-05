@@ -24,4 +24,15 @@ export const SCHEMA: string[] = [
     detail TEXT NOT NULL DEFAULT '',
     ratelimit_remaining INTEGER
   )`,
+  // The user's one alert (M4 AC-1). id is fixed at 1, so a second row is refused.
+  // The contact values are copied from the environment at save time; empty when never set.
+  `CREATE TABLE IF NOT EXISTS alert (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    email INTEGER NOT NULL CHECK (email IN (0, 1)),
+    slack INTEGER NOT NULL CHECK (slack IN (0, 1)),
+    email_address TEXT NOT NULL DEFAULT '',
+    slack_webhook_url TEXT NOT NULL DEFAULT '',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  )`,
 ];

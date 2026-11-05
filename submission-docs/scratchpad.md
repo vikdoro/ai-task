@@ -36,3 +36,5 @@ want to use real data source as that defines the data structure well
 - email provider scam protection
 
 break 21:56
+
+breaking up submission-docs so they are in subfolders per phase

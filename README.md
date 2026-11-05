@@ -35,3 +35,12 @@ SOURCE_MODE=live npm start            # live polling: GDACS every 10 min, Twelve
 - Samples mode writes `data/samples.db`, live mode `data/app.db` (both gitignored). `DB_PATH` and `SAMPLES_DIR` override the paths.
 - `poll:once` exits 0 if no source failed and 1 if any did.
 - Event Registry stops when fewer than 200 of its tokens remain, and shows "paused: token floor reached".
+
+### The user screen
+
+`http://127.0.0.1:3000/` is the demo user's screen, also served by `npm start`. There they set up their one alert by picking email, Slack or both, change its channels, and delete it after confirming. Nothing is sent yet.
+
+- The channels come from `DEMO_USER_EMAIL` and `SLACK_WEBHOOK_URL` in `.env`. A missing key shows that channel as "(not set up)", and it cannot be ticked.
+- Each save copies whichever of the two values are set into the alert, and keeps the stored ones otherwise. The webhook URL never reaches the browser, and neither value reaches `/admin`.
+- The alert is stored in the database of the mode in use, so one set up in samples mode does not carry over to live.
+- `GET`, `PUT` and `DELETE` `/api/alert` read, save and delete it. `PUT` takes `{ "email": boolean, "slack": boolean }`.

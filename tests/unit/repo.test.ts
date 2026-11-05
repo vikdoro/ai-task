@@ -19,21 +19,23 @@ function files(dir: string, exts = /\.(ts|vue|mjs|js)$/): string[] {
   return out;
 }
 
-describe('AC-23 no user secrets in M3 code', () => {
-  it('AC-23 no file in lib, server, app or scripts mentions DEMO_USER_EMAIL, SLACK_WEBHOOK_URL or RESEND_API_KEY', () => {
+describe('AC-23 no user secrets in M3 code (narrowed by M4 AC-18)', () => {
+  it('AC-23 M4 AC-18 DEMO_USER_EMAIL and SLACK_WEBHOOK_URL are named only in lib/alert.ts; RESEND_API_KEY nowhere', () => {
     const all = ['lib', 'server', 'app', 'scripts'].flatMap((d) => files(d));
     expect(all.length).toBeGreaterThan(0);
-    const hits = all.filter((f) => /DEMO_USER_EMAIL|SLACK_WEBHOOK_URL|RESEND_API_KEY/.test(readFileSync(f, 'utf8')));
-    expect(hits.map((f) => relative(ROOT, f))).toEqual([]);
+    const contacts = all.filter((f) => /DEMO_USER_EMAIL|SLACK_WEBHOOK_URL/.test(readFileSync(f, 'utf8')));
+    expect(contacts.map((f) => relative(ROOT, f))).toEqual(['lib/alert.ts']);
+    const resend = all.filter((f) => /RESEND_API_KEY/.test(readFileSync(f, 'utf8')));
+    expect(resend.map((f) => relative(ROOT, f))).toEqual([]);
   });
 });
 
-describe('AC-24 dependencies', () => {
-  it('AC-24 exactly nuxt, vue, db0, vitest, @nuxt/test-utils and typescript are added; husky stays; type module', () => {
+describe('AC-24 dependencies (updated by M4 AC-20)', () => {
+  it('AC-24 M4 AC-20 the M3 dependencies plus exactly @vue/test-utils and happy-dom as dev dependencies; type module', () => {
     const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'));
     expect(pkg.type).toBe('module');
-    const deps = Object.keys({ ...(pkg.dependencies ?? {}), ...(pkg.devDependencies ?? {}) }).sort();
-    expect(deps).toEqual(['@nuxt/test-utils', 'db0', 'husky', 'nuxt', 'typescript', 'vitest', 'vue']);
+    expect(Object.keys(pkg.dependencies ?? {}).sort()).toEqual(['db0', 'nuxt', 'vue']);
+    expect(Object.keys(pkg.devDependencies ?? {}).sort()).toEqual(['@nuxt/test-utils', '@vue/test-utils', 'happy-dom', 'husky', 'typescript', 'vitest']);
   });
 });
 

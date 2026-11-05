@@ -11,5 +11,6 @@ spikes/samples/
 
 # Nuxt build output and local databases
 .nuxt/
+.nuxtrc
 .output/
 data/
