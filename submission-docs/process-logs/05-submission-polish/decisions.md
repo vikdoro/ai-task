@@ -7,3 +7,13 @@ Tier-one decisions and decisions about the process or tooling, newest last. Tier
 ### D-131 · process · Design and process logs under `submission-docs/`; agents barred only from `process-logs/`
 - **Decided by:** user · [P-232](prompts/prompts.md#p-232), [P-233](prompts/prompts.md#p-233); the folder name is Claude's recommendation, closed logs left as written overrides Claude (I-63)
 - **What:** `feature-design/` moves to `submission-docs/feature-design/`. The phase folders, `phases.md`, `process-logs.md`, `prompts/` and the main session's `CLAUDE.md` move to `submission-docs/process-logs/`. `first-notes.md`, `README.md`, `scratchpad.md` and `workflow.md` stay in `submission-docs/`. Agents may now read `submission-docs/`, except `process-logs/`, which `.ignore` and the agents' reading rules still bar. The prompt hook writes to the new path. Closed phase logs are not edited.
+
+### D-132 · process · Drop `submission-docs/README.md`; the root README is the entry point
+- **Decided by:** user · [P-241](prompts/prompts.md#p-241)
+- **What:** `submission-docs/README.md` is deleted. The root `README.md`, edited by the user, links to the reflections, what-was-built-and-why, the workflow and `process-logs/phases.md` directly.
+- **Why:** "I think we can drop the submission-docs/README.md." Its links now live in the root README.
+
+### D-133 · process · `scratchpad.md` and `first-notes.md` move to `process-logs/`
+- **Decided by:** user · [P-243](prompts/prompts.md#p-243)
+- **What:** Both files move from `submission-docs/` to `submission-docs/process-logs/`, so agents no longer read them. This changes where D-131 left them.
+- **Why:** not stated.

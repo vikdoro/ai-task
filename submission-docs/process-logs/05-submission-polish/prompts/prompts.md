@@ -220,3 +220,127 @@ I've logged both checks as passed (C-116, C-117), so nothing is open now.
 The TypeScript fixes are ready for you to commit: `lib/poll.ts`, `tsconfig.json`, `tests/tsconfig.json`, `tests/shims-vue.d.ts`, `tests/e2e/alerts.test.ts`, the log updates, and your `README.md` edit. A subject line that fits the repo's style is `Fix TypeScript errors and type-check tests`.
 
 ---
+
+## Unrecorded prompt
+
+**User** · 2026-11-05 06:30 UTC
+
+_Prompt not recorded_
+
+**Mode:** Auto
+
+### Claude Code
+
+I wrote `submission-docs/feature-design/what-was-built-and-why.md` and left `reflections.md` alone. Your message was run as a shell command because of the `!` prefix, so it failed there, but I took it as a request.
+
+The file is three short sections:
+- **Intro:** the work ran in two phases, each in its own folder.
+- **`local-demo/`:** built to find what the data sources (GDACS, Twelve Data, Event Registry) and the delivery methods (email, Slack) allow, then joined into one working journey on a single machine. It links to `findings/` and says the phase is frozen.
+- **`mvp/`:** building towards the first release on top of the demo's code and findings. It links to the spec and the roadmap, lists the six milestones in plain words, and says the roadmap is approved but nothing in it is built yet.
+
+I added two things you didn't ask for: links to the findings, spec and roadmap, and the short list of milestone names. Cut either if you want it shorter.
+
+**Checks for you:**
+1. Read `submission-docs/feature-design/what-was-built-and-why.md` (15 lines). Check that the local-demo paragraph matches how you'd describe it, and that the line saying the demo "joined them into one journey" isn't more than you want to claim.
+
+---
+
+## P-240
+
+**User** · 2026-11-05 06:32 UTC
+
+> Link this what-was-built-and-why in the main readme, after "Reflections.."
+
+**Mode:** Auto
+
+### Claude Code
+
+The link is in at `README.md:7`, straight after the Reflections line and written the same way:
+
+`What was built and why: [submission-docs/feature-design/what-was-built-and-why.md](...)`
+
+Check 1 from my last reply is still open: read `submission-docs/feature-design/what-was-built-and-why.md` and confirm the local-demo wording, especially "joined them into one journey."
+
+---
+
+## P-241
+
+**User** · 2026-11-05 06:42 UTC
+
+> I edited the main README.md, keep that and other manual edits. I think we can drop the submission-docs/README.md.
+
+**Mode:** Auto
+
+### Claude Code
+
+I deleted `submission-docs/README.md`. Your edits to `README.md` and `reflections.md` are untouched. Nothing else in the repo links to the deleted file except the prompt log the hook writes, which I didn't edit.
+
+The deleted README was the only place that linked `submission-docs/process-logs/process-logs.md`, which explains how to read the four logs. Your README now links `phases.md` instead. If you want readers to find the explainer, add it to `README.md:11` or link it from `phases.md`.
+
+**Logged:** D-132 · process · Drop `submission-docs/README.md`; the root README is the entry point
+
+**Checks for you:**
+1. Read `submission-docs/feature-design/what-was-built-and-why.md` and confirm the local-demo wording, especially "joined them into one journey." (Still open from earlier.)
+
+---
+
+## P-242
+
+**User** · 2026-11-05 06:43 UTC
+
+> check 1 is OK
+
+**Mode:** Auto
+
+### Claude Code
+
+I logged check 1 as OK. No checks are left open.
+
+The `what-was-built-and-why.md` request never got a prompt ID because the `!` prefix sent it to the shell instead of the prompt hook. The log row says so and points to P-240 and P-241, where I listed the check again.
+
+These are ready for you to read and commit:
+- `README.md` (your edits)
+- `submission-docs/feature-design/what-was-built-and-why.md` (new)
+- `submission-docs/reflections.md` (yours)
+- `submission-docs/README.md` (deleted)
+- the process logs
+
+---
+
+## P-243
+
+**User** · 2026-11-05 06:44 UTC
+
+> Move scratchpad and first=notes to process-logs
+
+**Mode:** Auto
+
+### Claude Code
+
+I moved `scratchpad.md` and `first-notes.md` into `submission-docs/process-logs/` with `git mv`. Git now has the renames staged. `scratchpad.md` had unsaved changes of yours, and they came with it untouched.
+
+- **Agents can't read them now.** Agents are barred from `process-logs/`, so these two files are off-limits to them too. Nothing outside the logs linked to either file, so no links broke.
+- **One old link now works.** `01-setup/decisions.md` links `../scratchpad.md`, which was broken while the file sat in `submission-docs/`. It points to the right place now.
+- **One old entry is now out of date.** D-131 says both files stay in `submission-docs/`. I left it alone because logged entries aren't edited after the fact; the new D-133 records the move.
+
+**Logged:** D-133 · process · `scratchpad.md` and `first-notes.md` move to `process-logs/`
+
+---
+
+## P-244
+
+**User** · 2026-11-05 06:45 UTC
+
+> Suggested commit message?
+
+**Mode:** Auto
+
+### Claude Code
+
+```
+Add reflections and simplify submission docs
+```
+
+That's 44 characters. I'd skip a body, since D-132 and D-133 already record why the files moved. Run `git add .` before you commit: `reflections.md` and `what-was-built-and-why.md` are still untracked, and the README edits and the deletion aren't staged.
+
+---

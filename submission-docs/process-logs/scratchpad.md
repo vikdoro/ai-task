@@ -40,3 +40,5 @@ break 21:56
 breaking up submission-docs so they are in subfolders per phase
 
 speccing MVP
+
+polishing submission
